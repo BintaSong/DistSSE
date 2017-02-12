@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package DistSSE;
+
+service RPC {
+
+// Setup
+rpc setup (SetupRequestMessage) returns ( ExecuteStatus ) {}
+
+// Search
+rpc search (SearchRequestMessage) returns (stream SearchReply) {}
+
+// Update
+rpc update (UpdateRequestMessage) returns ( ExecuteStatus ) {}
+rpc batch_update (stream UpdateRequestMessage) returns ( ExecuteStatus ) {}
+
+}
+
+message SetupRequestMessage
+{
+    uint64 setup_size = 1;
+    // bytes public_key = 2;
+}
+
+message SearchRequestMessage
+{
+    bytes enc_token = 1;
+    bytes st = 2;
+    // fixed32 add_count = 3;
+}
+
+message SearchReply
+{
+	bytes ind = 1;
+
+}
+
+message UpdateRequestMessage
+{
+    bytes ut = 1;
+    bytes enc_value = 2;
+}
+
+message ExecuteStatus
+{
+	bool status = 1; 
+}
