@@ -1,14 +1,14 @@
 /*
  * Created by Xiangfu Song on 10/21/2016.
  * Email: bintasong@gmail.com
- *
- **/
-#ifndef DISTSSE_SERVER_H
-#define DISTSSE_SERVER_H
+ * 
+ */
+#ifndef DISTSSE_PROXY_H
+#define DISTSSE_PROXY_H
 
 #include <grpc++/grpc++.h>
 
-#include "DistSSE.grpc.pb.h"
+#include "DistSSE.proxy.grpc.pb.h"
 
 #include "DistSSE.Util.h"
 
@@ -19,16 +19,17 @@ using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::ServerReader;
 using grpc::ServerWriter;
+using grpc::ServerReaderWriter;
 using grpc::Status;
 
 namespace DistSSE{
 
-class DistSSEServiceImpl final : public RPC::Service {
-private:	
+class DistSSEProxtServiceImpl final : public proxyRPC::Service {
+private:
 	rocksdb::DB* ss_db;
 
 public:
-	DistSSEServiceImpl(const std::string db_path){
+	DistSSEProxtServiceImpl(const std::string db_path){
 		rocksdb::Options options;
     	options.create_if_missing = true;
     	rocksdb::Status status = rocksdb::DB::Open(options, db_path, &ss_db);
@@ -81,31 +82,27 @@ public:
 
 // server RPC
 	// search() 实现搜索操作
-	Status search(ServerContext* context, const SearchRequestMessage* request,
-                  ServerWriter<SearchReply>* writer)  {
-
-		std::string enc_token = request->enc_token();
-		std::string st = request->st();	
+	Status search(ServerContext* context, ServerReaderWriter< SearchReply, SearchRequestMessage>* stream) {
 		
-		struct timeval t1, t2;
-
-		// TODO 读取数据库之前要加锁，读取之后要解锁
-		
-		std::set<std::string> ID;
-		
-		gettimeofday(&t1, NULL);
-		search(enc_token, st, ID);
-		gettimeofday(&t2, NULL);
-  		logger::log(logger::INFO) <<"search time: "<< ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0/ID.size()
-			<<" ms" <<std::endl;
-		// TODO 读取之后需要解锁
-
+		SearchRequestMessage request;
 		SearchReply reply;
+
+		std::vector<SearchRequestMessage> requestVector;
+		std::vector<SearchReply> replyVector;
+
+		struct timeval t1, t2;
 		
-		for(int i = 0; i < ID.size(); i++){
-			reply.set_ind("fuck");
-			writer->Write(reply);
+		int i = 0;
+		while (stream->Read(&request)){
+			requestVector.push_back(request);
 		}
+		
+		// TODO 开启多个线程，调用和存储节点交互的RPC（输入检索token，返回检索列表）
+
+		// TODO 将所有检索结果进行merge
+		
+		// TODO 返回merge之后的所有检索结果
+		DistSSE::logger::log(DistSSE::logger::INFO) << "Search done." << std::endl;
 
 	    return Status::OK;
   	}
@@ -147,7 +144,7 @@ public:
 
 void RunServer(std::string db_path) {
   std::string server_address("0.0.0.0:50051");
-  DistSSE::DistSSEServiceImpl service(db_path);
+  DistSSE::DistSSEProxtServiceImpl service(db_path);
 
   ServerBuilder builder;
   builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
@@ -160,4 +157,4 @@ void RunServer(std::string db_path) {
   server->Wait();
 }
 
-#endif // DISTSSE_SERVER_H
+#endif // DISTSSE_PROXY_H

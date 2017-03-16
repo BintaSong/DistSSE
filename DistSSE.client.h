@@ -8,7 +8,7 @@
 
 #include <grpc++/grpc++.h>
 
-#include "DistSSE.grpc.pb.h"
+#include "DistSSE.proxy.grpc.pb.h"
 
 #include "DistSSE.Util.h"
 
@@ -18,6 +18,7 @@ using grpc::Channel;
 using grpc::ClientContext;
 using grpc::ClientReaderInterface;
 using grpc::ClientWriterInterface;
+using grpc::ClientReaderWriterInterface;
 using grpc::Status;
 
 using namespace CryptoPP;
@@ -41,11 +42,11 @@ namespace DistSSE{
 
 class Client {
 private:
- 	std::unique_ptr<RPC::Stub> stub_;
+ 	std::unique_ptr<proxyRPC::Stub> stub_;
 	rocksdb::DB* cs_db;
 
 public:
-  	Client(std::shared_ptr<Channel> channel, std::string db_path) : stub_(RPC::NewStub(channel)){
+  	Client(std::shared_ptr<Channel> channel, std::string db_path) : stub_(proxyRPC::NewStub(channel)){
 		rocksdb::Options options;
     	options.create_if_missing = true;
     	rocksdb::Status status = rocksdb::DB::Open(options, db_path, &cs_db);	
@@ -184,25 +185,32 @@ public:
 
 // 客户端RPC通信部分
 
-	std::string search(const std::string search_token, const std::string st) {
-		// request包含 enc_token 和 st
-		SearchRequestMessage request;
-		request.set_enc_token(search_token);
-		request.set_st(st);
+	Status search(std::vector<SearchRequestMessage> request_list) {
 
 		// Context for the client. It could be used to convey extra information to the server and/or tweak certain RPC behaviors.
 		ClientContext context;
 
-		// 执行RPC操作，返回类型为 std::unique_ptr<ClientReaderInterface<SearchReply>>
-		std::unique_ptr<ClientReaderInterface<SearchReply>> reader = stub_->search(&context, request);
+		// 执行RPC操作，返回类型为 std::unique_ptr<ClientReaderWriterInterface<SearchRequestMessage, SearchReply>>
+		std::unique_ptr<ClientReaderWriterInterface<SearchRequestMessage, SearchReply>> readerWriter( stub_->search(&context) );
 		
+		int i = 0;
+		// 写入检索列表
+		while ( i < request_list.size() ){
+			readerWriter->Write(request_list[i]);
+			i++;
+		}
+		readerWriter->WritesDone();
+		logger::log(logger::INFO) << "Post search list done.  "<< std::endl;
+
 		// 读取返回列表
-		/*SearchReply reply;
-		while (reader->Read(&reply)) {
+		SearchReply reply;
+		while (readerWriter->Read(&reply)) {
 		  logger::log(logger::INFO) << reply.ind()<<std::endl;
-		}*/
-		logger::log(logger::INFO) << " search done:  "<< std::endl;
-		return "OK";
+		}
+		Status status = readerWriter->Finish();
+		logger::log(logger::INFO) << "Search done:  "<< std::endl;
+
+		return status;
 	  }
 
 
@@ -228,6 +236,7 @@ public:
 		int i = 0;		
 		while(i < update_list.size()){
 			writer->Write(update_list[i]);
+			i++;
 		}
 		writer->WritesDone();
 	    Status status = writer->Finish();
@@ -240,6 +249,7 @@ public:
 		for(int i = 0; i < wsize; i++)
 			for(int j =0; j < dsize; j++){
 				gen_update_token("ADD", std::to_string(i), std::to_string(j), ut, e); // update(op, w, ind, _ut, _e);
+				// int node = route() // TODO
 				UpdateRequestMessage update_request;
 				update_request.set_ut(ut);
 				update_request.set_enc_value(e);

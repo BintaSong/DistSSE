@@ -2,6 +2,8 @@
 
 #include "logger.h"
 
+using DistSSE::SearchRequestMessage;
+
 int main(int argc, char** argv) {
   // Instantiate the client and channel isn't authenticated
 	DistSSE::Client client(grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()), std::string(argv[1]));
@@ -27,9 +29,15 @@ int main(int argc, char** argv) {
 	
 
 	std::set<std::string> ind_set;
+	SearchRequestMessage request;
+	request.set_enc_token(token_list[0]);
+	request.set_st(token_list[1]);
+	std::vector<SearchRequestMessage> requestVector ;
+    requestVector.push_back(request);
 
-	client.search(token_list[0], token_list[1]);
+	client.search( requestVector );
 	std::cout << "search done: "<< std::endl;
 	
 	return 0;
 }
+

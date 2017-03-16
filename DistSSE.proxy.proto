@@ -1,14 +1,16 @@
 syntax = "proto3";
 
+//import "google/protobuf/empty.proto";
+
 package DistSSE;
 
-service RPC {
+service proxyRPC{
 
 // Setup
 rpc setup (SetupRequestMessage) returns ( ExecuteStatus ) {}
 
 // Search
-rpc search (SearchRequestMessage) returns (stream SearchReply) {}
+rpc search (stream SearchRequestMessage) returns (stream SearchReply) {}
 
 // Update
 rpc update (UpdateRequestMessage) returns ( ExecuteStatus ) {}
@@ -43,5 +45,5 @@ message UpdateRequestMessage
 
 message ExecuteStatus
 {
-	bool status = 1; 
+	bool status = 1;
 }
