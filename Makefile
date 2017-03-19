@@ -43,12 +43,15 @@ PROTOS_PATH = .
 
 vpath %.proto $(PROTOS_PATH)
 
-all: system-check rpc_client proxy 
+all: system-check client proxy node 
 
-rpc_client: DistSSE.proxy.pb.o DistSSE.proxy.grpc.pb.o rpc_client.o DistSSE.Util.o logger.o
+client: DistSSE.pb.o DistSSE.grpc.pb.o DistSSE.client.o DistSSE.Util.o logger.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
-proxy: DistSSE.proxy.pb.o DistSSE.proxy.grpc.pb.o DistSSE.proxy.o DistSSE.Util.o logger.o
+proxy: DistSSE.pb.o DistSSE.grpc.pb.o DistSSE.proxy.o DistSSE.Util.o logger.o
+	$(CXX) $^ $(LDFLAGS) -o $@
+
+node: DistSSE.pb.o DistSSE.grpc.pb.o DistSSE.node.o DistSSE.Util.o logger.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 .PRECIOUS: %.grpc.pb.cc

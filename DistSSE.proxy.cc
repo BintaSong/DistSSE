@@ -1,11 +1,18 @@
 #include "DistSSE.proxy.h"
 
+
 int main(int argc, char *argv[]){
-	if (argc < 2) {
-		std::cerr<<"argc error"<<std::endl;	
-		exit(-1);
-	}
-	RunServer(std::string(argv[1]));
+
+	// all storage nodes' IP addr
+	std::vector<std::string> nodeIPVector;
+	nodeIPVector.push_back("0.0.0.0:50052");
+/*  nodeIPVector.push_back("0.0.0.0:50053");
+	nodeIPVector.push_back("0.0.0.0:50054");
+	nodeIPVector.push_back("0.0.0.0:50055");
+	nodeIPVector.push_back("0.0.0.0:50056");
+	nodeIPVector.push_back("0.0.0.0:50057");
+*/
+	RunProxy(nodeIPVector);
 }
 
 

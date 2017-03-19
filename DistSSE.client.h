@@ -8,7 +8,7 @@
 
 #include <grpc++/grpc++.h>
 
-#include "DistSSE.proxy.grpc.pb.h"
+#include "DistSSE.grpc.pb.h"
 
 #include "DistSSE.Util.h"
 
@@ -249,11 +249,16 @@ public:
 		for(int i = 0; i < wsize; i++)
 			for(int j =0; j < dsize; j++){
 				gen_update_token("ADD", std::to_string(i), std::to_string(j), ut, e); // update(op, w, ind, _ut, _e);
-				// int node = route() // TODO
+				// TODO gen_route pseudo random label
+				int node = route("note implement"); // TODO
+
 				UpdateRequestMessage update_request;
+
+				update_request.set_node(node);
 				update_request.set_ut(ut);
 				update_request.set_enc_value(e);
 				update(update_request);
+
 				if ( (i * dsize + j) % 1000 == 0) logger::log(logger::INFO) << " updating :  "<< i * dsize + j << "\r" << std::flush;
 			}
 	}

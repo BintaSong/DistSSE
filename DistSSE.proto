@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package DistSSE;
 
-service RPC {
+service nodeRPC {
 
 // Setup
 rpc setup (SetupRequestMessage) returns ( ExecuteStatus ) {}
@@ -12,6 +12,22 @@ rpc search (SearchRequestMessage) returns (stream SearchReply) {}
 
 // Update
 rpc update (UpdateRequestMessage) returns ( ExecuteStatus ) {}
+
+rpc batch_update (stream UpdateRequestMessage) returns ( ExecuteStatus ) {}
+
+}
+
+service proxyRPC{
+
+// Setup
+// rpc setup (SetupRequestMessage) returns ( ExecuteStatus ) {}
+
+// Search
+rpc search (stream SearchRequestMessage) returns (stream SearchReply) {}
+
+// Update
+rpc update (UpdateRequestMessage) returns ( ExecuteStatus ) {}
+
 rpc batch_update (stream UpdateRequestMessage) returns ( ExecuteStatus ) {}
 
 }
@@ -32,13 +48,14 @@ message SearchRequestMessage
 message SearchReply
 {
 	bytes ind = 1;
-
+	// bytes op = 2;
 }
 
 message UpdateRequestMessage
 {
-    bytes ut = 1;
-    bytes enc_value = 2;
+	uint64 node = 1;
+    bytes ut = 2;
+    bytes enc_value = 3;
 }
 
 message ExecuteStatus
