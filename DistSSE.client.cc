@@ -16,11 +16,11 @@ int main(int argc, char** argv) {
 	int wsize = atoi(argv[2]);
 	int dsize = atoi(argv[3]);
 	
-	std::cout << "update begin..." <<std::endl;
+	//std::cout << "update begin..." <<std::endl;
 
   	client.test_upload(wsize, dsize);
 	
-  	std::cout <<"update done." <<std::endl;
+  	//std::cout <<"update done." <<std::endl;
 	
 
 

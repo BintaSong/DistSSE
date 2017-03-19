@@ -250,7 +250,7 @@ public:
 			for(int j =0; j < dsize; j++){
 				gen_update_token("ADD", std::to_string(i), std::to_string(j), ut, e); // update(op, w, ind, _ut, _e);
 				// TODO gen_route pseudo random label
-				int node = route("note implement"); // TODO
+				int node = route("not implement"); // TODO
 
 				UpdateRequestMessage update_request;
 
