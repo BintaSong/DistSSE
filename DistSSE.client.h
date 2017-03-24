@@ -52,7 +52,7 @@ public:
     	rocksdb::Status status = rocksdb::DB::Open(options, db_path, &cs_db);	
 	}
 	
-	int route(std::string label){
+	int route(std::string label) {
 		// TODO
 		return 0;
 	}
@@ -80,12 +80,12 @@ public:
 
 		int update_time;
 		std::string update_str = get(w + "|" + std::to_string(node));
-		if (update_str == ""){
-			// 如果数据库中没有该单词的信息（之前系统中不存在该单词）
+		if (update_str == "") {
+			// 如果数据库中没有该单词的信息（之前系统中不存在该单词)
 			update_time = 0;
-			for(int i = 0; i < max_nodes_number; i++) {
-				store(w + "|" + std::to_string(i), "0");		
-			}
+			//for(int i = 0; i < max_nodes_number; i++) {
+				store(w + "|" + std::to_string(node), "0");
+			//}
 		}else{
 			update_time = std::stoi(update_str);
 		}
@@ -94,9 +94,9 @@ public:
 
 	int set_update_time(std::string w, int node, int update_time, int max_nodes_number){
 		//设置单词w在节点node上的更新次数为update_time
-		if (node >= max_nodes_number) {
+		if (node >= max_nodes_number){
 			//ERROR
-			std::cout<<"node out fo range!"<<std::endl;
+			std::cout<<"node out of range!"<<std::endl;
 			return -1;
 		}
 		store(w + "|" + std::to_string(node), std::to_string(update_time));
@@ -111,7 +111,7 @@ public:
 		{
 			CFB_Mode< AES >::Encryption e;
 		
-			e.SetKeyWithIV((byte*)key, key_len, (byte*)iv, (size_t)AES::BLOCKSIZE);
+			e.SetKeyWithIV( (byte*)key, key_len, (byte*)iv, (size_t) AES::BLOCKSIZE );
 		
 			token_padding = Util::padding(token);
 	
@@ -138,8 +138,7 @@ public:
 			label = ind + w;
 			enc_label = gen_enc_token(k_l, AES128_KEY_LEN, iv_l, label);
 			node = route(enc_label);
-	
-	
+
 			std::string st1, st2;
 			// get update time of `w` for `node`
 			int update_time = 0;
@@ -166,18 +165,19 @@ public:
 	}
 
 	std::vector<std::string> gen_search_token(std::string word, int max_node_number){
-		std::vector<std::string> token_list;	
+		std::vector<std::string> token_list;
 		std::string enc_token, st;
 		enc_token = gen_enc_token(k_s, AES128_KEY_LEN, iv_s, word);
 		token_list.push_back(enc_token);
 	
 		for(int node = 0; node < max_nodes_number; node++){
 			int update_time = get_update_time(word, node, max_node_number);
-			if (update_time == 0)
+			if (update_time == 0){
 				st = "NULL";
-			else{
+			}else{
 				st = gen_enc_token(k_s, AES128_KEY_LEN, iv_s, word + "|" + std::to_string(node) + "|" + std::to_string(update_time));		
 			}
+			std::cout<< update_time <<std::endl;			
 			token_list.push_back(st);
 		}
 		return token_list;

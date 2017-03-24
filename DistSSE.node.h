@@ -52,7 +52,8 @@ public:
 		// TODO
 	
 	}
-
+	
+	// return the number of operations, including repeated operation
 	int search(std::string enc_token, std::string _st, std::set<std::string>& ID){
 	
 		std::vector<std::string> ind_op_st;
@@ -60,7 +61,7 @@ public:
 		std::string ind, op;
 		std::string ut, value, enc_value;
 		std::string st = _st;
-	
+		int counter = 0;
 		while(st != "NULL"){
 			ut = Util::H1(enc_token + st); // 0.001 ms
 			enc_value = get(ut); // 0.0004 ms
@@ -77,8 +78,10 @@ public:
 		    st = Util::hex2str(ind_op_st[2]); // 0.001 ms
 			if (op == "ADD") ID.insert(ind);
 			else ID.erase(ind);
+			counter++;
+			if (counter % 10000 == 0) logger::log(logger::INFO) << " searching :  "<< counter << "\r"<< std::flush;
 		}
-		return 0;
+		return counter;
 	}
 
 // server RPC
@@ -95,15 +98,15 @@ public:
 		
 		std::set<std::string> ID;
 
-std::cout<< "node search: " << enc_token <<std::endl;
+		std::cout<< "node search token: " << enc_token <<std::endl;
 		
 		gettimeofday(&t1, NULL);
 		
 		// perform search
-		search(enc_token, st, ID);
+		int counter = search(enc_token, st, ID);
 
 		gettimeofday(&t2, NULL);
-  		logger::log(logger::INFO) <<"search time: "<< ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec -t1.tv_usec) /1000.0/ID.size() <<" ms" <<std::endl;
+  		logger::log(logger::INFO) <<"search time: "<< "operation counter: "<< counter <<", result size: "<<ID.size()<<", time: "<< ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec -t1.tv_usec) /1000.0/counter <<" ms" <<std::endl;
 		// TODO 读取之后需要解锁
 
 		SearchReply reply;
