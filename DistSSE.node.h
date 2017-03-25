@@ -154,8 +154,8 @@ public:
 
 }// namespace DistSSE
 
-void RunServer(std::string db_path) {
-  std::string server_address("0.0.0.0:50052");
+void RunServer(std::string db_path, std::string server_address) {
+  //std::string server_address(ip);
   DistSSE::DistSSEServerServiceImpl service(db_path);
 
   ServerBuilder builder;

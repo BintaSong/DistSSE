@@ -107,13 +107,13 @@ public:
         	t.join();
     	}
 
-		std::cout<< "return size: " <<returnReply[0].size() <<std::endl;
 		// TODO 将所有检索结果进行merge
 		std::vector<SearchReply> mergeResult;
 		merge(returnReply, thread_count, mergeResult);
 		
-		gettimeofday(&t2, NULL);		
-		logger::log(logger::INFO) <<"search time: "<< ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0/mergeResult.size()<<" ms" <<std::endl;
+		gettimeofday(&t2, NULL);
+		
+		logger::log(logger::INFO) << "return size: "<< mergeResult.size() <<", search time: "<< ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0/mergeResult.size()<<" ms" <<std::endl;
 
 		// TODO 返回merge之后的所有检索结果
 		for (auto& t : mergeResult){
@@ -180,11 +180,10 @@ void RunProxy(std::vector<std::string> nodeIPVector) {
 
 // init nodes stub list
 	for(auto& t : nodeIPVector) {
-		std::shared_ptr<Channel> channel = grpc::CreateChannel( t, grpc::InsecureChannelCredentials() );
+		std::shared_ptr<Channel> channel = grpc::CreateChannel(t, grpc::InsecureChannelCredentials() );
 		std::unique_ptr<DistSSE::nodeRPC::Stub> stub = DistSSE::nodeRPC::NewStub(channel);
 		DistSSE::DistSSEProxyServiceImpl::stubVector.push_back( std::move(stub) ); // std::unique_ptr can't be moved	
 	}
-
 
 	for(auto& t:DistSSE::DistSSEProxyServiceImpl::ipVector){
 		std::cout<<t<<std::endl;

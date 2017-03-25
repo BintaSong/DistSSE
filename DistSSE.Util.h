@@ -35,6 +35,8 @@
 #include <rocksdb/memtablerep.h>
 #include <rocksdb/options.h>
 
+#include <time.h>
+#define random(x) (rand()%x)
 
 #define MAX_W_LEN 16
 #define MAX_OP_LEN 3

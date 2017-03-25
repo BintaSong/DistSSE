@@ -44,17 +44,18 @@ class Client {
 private:
  	std::unique_ptr<proxyRPC::Stub> stub_;
 	rocksdb::DB* cs_db;
+	int nodeCounter;
 
 public:
-  	Client(std::shared_ptr<Channel> channel, std::string db_path) : stub_(proxyRPC::NewStub(channel)){
+  	Client(std::shared_ptr<Channel> channel, std::string db_path, int _nodeCounter) : stub_(proxyRPC::NewStub(channel)), nodeCounter(_nodeCounter){
+		srand((int)time(0));
 		rocksdb::Options options;
     	options.create_if_missing = true;
     	rocksdb::Status status = rocksdb::DB::Open(options, db_path, &cs_db);	
 	}
 	
 	int route(std::string label) {
-		// TODO
-		return 0;
+		return random(nodeCounter);
 	}
 
 	int store(const std::string ut, const std::string e){
@@ -128,7 +129,7 @@ public:
 		return enc_token;
 	}
 
-	void gen_update_token(std::string op, std::string w, std::string ind, std::string& ut, std::string& value){
+	int gen_update_token(std::string op, std::string w, std::string ind, std::string& ut, std::string& value){
 		try{
 			std::string enc_token, label, enc_label;
 			int node;
@@ -157,6 +158,7 @@ public:
 			value = Util::Enc( st2.c_str(), st2.size(), ind + "|" + op + "|" + Util::str2hex(st1) );  //TODO
 			update_time++;
 			set_update_time(w, node, update_time, max_nodes_number);
+			return node;
 		}
 		catch(const CryptoPP::Exception& e){
 			std::cerr << "in update() " <<e.what() << std::endl;
@@ -200,7 +202,7 @@ public:
 			i++;
 		}
 		readerWriter->WritesDone();
-		logger::log(logger::INFO) << "Post search list done.  "<< std::endl;
+		logger::log(logger::INFO) << "Post search list done."<< std::endl;
 
 		// 读取返回列表
 		SearchReply reply;
@@ -248,13 +250,11 @@ public:
 		std::string ut,e;
 		for(int i = 0; i < wsize; i++)
 			for(int j =0; j < dsize; j++){
-				gen_update_token("ADD", std::to_string(i), std::to_string(j), ut, e); // update(op, w, ind, _ut, _e);
-				// TODO gen_route pseudo random label
-				int node = route("not implement"); // TODO
+				int nodeID = gen_update_token("ADD", std::to_string(i), std::to_string(j), ut, e); // update(op, w, ind, _ut, _e);
 
 				UpdateRequestMessage update_request;
 
-				update_request.set_node(node);
+				update_request.set_node(nodeID);
 				update_request.set_ut(ut);
 				update_request.set_enc_value(e);
 				update(update_request);

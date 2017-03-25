@@ -6,9 +6,8 @@ using DistSSE::SearchRequestMessage;
 
 int main(int argc, char** argv) {
   // Instantiate the client and channel isn't authenticated
-	DistSSE::Client client(grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()), std::string(argv[1]));
 	
-	if (argc < 4) {
+	if (argc < 5) {
 		std::cerr<<"argc error"<<std::endl;
 		exit(-1);
 	}
@@ -16,7 +15,10 @@ int main(int argc, char** argv) {
 	int wsize = atoi(argv[2]);
 	int dsize = atoi(argv[3]);
 	std::string search_keyword(argv[4]);
-	
+	int nodeCounter = atoi(argv[5]);
+
+	DistSSE::Client client(grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()), std::string(argv[1]), nodeCounter);
+
 	std::cout << "update begin..." <<std::endl;
 
   	client.test_upload(wsize, dsize);
@@ -29,12 +31,13 @@ int main(int argc, char** argv) {
 
 	std::set<std::string> ind_set;
 
+	std::vector<SearchRequestMessage> requestVector;
 	SearchRequestMessage request;
-	request.set_enc_token(token_list[0]);
-	request.set_st(token_list[1]);
-
-	std::vector<SearchRequestMessage> requestVector ;
-    requestVector.push_back(request);
+	for(int i = 0; i < nodeCounter;i++){
+		request.set_enc_token(token_list[0]);
+		request.set_st(token_list[i+1]);
+		requestVector.push_back(request);
+	}
 
 	client.search( requestVector );
 	std::cout << "search done: "<< std::endl;
