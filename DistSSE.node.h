@@ -27,12 +27,18 @@ namespace DistSSE{
 class DistSSEServerServiceImpl final : public nodeRPC::Service {
 private:	
 	rocksdb::DB* ss_db;
+	CFB_Mode< AES >::Encryption* fix_key_enc;
+	CFB_Mode< AES >::Decryption* fix_key_dec;
 
 public:
 	DistSSEServerServiceImpl(const std::string db_path){
 		rocksdb::Options options;
     	options.create_if_missing = true;
     	rocksdb::Status status = rocksdb::DB::Open(options, db_path, &ss_db);
+		
+		// get fixed key enc and dec
+	fix_key_enc = new CFB_Mode< AES >::Encryption( (byte*)Util::k_fixed.c_str(), Util::k_fixed.length(), (byte*) Util::iv_fixed.c_str());
+    fix_key_dec = new CFB_Mode< AES >::Decryption( (byte*)Util::k_fixed.c_str(), Util::k_fixed.length(), (byte*) Util::iv_fixed.c_str());			
 	}
 
 	int store(const std::string ut, const std::string e){
@@ -53,34 +59,49 @@ public:
 	
 	}
 	
-	// return the number of operations, including repeated operation
+	// return the number of operations, including repeated operations
 	int search(std::string enc_token, std::string _st, std::set<std::string>& ID){
-	
+
 		std::vector<std::string> ind_op_st;
 
 		std::string ind, op;
 		std::string ut, value, enc_value;
-		std::string st = _st;
+		std::string st = _st, new_st;
 		int counter = 0;
-		while(st != "NULL"){
+		double time=0.0;
+		while(st != "NULL000000000000"){
+
 			ut = Util::H1(enc_token + st); // 0.001 ms
-			enc_value = get(ut); // 0.0004 ms
+			struct timeval t1, t2;
+
+			gettimeofday(&t1, NULL);		
+						enc_value = get(ut); // 0.0004 ms
+			gettimeofday(&t2, NULL);
+			time += ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec -t1.tv_usec);
+
 			// std::cout<< "IN SEARCH: "<< enc_value <<std::endl;
-			/*
-			if(enc_value == ""){
-				std::cout<<"in search, error!"<<std::endl;
-			}
-			*/
-			value = Util::Dec(st.c_str(), st.size(), enc_value);// 0.003 ms
-			ind_op_st = Util::split(value, '|');// 0.001 ms
+			// std::cout<< "counter: "<< counter <<", st: "<< st <<std::endl;			
+			value = Util::Xor(enc_value, Util::H2(enc_token + st));
+			// std::cout<< "before xor, value:"<<value<<std::endl;			
+			ind_op_st = Util::split( value, '|'); // 0.001 ms
 			ind = ind_op_st[0];
 			op = ind_op_st[1];
 		    st = Util::hex2str(ind_op_st[2]); // 0.001 ms
-			if (op == "ADD") ID.insert(ind);
+			/*
+			byte tmp[st.length()];
+			fix_key_dec->ProcessData(tmp, (byte*)st.c_str(), st.length());
+			std::cout<< "rand: "<< rand <<std::endl;			
+			st = Util::Xor(std::string((const char*)tmp, st.length()), rand);
+			*/
+			if (op == "ADD") ID.insert( ind );
 			else ID.erase(ind);
 			counter++;
+           
 			if (counter % 10000 == 0) logger::log(logger::INFO) << " searching :  "<< counter << "\r"<< std::flush;
+			// std::cout<< "after xor, counter: "<<counter<<std::endl;			
 		}
+
+		logger::log(logger::INFO)<<"IO time: "<< time/1000.0/counter <<" ms" <<std::endl;
 		return counter;
 	}
 
@@ -112,7 +133,7 @@ public:
 		SearchReply reply;
 		
 		for(int i = 0; i < ID.size(); i++){
-			reply.set_ind("fuck");
+			reply.set_ind( std::to_string(i) );
 			writer->Write(reply);
 		}
 

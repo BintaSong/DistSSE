@@ -46,12 +46,18 @@ private:
 	rocksdb::DB* cs_db;
 	int nodeCounter;
 
+	// fixed keyed AES encrypter
+	CFB_Mode< AES >::Encryption* fix_key_enc;
+
 public:
   	Client(std::shared_ptr<Channel> channel, std::string db_path, int _nodeCounter) : stub_(proxyRPC::NewStub(channel)), nodeCounter(_nodeCounter){
 		srand((int)time(0));
+
 		rocksdb::Options options;
     	options.create_if_missing = true;
-    	rocksdb::Status status = rocksdb::DB::Open(options, db_path, &cs_db);	
+    	rocksdb::Status status = rocksdb::DB::Open(options, db_path, &cs_db);
+		fix_key_enc = new CFB_Mode< AES >::Encryption( (byte*)Util::k_fixed.c_str(), Util::k_fixed.length(), (byte*) Util::iv_fixed.c_str());
+		// Util::get_fix_key_enc(fix_key_enc);	
 	}
 	
 	int route(std::string label) {
@@ -70,40 +76,36 @@ public:
 		if (s.ok())	return tmp;
 		else return "";
 	}
-
-	int get_update_time(std::string w, int node, int max_nodes_number){
-		// 获取单词w在节点node上的更新
+	
+	std::string get_st(std::string w, int node, int max_nodes_number) {
+		// 获取单词w在节点node上的st信息
 		if (node >= max_nodes_number) {
 			// ERROR !
 			std::cout<<"node out of range!"<<std::endl;
-			return -1;
+			return "";
+		}
+		
+		std::string st = get(w + "|" + std::to_string(node));
+		if (st == "") {
+			st = "NULL000000000000";
+			set_st(w, node, st, max_nodes_number);	
 		}
 
-		int update_time;
-		std::string update_str = get(w + "|" + std::to_string(node));
-		if (update_str == "") {
-			// 如果数据库中没有该单词的信息（之前系统中不存在该单词)
-			update_time = 0;
-			//for(int i = 0; i < max_nodes_number; i++) {
-				store(w + "|" + std::to_string(node), "0");
-			//}
-		}else{
-			update_time = std::stoi(update_str);
-		}
-		return update_time;
+		return st;	
 	}
 
-	int set_update_time(std::string w, int node, int update_time, int max_nodes_number){
+
+	int set_st(std::string w, int node, std::string st, int max_nodes_number){
 		//设置单词w在节点node上的更新次数为update_time
 		if (node >= max_nodes_number){
 			//ERROR
 			std::cout<<"node out of range!"<<std::endl;
 			return -1;
 		}
-		store(w + "|" + std::to_string(node), std::to_string(update_time));
+		store(w + "|" + std::to_string(node), st);
 		return 0;
 	}
-	
+
 	std::string gen_enc_token(const void* key, int key_len, const void* iv, const std::string token){
 		// 使用padding方式将所有字符串补齐到16的整数倍长度
 		std::string token_padding;
@@ -129,41 +131,59 @@ public:
 		return enc_token;
 	}
 
-	int gen_update_token(std::string op, std::string w, std::string ind, std::string& ut, std::string& value){
+	void gen_new_st(const std::string old_st, std::string& new_st, std::string& rand) {// using fixed key AES encryptor
+		std::string token_padding;
+		try
+		{	
+			byte tmp[AES::BLOCKSIZE]; // 128 bits
+			rand = Util::get_rand_str( (int) AES::BLOCKSIZE ); //128 bits
+			// std::cout<< "before len = "<< rand_str.length()<<", rand = "<<rand_str<<std::endl;
+			std::string rand_xor_st = Util::Xor(rand, old_st); // form like ( rand xor old_st_padding )
+			// std::cout<< "after len = "<< rand_str.length()<<", rand = "<<rand_str<<std::endl;
+			fix_key_enc->ProcessData(tmp, (byte*) rand_xor_st.c_str(), rand_xor_st.length());
+			// std::cout << "**In gen_new_st()**" << std::endl;
+			// new_st
+			new_st = std::string( (const char*) tmp, AES::BLOCKSIZE );
+
+		}
+		catch(const CryptoPP::Exception& e)
+		{
+			std::cerr << "in gen_new_st() " << e.what()<< std::endl;
+			exit(1);
+		}
+	}
+	
+
+	int gen_update_token(std::string op, std::string w, std::string ind, std::string& new_st, std::string& ut, std::string& value){
+		
+		int node;		
 		try{
 			std::string enc_token, label, enc_label;
-			int node;
-	
+			// int node;
+
 			// generating encrypted token and encrypted label	
 			enc_token = gen_enc_token(k_s, AES128_KEY_LEN, iv_s, w);
 			label = ind + w;
 			enc_label = gen_enc_token(k_l, AES128_KEY_LEN, iv_l, label);
 			node = route(enc_label);
 
-			std::string st1, st2;
-			// get update time of `w` for `node`
-			int update_time = 0;
-			update_time = get_update_time(w, node, max_nodes_number);
-			if (update_time == 0){
-				st1 = "NULL";
-				st2 = gen_enc_token(k_s, AES128_KEY_LEN, iv_s, w + "|" + std::to_string(node) + "|" + std::to_string(1) );
-			}
-			else{
-				st1 = gen_enc_token(k_s, AES128_KEY_LEN, iv_s, w + "|" + std::to_string(node) + "|" + std::to_string(update_time) );
-				st2 = gen_enc_token(k_s, AES128_KEY_LEN, iv_s, w + "|" + std::to_string(node) + "|" + std::to_string(update_time + 1) );
-			}
-
+			std::string old_st, rand;
+			// get `st` information of `w` for `node`
+			old_st = get_st(w, node, max_nodes_number);
+			// 接下来生成新的状态信息new_st和rand_secret, 使用fixed AES加密			
+			gen_new_st( old_st, new_st, rand);
+			
 			// generating update pair, which is (ut, e)
-			ut = Util::H1(enc_token + st2);
-			value = Util::Enc( st2.c_str(), st2.size(), ind + "|" + op + "|" + Util::str2hex(st1) );  //TODO
-			update_time++;
-			set_update_time(w, node, update_time, max_nodes_number);
-			return node;
-		}
-		catch(const CryptoPP::Exception& e){
+			ut = Util::H1(enc_token + new_st);
+			value = Util::Xor( ind + "|" + op + "|" + Util::str2hex(old_st), Util::H2(enc_token + new_st) );
+
+			// set_st(w, node, new_st, max_nodes_number);
+
+		}catch(const CryptoPP::Exception& e){
 			std::cerr << "in update() " <<e.what() << std::endl;
 			exit(1);
 		}
+		return node;
 	}
 
 	std::vector<std::string> gen_search_token(std::string word, int max_node_number){
@@ -173,13 +193,8 @@ public:
 		token_list.push_back(enc_token);
 	
 		for(int node = 0; node < max_nodes_number; node++){
-			int update_time = get_update_time(word, node, max_node_number);
-			if (update_time == 0){
-				st = "NULL";
-			}else{
-				st = gen_enc_token(k_s, AES128_KEY_LEN, iv_s, word + "|" + std::to_string(node) + "|" + std::to_string(update_time));		
-			}
-			std::cout<< update_time <<std::endl;			
+			std::string st = get_st(word, node, max_node_number);
+			if (st == "") st = "NULL000000000000";
 			token_list.push_back(st);
 		}
 		return token_list;
@@ -207,7 +222,7 @@ public:
 		// 读取返回列表
 		SearchReply reply;
 		while (readerWriter->Read(&reply)) {
-		  logger::log(logger::INFO) << reply.ind()<<std::endl;
+			logger::log(logger::INFO) << reply.ind()<<std::endl;
 		}
 		Status status = readerWriter->Finish();
 		logger::log(logger::INFO) << "Search done:  "<< std::endl;
@@ -247,18 +262,21 @@ public:
 	}
 
 	void test_upload( int wsize, int dsize ){
-		std::string ut,e;
+		std::string ut,e, st;
 		for(int i = 0; i < wsize; i++)
 			for(int j =0; j < dsize; j++){
-				int nodeID = gen_update_token("ADD", std::to_string(i), std::to_string(j), ut, e); // update(op, w, ind, _ut, _e);
+				// logger::log(logger::INFO) << "upload: "<< i <<","<< j << "\r" << std::endl;
+				int nodeID = gen_update_token("ADD", std::to_string(i), std::to_string(j), st, ut, e); // update(op, w, ind, _ut, _e);
 
 				UpdateRequestMessage update_request;
 
 				update_request.set_node(nodeID);
 				update_request.set_ut(ut);
 				update_request.set_enc_value(e);
-				update(update_request);
+				Status s = update(update_request);
 
+				if (s.ok()) set_st(std::to_string(i), nodeID, st, max_nodes_number);
+				
 				if ( (i * dsize + j) % 1000 == 0) logger::log(logger::INFO) << " updating :  "<< i * dsize + j << "\r" << std::flush;
 			}
 	}

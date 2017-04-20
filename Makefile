@@ -63,7 +63,7 @@ node: DistSSE.pb.o DistSSE.grpc.pb.o DistSSE.node.o DistSSE.Util.o logger.o
 	$(PROTOC) -I $(PROTOS_PATH) --cpp_out=. $<
 
 clean:
-	rm -f *.o *.pb.cc *.pb.h #DistSSE_client DistSSE_server 
+	rm -f *.o *.pb.cc *.pb.h client proxy node #DistSSE_client DistSSE_server 
 
 
 # The following is to test your system and ensure a smoother experience.

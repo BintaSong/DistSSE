@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
 		requestVector.push_back(request);
 	}
 
-	client.search( requestVector );
+	client.search(requestVector);
 	std::cout << "search done: "<< std::endl;
 
 	return 0;

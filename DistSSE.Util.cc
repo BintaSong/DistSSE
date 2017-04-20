@@ -1,10 +1,13 @@
 #include "DistSSE.Util.h"
 
-using namespace CryptoPP;
 
 // 系统参数
 int max_keyword_length = 20;
 int max_nodes_number = 10;
+
+// you must declare for static variable in DistSSE::Util
+std::string DistSSE::Util::k_fixed = "0123456789abcedf";
+std::string DistSSE::Util::iv_fixed = "0123456789abcedf";
 
 namespace DistSSE {
 
@@ -16,17 +19,48 @@ std::string Util::H1(const std::string message){
 }
 
 std::string Util::H2(const std::string message){
-	byte buf[SHA256::DIGESTSIZE];
+	/*byte buf[SHA256::DIGESTSIZE];
 	std::string salt = "02";
     SHA256().CalculateDigest(buf, (byte*) ((message + salt).c_str()), message.length() + salt.length());
-    return std::string((const char*)buf, (size_t)SHA256::DIGESTSIZE);
+	*/
+    return std::string('f', 32); //((const char*)buf, (size_t)SHA256::DIGESTSIZE);
 }
 
+std::string Util::Xor(const std::string s1, const std::string s2){
+	// std::cout<< "in len = "<< s1.length()<<", s1 = "<<s1<<std::endl;
+	std::string result = s1;
+	if (s1.length() > s2.length()) {
+		//ERROR
+		std::cout<<"not sufficient size: "<< s1.length()<<", "<< s2.length()<<std::endl;
+		return "";	
+	}
+	
+	for (int i = 0; i < result.length(); i++) {
+		result[i] ^= s2[i];
+	}	
+	return result;
+}
+
+std::string Util::get_rand_str(const int rand_len) {
+	AutoSeededRandomPool rnd;
+
+	// Generate a random str
+	byte rand_str[rand_len];
+	rnd.GenerateBlock(rand_str, rand_len);
+	return std::string((const char*)rand_str, rand_len);
+}
 
 std::string Util::padding(const std::string str){
-	size_t BS = (size_t)AES::BLOCKSIZE;
+	size_t BS = (size_t)AES::BLOCKSIZE; // 256 bits
 	size_t pad_len = BS - str.length() % BS;
 	return str + std::string(char(pad_len), pad_len);
+}
+
+std::string Util::padding(const std::string str, size_t len){
+
+	size_t pad_len = len - str.length() % len; // len - str.length() still works allright.
+	if (pad_len == len) return str;
+	else return str + std::string(char(pad_len), pad_len);
 }
 
 std::string Util::remove_padding(const std::string str){
@@ -116,7 +150,7 @@ std::string Util::Dec(const void* key, int key_len, const std::string cipher){
 	 	d.SetKeyWithIV((byte*)key, key_len, (byte*)cipher.c_str(), (size_t)AES::BLOCKSIZE);
 		size_t cipher_length = cipher.length() - (size_t)AES::BLOCKSIZE;
 		byte plain_text[cipher_length];
-		d.ProcessData(plain_text, (byte*)cipher.substr((size_t)AES::BLOCKSIZE).c_str(), cipher_length);
+		d.ProcessData(plain_text, (byte*) cipher.substr((size_t)AES::BLOCKSIZE).c_str(), cipher_length);
 		plain = std::string((const char*)plain_text, cipher_length);
 	}
 	catch(const CryptoPP::Exception& e)
@@ -125,6 +159,35 @@ std::string Util::Dec(const void* key, int key_len, const std::string cipher){
 		exit(1);
 	}
 	return plain;
+}
+
+
+void Util::get_fix_key_enc(CFB_Mode< AES >::Encryption& enc) {
+	// CFB_Mode< AES >::Encryption _enc;
+	
+	try
+	{
+		enc.SetKeyWithIV( (byte*) Util::k_fixed.c_str(), (size_t)AES::BLOCKSIZE, (byte*) Util::iv_fixed.c_str(), (size_t)AES::BLOCKSIZE);
+	}
+	catch(const CryptoPP::Exception& e)
+	{
+		std::cerr << "in get_fix_key_enc() " << e.what()<< std::endl;
+		exit(1);
+	}
+}
+
+void Util::get_fix_key_dec(CFB_Mode< AES >::Decryption& dec) {
+	// CFB_Mode< AES >::Decryption dec;
+	
+	try
+	{
+		dec.SetKeyWithIV( (byte*) Util::k_fixed.c_str(), (size_t)AES::BLOCKSIZE, (byte*) Util::iv_fixed.c_str(), (size_t) AES::BLOCKSIZE);
+	}
+	catch(const CryptoPP::Exception& e)
+	{
+		std::cerr << "in get_fix_key_dec() " << e.what()<< std::endl;
+		exit(1);
+	}
 }
 
 std::string Util::str2hex(const std::string& input)
