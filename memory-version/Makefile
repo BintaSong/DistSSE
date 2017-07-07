@@ -34,7 +34,7 @@ CPPFLAGS += -I/usr/local/include -pthread
 CXXFLAGS += -std=c++11 -O3
 LDFLAGS += -L/usr/local/lib `pkg-config --libs grpc++ grpc`       \
            -Wl,--no-as-needed -lgrpc++_reflection -Wl,--as-needed \
-           -lprotobuf -lrocksdb -lcryptopp -lcpp_redis -ltacopie -lpthread -O3
+           -lprotobuf -lrocksdb -lcryptopp -lpthread -O3
 PROTOC = protoc
 GRPC_CPP_PLUGIN = grpc_cpp_plugin
 GRPC_CPP_PLUGIN_PATH ?= `which $(GRPC_CPP_PLUGIN)`
@@ -45,10 +45,10 @@ vpath %.proto $(PROTOS_PATH)
 
 all: system-check rpc_client rpc_server 
 
-rpc_client: DistSSE.pb.o DistSSE.grpc.pb.o rpc_client.o DistSSE.Util.o logger.o 
+rpc_client: DistSSE.pb.o DistSSE.grpc.pb.o rpc_client.o DistSSE.Util.o logger.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
-rpc_server: DistSSE.pb.o DistSSE.grpc.pb.o rpc_server.o DistSSE.Util.o logger.o 
+rpc_server: DistSSE.pb.o DistSSE.grpc.pb.o rpc_server.o DistSSE.Util.o logger.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 .PRECIOUS: %.grpc.pb.cc
