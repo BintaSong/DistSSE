@@ -43,15 +43,12 @@ PROTOS_PATH = .
 
 vpath %.proto $(PROTOS_PATH)
 
-all: system-check client proxy node 
+all: system-check rpc_client rpc_server 
 
-client: DistSSE.pb.o DistSSE.grpc.pb.o DistSSE.client.o DistSSE.Util.o logger.o
+rpc_client: DistSSE.pb.o DistSSE.grpc.pb.o rpc_client.o DistSSE.Util.o logger.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
-proxy: DistSSE.pb.o DistSSE.grpc.pb.o DistSSE.proxy.o DistSSE.Util.o logger.o
-	$(CXX) $^ $(LDFLAGS) -o $@
-
-node: DistSSE.pb.o DistSSE.grpc.pb.o DistSSE.node.o DistSSE.Util.o logger.o
+rpc_server: DistSSE.pb.o DistSSE.grpc.pb.o rpc_server.o DistSSE.Util.o logger.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 .PRECIOUS: %.grpc.pb.cc
@@ -63,7 +60,7 @@ node: DistSSE.pb.o DistSSE.grpc.pb.o DistSSE.node.o DistSSE.Util.o logger.o
 	$(PROTOC) -I $(PROTOS_PATH) --cpp_out=. $<
 
 clean:
-	rm -f *.o *.pb.cc *.pb.h client proxy node #DistSSE_client DistSSE_server 
+	rm -f *.o *.pb.cc *.pb.h #DistSSE_client DistSSE_server 
 
 
 # The following is to test your system and ensure a smoother experience.

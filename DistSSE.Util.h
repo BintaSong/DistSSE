@@ -35,8 +35,7 @@
 #include <rocksdb/memtablerep.h>
 #include <rocksdb/options.h>
 
-#include <time.h>
-#define random(x) (rand()%x)
+#include <thread>
 
 #define MAX_W_LEN 16
 #define MAX_OP_LEN 3
@@ -49,19 +48,19 @@
 #define UT_LEN 32
 #define VALUE_LEN (MAX_IND_LEN + MAX_OP_LEN + MAX_ST_LEN) // VALUE = IND||OP||ST = 55
 
-using namespace CryptoPP;
+#define random(x) (rand()%x)
 
 // 用来生成kw
-//extern byte k_s[17];
-//extern byte iv_s[17];
+extern byte k_s[17];
+extern byte iv_s[17];
 
 // 用来生成加密label
-//extern byte k_l[17];
-//extern byte iv_l[17];
+extern byte k_l[17];
+extern byte iv_l[17];
 
 // 用来生成搜索token
-//extern byte k_st[17];
-//extern byte iv_st[17];
+extern byte k_st[17];
+extern byte iv_st[17];
 
 // 系统参数
 extern int max_keyword_length ;
@@ -70,18 +69,11 @@ extern int max_nodes_number ;
 namespace DistSSE {
 
 class Util {
+
 public:
-	static std::string k_fixed; // fixed key for AES128
-
-	static std::string iv_fixed; // fixed iv for AES128
-
 	static std::string H1(const std::string message);
 
 	static std::string H2(const std::string message);
-	
-	static std::string Xor(const std::string s1, const std::string s2);
-	
-	static std::string get_rand_str(const int rand_len); 
 
 	static std::string padding(const std::string str);
 
@@ -89,19 +81,17 @@ public:
 
 	static std::string remove_padding(const std::string str);
 	
+	static std::string Xor(const std::string s1, const std::string s2);
+
 	static void split(const std::string &s, char delim, std::vector<std::string> &elems) ;
 
-	static std::vector<std::string> split(const std::string &s, char delim);
+	static void split(const std::string &s, char delim, std::set<std::string> &ID);
 
 	static std::string dec_token(const void* key, int key_len, const void* iv, std::string enc_token);
 
 	static std::string Enc(const void* key, int key_len, const std::string plain);
 
 	static std::string Dec(const void* key, int key_len, const std::string cipher);
-
-	static void get_fix_key_enc( CFB_Mode< AES >::Encryption& enc );
-	
-    static void get_fix_key_dec( CFB_Mode< AES >::Decryption& dec );
 
 	static std::string str2hex(const std::string& input);
 

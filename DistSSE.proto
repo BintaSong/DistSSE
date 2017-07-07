@@ -1,8 +1,10 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 package DistSSE;
 
-service nodeRPC {
+service RPC {
 
 // Setup
 rpc setup (SetupRequestMessage) returns ( ExecuteStatus ) {}
@@ -12,22 +14,6 @@ rpc search (SearchRequestMessage) returns (stream SearchReply) {}
 
 // Update
 rpc update (UpdateRequestMessage) returns ( ExecuteStatus ) {}
-
-rpc batch_update (stream UpdateRequestMessage) returns ( ExecuteStatus ) {}
-
-}
-
-service proxyRPC{
-
-// Setup
-// rpc setup (SetupRequestMessage) returns ( ExecuteStatus ) {}
-
-// Search
-rpc search (stream SearchRequestMessage) returns (stream SearchReply) {}
-
-// Update
-rpc update (UpdateRequestMessage) returns ( ExecuteStatus ) {}
-
 rpc batch_update (stream UpdateRequestMessage) returns ( ExecuteStatus ) {}
 
 }
@@ -40,22 +26,22 @@ message SetupRequestMessage
 
 message SearchRequestMessage
 {
-    bytes enc_token = 1;
-    bytes st = 2;
-    // fixed32 add_count = 3;
+    bytes kw = 1;
+    bytes tw = 2;
+	uint64 uc = 3; // update after last search
+
 }
 
 message SearchReply
 {
 	bytes ind = 1;
-	// bytes op = 2;
+
 }
 
 message UpdateRequestMessage
 {
-	uint64 node = 1;
-    bytes ut = 2;
-    bytes enc_value = 3;
+    bytes l = 1;
+    bytes e = 2;
 }
 
 message ExecuteStatus
