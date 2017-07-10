@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package DistSSE;
+
+service RPC {
+
+// Setup
+rpc setup (SetupRequestMessage) returns ( ExecuteStatus ) {}
+
+// Search
+rpc search (SearchRequestMessage) returns (stream SearchReply) {}
+
+// Update
+rpc update (UpdateRequestMessage) returns ( ExecuteStatus ) {}
+rpc batch_update (stream UpdateRequestMessage) returns ( ExecuteStatus ) {}
+
+}
+
+message SetupRequestMessage
+{
+    uint64 setup_size = 1;
+    // bytes public_key = 2;
+}
+
+message SearchRequestMessage
+{
+    bytes kw = 1;// `kw` now is `st`, we don't change the name for consistence wittout modification
+    bytes tw = 2;
+	uint64 uc = 3; // update after last search
+
+}
+
+message SearchReply
+{
+	bytes ind = 1;
+
+}
+
+message UpdateRequestMessage
+{
+    bytes l = 1;
+    bytes e = 2;
+}
+
+message ExecuteStatus
+{
+	bool status = 1; 
+}

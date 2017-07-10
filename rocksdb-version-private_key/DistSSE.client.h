@@ -49,10 +49,10 @@ private:
  	std::unique_ptr<RPC::Stub> stub_;
 	rocksdb::DB* cs_db;
 	
-	std::mutex sc_mtx;
+	std::mutex st_mtx;
 	std::mutex uc_mtx;
 
-	std::map<std::string, size_t> sc_mapper;	
+	std::map<std::string, std::string> st_mapper;	
 	std::map<std::string, size_t> uc_mapper;
 
 public:
@@ -69,18 +69,19 @@ public:
 	  	for (it->SeekToFirst(); it->Valid(); it->Next()) {
 			key = it->key().ToString(); 
 			if (key[0] == 's') { 
-				sc_mapper[key.substr(1, key.length() - 1)] = std::stoi(it->value().ToString());
+				st_mapper[key.substr(1, key.length() - 1)] = it->value().ToString();
 			}
 			else{
 				uc_mapper[key.substr(1, key.length() - 1)] = std::stoi(it->value().ToString());		
 			}
 			counter++;
 	  	}
-
+	
+		
 	  	assert( it->status().ok() ); // Check for any errors found during the scan
 	  	delete it;
 
-		std::cout << "Just remind, previous keyword counter: "<< counter/2 <<std::endl;
+		std::cout << "Just remind, previous keywords: "<< counter/2 <<std::endl;
 	}
 
     ~Client() {
@@ -88,15 +89,17 @@ public:
 		// must store 'sc' and 'uc' to disk 
 
 		size_t keyword_counter = 0;
-		std::map<std::string, size_t>::iterator it;
-		for ( it = sc_mapper.begin(); it != sc_mapper.end(); ++it) {
-			store("s" + it->first, std::to_string(it->second));
+		std::map<std::string, std::string>::iterator it;
+		for ( it = st_mapper.begin(); it != st_mapper.end(); ++it) {
+			store("s" + it->first, it->second);
 			keyword_counter++;
 		}
 		
-		for ( it = uc_mapper.begin(); it != uc_mapper.end(); ++it) {
-			store("u" + it->first, std::to_string(it->second));
+		std::map<std::string, size_t>::iterator ut;
+		for ( ut = uc_mapper.begin(); ut != uc_mapper.end(); ++ut) {
+			store("u" + ut->first, std::to_string(ut->second));
 		}
+		
 		std::cout<< "Total keyword: " << keyword_counter <<std::endl;
 
 		std::cout<< "Bye~ " <<std::endl;
@@ -116,67 +119,63 @@ public:
 		else return "";
 	}
 
-	int get_search_time(std::string w){
+	std::string get_st(std::string w){
 
-		int search_time = 0;
+		std::string st;
 		
-		std::map<std::string, size_t>::iterator it;		
+		std::map<std::string, std::string>::iterator it;		
 		
-		it = sc_mapper.find(w);
+		it = st_mapper.find(w);
 		
-		if (it != sc_mapper.end()) {
-			search_time = it->second;
+		if (it != st_mapper.end()) {
+			st = it->second;
 		}
 		else {
 			// std::string value = get("s" + w );
 
 			// search_time = value == "" ? 0 : std::stoi(value);
-
-			set_search_time(w, search_time); // cache search_time into sc_mapper 
+			byte _st[AES128_KEY_LEN];
+			AutoSeededRandomPool rnd;
+			rnd.GenerateBlock(_st, AES128_KEY_LEN);
+			st = std::string((const char*)_st, AES128_KEY_LEN);
+			set_st(w, st); // cache search_time into sc_mapper 
 		}
-		return search_time;
+		return st;
 	}
 
-	int set_search_time(std::string w, int search_time) {
-		//设置单词w更新次数为update_time
+	int set_st(std::string w, std::string new_st) {
+		//set `w`'s new state
         {
-		    std::lock_guard<std::mutex> lock(sc_mtx);		
-			sc_mapper[w] = search_time;
+		    std::lock_guard<std::mutex> lock(st_mtx);		
+			st_mapper[w] = new_st;
 		}
-		// no need to store, because ti will be done in ~Client
+		// no need to store, because ti will be done in ~Client()
 		// store(w + "_search", std::to_string(search_time)); 
 		return 0;
 	}
 
-	void increase_search_time(std::string w) {
-		{
-			// std::lock_guard<std::mutex> lock(sc_mtx);
-			set_search_time(w, get_search_time(w) + 1);
-		}
-	}
+	int get_update_time(std::string w) {
 
-	int get_update_time(std::string w){
-
-		int update_time = 0;
+		int update_time;
 
 		std::map<std::string, size_t>::iterator it;
 
 		it = uc_mapper.find(w);
 		
-		if (it != uc_mapper.end()) {
+		if (it != uc_mapper.end()){
 			update_time = it->second;
 		}
 		else{
 			// std::string value = get("u" + w );
 
 			// update_time = value == "" ? 0 : std::stoi(value);
-			
-			set_update_time(w, update_time);
+			update_time = 0;
+			set_update_time(w, 0);
 		}
 		return update_time;
 	}
 
-	int set_update_time(std::string w, int update_time){
+	int set_update_time(std::string w, size_t update_time){
 		{
 			std::lock_guard<std::mutex> lock(uc_mtx);
 			uc_mapper[w] = update_time;
@@ -185,10 +184,7 @@ public:
 	}
 	
 	void increase_update_time(std::string w) {
-		{	
-			// std::lock_guard<std::mutex> lock(uc_mtx);
-			set_update_time(w, get_update_time(w) + 1);
-		}
+		set_update_time(w, get_update_time(w) + 1);
 	}
 
 
@@ -200,7 +196,7 @@ public:
 			
 			CFB_Mode< AES >::Encryption e;
 		
-			e.SetKeyWithIV(k_s, AES128_KEY_LEN, iv_s, (size_t)AES::BLOCKSIZE);
+			e.SetKeyWithIV(k_s, AES128_KEY_LEN, iv_s, (size_t)AES::BLOCKSIZE); // so `key` and `iv` is fixed now
 		
 			token_padding = Util::padding(token);
 	
@@ -208,7 +204,7 @@ public:
 
 			e.ProcessData(cipher_text, (byte*) token_padding.c_str(), token_padding.length());
 			
-			enc_token = std::string((const char*)cipher_text, token_padding.length());
+			enc_token = std::string((const char*) cipher_text, token_padding.length());
 
 		}
 		catch(const CryptoPP::Exception& e)
@@ -219,23 +215,85 @@ public:
 		return enc_token;
 	}
 
-	void gen_update_token(std::string op, std::string w, std::string ind, std::string& l, std::string& e){
-		try{
-			std::string enc_token;
+	void gen_new_st(std::string old_st, std::string& key, std::string& new_st) { // generate a new st and return back the key
+		
+		byte rand_key[AES128_KEY_LEN];
+		
+		try {
+			
+			AutoSeededRandomPool rnd;
+
+			// Generate a random str
+			rnd.GenerateBlock(rand_key, AES128_KEY_LEN);
+		
+			// key is for returning
+			key = std::string((const char*)rand_key, AES128_KEY_LEN);
+
+			CFB_Mode< AES >::Encryption e;
+
+			e.SetKeyWithIV(rand_key, AES128_KEY_LEN, iv_s, (size_t)AES::BLOCKSIZE); 
 	
-			std::string kw, tw;
+			byte tmp_new_st[old_st.length()];
+
+			e.ProcessData(tmp_new_st, (byte*) old_st.c_str(), old_st.length());
+			
+			new_st = std::string((const char*)tmp_new_st, old_st.length());
+
+			// logger::log(logger::INFO) <<"In gen_new_st: " << new_st << std::endl; // TODO
+
+		} catch(const CryptoPP::Exception& e) {
+			std::cerr << "in gen_new_st() " << e.what()<< std::endl;
+			exit(1);
+		}
+		
+	}
+
+	void recover_st(std::string new_st, std::string key, std::string& old_st) {
+		try {
+
+			CFB_Mode< AES >::Decryption d;
+
+			d.SetKeyWithIV((byte*) key.c_str(), AES128_KEY_LEN, iv_s, (size_t)AES::BLOCKSIZE); 
+	
+			byte tmp_old_st[new_st.length()];
+
+			d.ProcessData(tmp_old_st, (byte*) new_st.c_str(), new_st.length());
+			
+			old_st = std::string((const char*)tmp_old_st, new_st.length());
+		}
+		catch(const CryptoPP::Exception& e)
+		{
+			std::cerr << "in recover_st() " << e.what()<< std::endl;
+			exit(1);
+		}
+	}
+
+	void verify_st() {
+		std::string old_st = "0000000000000000", new_st, key;
+		gen_new_st(old_st, key, new_st);
+		old_st = "fuck";
+		recover_st(new_st, key, old_st);
+		assert(old_st.compare("0000000000000000") == 0 );
+		// logger::log(logger::INFO) << old_st << std::endl;
+	}
+
+	void gen_update_token(std::string op, std::string w, std::string ind, std::string& l, std::string& e) {
+		try{
+			std::string enc_token, rand_key;
+	
+			std::string tw, old_st, new_st;
 			// get update time of `w` for `node`
-			int sc, uc;
-			uc = get_update_time(w);
-			sc = get_search_time(w);
+			// std::string st;
+			old_st = get_st(w);
 
+			tw = gen_enc_token(w);
+			
+			gen_new_st(old_st, rand_key, new_st); // TODO
 
-			// tw = gen_enc_token(k_s, AES128_KEY_LEN, iv_s, w + "|" + std::to_string(-1) );
-			kw = gen_enc_token(w + "|" + std::to_string(sc) );
-
-			// generating update pair, which is (l, e)
-			l = Util::H1( kw + std::to_string(uc + 1) );
-			e = Util::Xor( op + ind, Util::H2(kw + std::to_string(uc + 1)) );
+			// generating update pair, which is (l, e) 
+			l = Util::H1( tw + new_st);
+			// e = Util::Xor( op + ind + rand_key, Util::H2(tw + new_st) );
+			e = Util::Xor( op + ind + new_st, Util::H2(tw + new_st) );
 			// increase_update_time(w);
 			
 		}
@@ -247,26 +305,31 @@ public:
 
 	UpdateRequestMessage gen_update_request(std::string op, std::string w, std::string ind){
 		try{
-			std::string enc_token;
+			std::string enc_token, rand_key;
 			UpdateRequestMessage msg;
 	
-			std::string kw, tw, l, e;
+			std::string tw, old_st, new_st, l, e;
 			// get update time of `w` for `node`
-			size_t sc, uc;
-			uc = get_update_time(w);
-			sc = get_search_time(w);
 
+			tw = gen_enc_token(w);
 
-			kw = gen_enc_token( w + "|" + std::to_string(sc) );
+			old_st = get_st(w);
+
+			gen_new_st(old_st, rand_key, new_st); // TODO
 			
 			// logger::log(logger::INFO) << kw <<std::endl;
 
-			l = Util::H1( kw + std::to_string(uc + 1) );
-			e = Util::Xor( op + ind, Util::H2(kw + std::to_string(uc + 1)) );
+			l = Util::H1( tw + new_st);
+			// e = Util::Xor(op + ind + rand_key, Util::H2(tw + new_st));
+			e = Util::Xor( op + ind + old_st, Util::H2(tw + new_st) );
+			// logger::log(logger::INFO) <<"In gen_update_request==>  " << "st:" << new_st << ", tw: " << tw << std::endl;
+			assert((op + ind + rand_key).length() == 25);			
+
 			msg.set_l(l);
 			msg.set_e(e);
 
-			set_update_time(w, uc + 1); // TODO 	
+			set_st(w, new_st); // TODO
+			increase_update_time(w);
 
 			return msg;
 		}
@@ -277,16 +340,17 @@ public:
 	}
 
 
-	void gen_search_token(std::string w, std::string& kw, std::string& tw, int& uc) {
+	void gen_search_token(std::string w, std::string& tw, std::string& st, size_t& uc) {
 		try{
 			// get update time of
-			int sc;
-			uc = get_update_time(w);
-			sc = get_search_time(w);
 
-			tw = gen_enc_token( w + "|" + std::to_string(-1) );
-			if(uc != 0)	kw = gen_enc_token( w + "|" + std::to_string(sc) );
-			else kw = "";
+			tw = gen_enc_token(w);
+			
+			st = get_st(w);
+
+			uc = get_update_time(w);
+
+			logger::log(logger::INFO) <<"In gen_search_token==>  " << "st:" << st << ", tw: " << tw <<", uc:"<< uc <<std::endl;
 			
 		}
 		catch(const CryptoPP::Exception& e){
@@ -297,10 +361,11 @@ public:
 
 // 客户端RPC通信部分
 
-	std::string search(const std::string kw, const std::string tw, int uc) {
+	std::string search(const std::string tw, const std::string st, const size_t uc) {
 		// request包含 enc_token 和 st
 		SearchRequestMessage request;
-		request.set_kw(kw);
+		if( uc == 0 ) request.set_kw(""); // attentaion here !!!
+		else request.set_kw(st);
 		request.set_tw(tw);
 		request.set_uc(uc);
 
@@ -371,7 +436,7 @@ public:
 
 
 		Status status = stub_->update(&context, update_request, &exec_status);
-		if(status.ok()) increase_update_time(w);
+		if(status.ok()) increase_update_time(w);// TODO
 
 		return status;
 	}
