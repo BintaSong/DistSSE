@@ -167,7 +167,10 @@ public:
 			out <<  keyword+ "\t" + std::to_string(result_size)+ "\t" + std::to_string(search_time) +"\n";
 		    out.close();
 		}*/
-		std::cout <<  keyword+ "\t" + std::to_string(result_size)+ "\t" + std::to_string(search_time) +"\n";
+			
+		std::string word = keyword == "" ? "cached" : keyword;	
+		
+		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(search_time) +"\n";
 	}
 
 	static void parse (std::string str, std::string& op, std::string& ind) {
