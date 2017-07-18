@@ -59,8 +59,15 @@ public:
 
   	Client(std::shared_ptr<Channel> channel, std::string db_path) : stub_(RPC::NewStub(channel)){
 		rocksdb::Options options;
-    	options.create_if_missing = true;
-    	rocksdb::Status status = rocksdb::DB::Open(options, db_path , &cs_db);
+		// Util::set_db_common_options(options);
+		
+		// set options for merge operation
+		rocksdb::Options simple_options;
+		simple_options.create_if_missing = true;
+		simple_options.merge_operator.reset(new rocksdb::StringAppendOperator() );
+		simple_options.use_fsync = true;
+
+    	rocksdb::Status status = rocksdb::DB::Open(simple_options, db_path , &cs_db);
 
 		// load all sc, uc to memory
 		rocksdb::Iterator* it = cs_db->NewIterator(rocksdb::ReadOptions());
@@ -77,7 +84,10 @@ public:
 			counter++;
 	  	}
 
-	  	assert( it->status().ok() ); // Check for any errors found during the scan
+	  	// assert( it->status().ok() ); // Check for any errors found during the scan
+		/*if(it->status().ok() == 0 ) */{
+			std::cout<< "client db status: " <<it->status().ToString() <<std::endl;
+		} 
 	  	delete it;
 
 		std::cout << "Just remind, previous keyword counter: "<< counter/2 <<std::endl;
@@ -98,6 +108,8 @@ public:
 			store("u" + it->first, std::to_string(it->second));
 		}
 		std::cout<< "Total keyword: " << keyword_counter <<std::endl;
+
+		delete cs_db;
 
 		std::cout<< "Bye~ " <<std::endl;
 	}
@@ -155,16 +167,16 @@ public:
 		}
 	}
 
-	int get_update_time(std::string w){
+	size_t get_update_time(std::string w){
 
-		int update_time = 0;
+		size_t update_time = 0;
 
 		std::map<std::string, size_t>::iterator it;
 
 		it = uc_mapper.find(w);
 		
 		if (it != uc_mapper.end()) {
-			update_time = it->second;
+			update_time = it->second; // TODO need to lock when read, but for our scheme, no need
 		}
 		else{
 			// std::string value = get("u" + w );
@@ -190,7 +202,6 @@ public:
 			set_update_time(w, get_update_time(w) + 1);
 		}
 	}
-
 
 	std::string gen_enc_token(const std::string token){
 		// 使用padding方式将所有字符串补齐到16的整数倍长度
@@ -219,13 +230,14 @@ public:
 		return enc_token;
 	}
 
+
 	void gen_update_token(std::string op, std::string w, std::string ind, std::string& l, std::string& e){
 		try{
 			std::string enc_token;
 	
 			std::string kw, tw;
 			// get update time of `w` for `node`
-			int sc, uc;
+			size_t sc, uc;
 			uc = get_update_time(w);
 			sc = get_search_time(w);
 
@@ -277,7 +289,7 @@ public:
 	}
 
 
-	void gen_search_token(std::string w, std::string& kw, std::string& tw, int& uc) {
+	void gen_search_token(std::string w, std::string& kw, std::string& tw, size_t& uc) {
 		try{
 			// get update time of
 			int sc;
@@ -296,6 +308,20 @@ public:
 	}
 
 // 客户端RPC通信部分
+
+	std::string search(const std::string w) {
+		std::string kw, tw;
+		size_t uc;
+		gen_search_token(w, kw, tw, uc);
+		
+
+		search(kw, tw, uc);
+
+		// update `sc` and `uc`
+		increase_search_time(w);
+		set_update_time(w, 0);
+		return "OK";
+	}
 
 	std::string search(const std::string kw, const std::string tw, int uc) {
 		// request包含 enc_token 和 st
@@ -317,9 +343,9 @@ public:
 			// logger::log(logger::INFO) << reply.ind()<<std::endl;
 			counter++;
 		}
-		logger::log(logger::INFO) << " search result: "<< counter << std::endl;
+		// logger::log(logger::INFO) << " search result: "<< counter << std::endl;
 		return "OK";
-	  }
+	}
 
 	Status update(UpdateRequestMessage update) {
 
@@ -369,9 +395,8 @@ public:
 		update_request.set_l(l);
 		update_request.set_e(e);
 
-
 		Status status = stub_->update(&context, update_request, &exec_status);
-		if(status.ok()) increase_update_time(w);
+		// if(status.ok()) increase_update_time(w);
 
 		return status;
 	}

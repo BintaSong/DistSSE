@@ -5,7 +5,7 @@ int main(int argc, char *argv[]){
 		std::cerr<<"argc error"<<std::endl;	
 		exit(-1);
 	}
-	RunServer(std::string(argv[1]), argv[2], atoi(argv[3]) );
+	RunServer(std::string(argv[1]), std::string(argv[2]), atoi(argv[3]) );
 }
 
 

@@ -30,7 +30,7 @@
 #
 
 CXX = g++
-CPPFLAGS += -I/usr/local/include -pthread
+CPPFLAGS += -I/usr/local/include -I. -pthread
 CXXFLAGS += -std=c++11 -O3
 LDFLAGS += -L/usr/local/lib `pkg-config --libs grpc++ grpc`       \
            -Wl,--no-as-needed -lgrpc++_reflection -Wl,--as-needed \
@@ -48,7 +48,7 @@ all: system-check rpc_client rpc_server
 rpc_client: DistSSE.pb.o DistSSE.grpc.pb.o rpc_client.o DistSSE.Util.o logger.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
-rpc_server: DistSSE.pb.o DistSSE.grpc.pb.o rpc_server.o DistSSE.Util.o logger.o
+rpc_server: DistSSE.string_append_operator.o DistSSE.pb.o DistSSE.grpc.pb.o rpc_server.o DistSSE.Util.o logger.o 
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 .PRECIOUS: %.grpc.pb.cc

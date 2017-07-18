@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <fstream> 
 #include <cassert>
 #include <memory>
 #include <string>
@@ -20,6 +21,7 @@
 #include <map>
 #include <vector>
 #include <stdexcept>
+#include <csignal>
 
 #include <sys/time.h>
 
@@ -36,6 +38,9 @@
 #include <rocksdb/options.h>
 
 #include <thread>
+
+#include "DistSSE.string_append_operator.h"
+
 
 #define MAX_W_LEN 16
 #define MAX_OP_LEN 3
@@ -96,6 +101,8 @@ public:
 	static std::string str2hex(const std::string& input);
 
 	static std::string hex2str(const std::string& input);
+
+	static void set_db_common_options(rocksdb::Options &options);
 };
 
 }// namespace DistSSE
