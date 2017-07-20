@@ -63,7 +63,7 @@ public:
 	{
 		delete ss_db;
 		delete cache_db; 
-		std::cout<< "abort: "<< signum <<std::endl;
+		logger::log(logger::INFO)<< "abort: "<< signum <<std::endl;
 	   	exit(signum);
 	}
 
@@ -132,7 +132,7 @@ public:
 			
 		std::string word = keyword == "" ? "cached" : keyword;	
 		
-		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(search_time) + "\t" + std::to_string(search_time/result_size) +"\n";
+		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(search_time) + "\t" + std::to_string(search_time/result_size) << std::endl;
 	}
 
 	static void parse (std::string str, std::string& op, std::string& ind) {

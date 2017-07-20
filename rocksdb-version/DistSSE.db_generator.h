@@ -269,7 +269,7 @@ namespace DistSSE{
 			int search_time = 0, entries_counter = 0;
 			
 			Status s;
-			for(size_t i = 0; i < 4; i++ ) {
+			for(size_t i = 0; i < 1; i++ ) {
 
 				// double search_rate = search_rate[i];
 
