@@ -16,6 +16,7 @@
 
 
 #define min(x ,y) ( x < y ? x : y)
+#define max(x, y) (x < y ? y : x)
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -68,6 +69,7 @@ public:
 
 	static int store(rocksdb::DB* &db, const std::string l, const std::string e){
 		rocksdb::Status s = db->Put(rocksdb::WriteOptions(), l, e);
+		assert(s.ok());
 		if (s.ok())	return 0;
 		else return -1;
 	}
@@ -75,6 +77,7 @@ public:
 	static std::string get(rocksdb::DB* &db, const std::string l){
 		std::string tmp;
 		rocksdb::Status s = db->Get(rocksdb::ReadOptions(), l, &tmp);
+		// assert(s.ok());
 		if (s.ok())	return tmp;
 		else return "";
 	}
@@ -119,43 +122,6 @@ public:
 
 		return status;
 	}
- 
-
-	/*int append_cache(const std::string l, const std::string append_str) {
-
-		int status = -1;
-		
-		try{
-
-			rocksdb::WriteOptions write_option = rocksdb::WriteOptions();
-			write_option.sync = true;
-			// write_option.disableWAL = true;
-			rocksdb::Status s = cache_db->Merge(write_option, l, append_str);
-			
-			if (s.ok())	status = 0;
-
-		}catch(std::exception &e) {
-			std::cerr << "in append_cache() " << e.what()<< std::endl;
-			exit(1);
-		}
-
-		return status;
-	}
-	
-	std::string fetch_cache(const std::string l) {
-		int status = -1;
-		std::string result;
-		try{
-
-			rocksdb::Status s = cache_db->Get(rocksdb::ReadOptions(), l, &result);
-
-		}catch(std::exception &e){
-			std::cerr << "in fetch_cache() " << e.what()<< std::endl;
-			exit(1);
-		}
-		return result;
-	}
-	*/
 
 	static void search_log(std::string kw, double search_time, int result_size) {
 		// std::ofstream out( "search.slog", std::ios::out|std::ios::app);
@@ -163,40 +129,37 @@ public:
 		byte iv_s[17] = "0123456789abcdef";
 
 		std::string keyword = Util::dec_token(k_s, AES128_KEY_LEN, iv_s, kw);
-		/*if (out.is_open()) {
-			out <<  keyword+ "\t" + std::to_string(result_size)+ "\t" + std::to_string(search_time) +"\n";
-		    out.close();
-		}*/
 			
 		std::string word = keyword == "" ? "cached" : keyword;	
 		
-		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(search_time) +"\n";
+		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(search_time) + "\t" + std::to_string(search_time/result_size) +"\n";
 	}
 
 	static void parse (std::string str, std::string& op, std::string& ind) {
 		op = str.substr(0, 1);		
-		ind = str.substr(1, 7); //TODO
+		ind = str.substr(1, 7); // TODO
 	}
 
 	static void search_task(int threadID, std::string kw, int begin, int end, std::set<std::string>* result_set) {
 		std::string ind, op;
 		std::string l, e, value;
 
+		bool flag = false;
 		for(int i = begin + 1; i <= end; i++) {
 			l = Util::H1(kw + std::to_string(i));
 			// logger::log(logger::INFO) << "server.search(), l:" << l << ", kw: " << kw <<std::endl;
 			e = get(ss_db, l);
-			if (e.compare("") == 0) {
-				logger::log(logger::ERROR) << "ERROR in search, null str found" <<std::endl;
-				continue ;
-			}		
+			if (e.compare("") == 0) {// unknow reason for read losing TODO
+				// logger::log(logger::ERROR) << "ERROR in search, null str found: " << i <<std::endl;
+				continue;
+			}
 			
 			value = Util::Xor( e, Util::H2(kw + std::to_string(i)) );
 
 			parse(value, op, ind);
 			
 			// logger::log(logger::INFO) << "value: " << value <<std::endl;
-			/*if(op == "1")*/  result_set->insert(value); // TODO
+			/*if(op == "1")*/ result_set->insert(value); // TODO
 			// else result_set->erase(ind);
 			// if (i % 1000 == 0) logger::log(logger::INFO) << "Thread ID: " << threadID << ", searched: " << i << "\n" <<std::flush;
 			
@@ -236,7 +199,6 @@ public:
 
 
 			if(kw != "") {
-
 				//================ God bless =================
 				std::set<std::string>* result_set = new std::set<std::string>[MAX_THREADS]; // result ID lists for storage nodes
 
@@ -275,7 +237,7 @@ public:
 
 			gettimeofday(&t2, NULL);
 
-			search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 / ID.size();
+			search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
 
 			search_log(kw, search_time, ID.size());
 
@@ -358,7 +320,22 @@ public:
 		return Status::OK;
 	}
 
+	// batch_cache(), only used for expriment simulation
+	Status batch_cache(ServerContext* context, ServerReader< CacheRequestMessage >* reader, ExecuteStatus* response) {
+		std::string tw;
+		std::string inds;
+		// TODO 读取数据库之前要加锁，读取之后要解锁
+		CacheRequestMessage request;
+		while (reader->Read(&request)){
+			tw = request.tw();
+			inds = request.inds();
+			int s = merge(cache_db, tw, inds);
+			assert(s == 0);
+		}
 
+		response->set_status(true);
+		return Status::OK;
+	}
 };
 
 }// namespace DistSSE

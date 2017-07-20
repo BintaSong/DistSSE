@@ -1,5 +1,5 @@
 #include "DistSSE.client.h"
-#include "DistSSE.trace.h"
+// #include "DistSSE.trace.h"
 #include "DistSSE.db_generator.h"
 
 #include "logger.h"
@@ -24,11 +24,13 @@ int main(int argc, char** argv) {
 	std::atomic_int total(0);
 	unsigned int n_threads = atoi(argv[4]);
 
-	//double search_rate;
-	//sscanf(argv[5],"%lf", &search_rate);
-	//std::cout << search_rate <<std::endl;
-	gen_db(client, N_entry, n_threads, 0.0);
+	// double search_rate;
+	// sscanf(argv[5],"%lf", &search_rate);
+	// std::cout << search_rate <<std::endl;
+	generate_trace(&client, N_entry);
 	
+
+
   	std::cout <<"update done." <<std::endl;
 	
 	std::string w = std::string(argv[3]);

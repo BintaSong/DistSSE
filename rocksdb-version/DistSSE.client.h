@@ -241,7 +241,6 @@ public:
 			uc = get_update_time(w);
 			sc = get_search_time(w);
 
-
 			// tw = gen_enc_token(k_s, AES128_KEY_LEN, iv_s, w + "|" + std::to_string(-1) );
 			kw = gen_enc_token(w + "|" + std::to_string(sc) );
 
@@ -251,7 +250,7 @@ public:
 			// increase_update_time(w);
 			
 		}
-		catch(const CryptoPP::Exception& e){
+		catch(const CryptoPP::Exception& e) {
 			std::cerr << "in gen_update_token() " << e.what() << std::endl;
 			exit(1);
 		}
@@ -288,6 +287,22 @@ public:
 		}
 	}
 
+	// only used for simulation ...
+	CacheRequestMessage gen_cache_request(std::string keyword, std::string inds){
+		try{
+	
+			CacheRequestMessage msg;
+			std::string tw = gen_enc_token( keyword + "|" + std::to_string(-1) );
+			msg.set_tw(tw);
+			msg.set_inds(inds);
+
+			return msg;
+		}
+		catch(const CryptoPP::Exception& e){
+			std::cerr << "in gen_cache_request() " << e.what() << std::endl;
+			exit(1);
+		}
+	}
 
 	void gen_search_token(std::string w, std::string& kw, std::string& tw, size_t& uc) {
 		try{
@@ -358,31 +373,6 @@ public:
 
 		return status;
 	}
-/*
-	Status async_update(std::string op, std::string w, std::string ind) {
-		ClientContext context;
-
-		ExecuteStatus exec_status;
-		// 执行RPC
-		std::string l, e;
-		gen_update_token(op, w, ind, l, e); // update(op, w, ind, _l, _e);
-		UpdateRequestMessage update_request;
-		update_request.set_l(l);
-		update_request.set_e(e);
-
-
-		std::unique_ptr<ClientAsyncResponseReaderInterface<ExecuteStatus> > rpc( stub_->Asyncupdate(&context, update_request, &update_cq) );
-
-		// Request that, upon completion of the RPC, "reply" be updated with the
-		// server's response; "status" with the indication of whether the operation
-		// was successful. Tag the request with the integer 1.
-		Status status;
-		
-		rpc->Finish(&exec_status, &status, (void*) (update_launched_count++));
-        if(status.ok()) std::cout<< exec_status.status() <<std::endl;
-		return status;
-	}
-*/
 
 	Status update(std::string op, std::string w, std::string ind) {
 		ClientContext context;
