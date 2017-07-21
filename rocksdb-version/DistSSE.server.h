@@ -168,11 +168,39 @@ public:
 		}
 	}
 
-	static void merge( std::set<std::string>* searchResult, int counter, std::set<std::string> &new_ID, std::set<std::string> &mergeResult){
+
+	static void search_single(std::string kw, int begin, int end, std::set<std::string>& ID, std::string& merge_string) {
+		std::string ind, op;
+		std::string l, e, value;
+
+
+		for(int i = begin + 1; i <= end; i++) {
+
+			l = Util::H1(kw + std::to_string(i));
+			// logger::log(logger::INFO) << "server.search(), l:" << l << ", kw: " << kw <<std::endl;
+
+			e = get(ss_db, l);
+
+			if (e.compare("") == 0) {// unknow reason for read losing TODO
+				// logger::log(logger::ERROR) << "ERROR in search, null str found: " << i <<std::endl;
+				continue;
+			}
+			
+			value = Util::Xor( e, Util::H2(kw + std::to_string(i)) );
+
+			parse(value, op, ind);
+			
+			/*if(op == "1")*/  ID.insert(value);
+
+			merge_string += Util::str2hex(value) + "|";
+		}
+	}
+
+	static void merge( std::set<std::string>* searchResult, int counter, std::set<std::string> &merge_result, std::string& merge_string){
 		for (int i = 0; i < counter; i++) {
 			for (auto& t : searchResult[i]) {
-				mergeResult.insert(t);
-				new_ID.insert(t);
+				merge_result.insert(t);
+				merge_string += Util::str2hex(t) + "|";
 			}
 		}
 	}
@@ -189,54 +217,58 @@ public:
 
 		struct timeval t1, t2;
 
-		std::set<std::string> new_ID;
+		double search_time;
 
 		try{
-		
-			double search_time;
-
+			
 			gettimeofday(&t1, NULL);
 
-
+			cache_ind = get(cache_db, tw);
+			Util::split(cache_ind, '|', ID); // get all cached inds					
+			
 			if(kw != "") {
 				//================ God bless =================
-				std::set<std::string>* result_set = new std::set<std::string>[MAX_THREADS]; // result ID lists for storage nodes
 
-				std::vector<std::thread> threads;
-				int step = uc / MAX_THREADS + 1;
+				std::string merge_string;
 
-				for (int i = 0; i < MAX_THREADS; i++) {
-					int left = i * step, right = min((i + 1) * step, uc);
-					if(left < right) threads.push_back( std::thread(search_task, i,  kw, left, right, &(result_set[i])) );
+				if (uc < 1000) {
+
+					search_single(kw, 0, uc, ID,  merge_string);
+					// std::cout<< "ID.size(): " << ID.size() <<std::endl;
+	
+				}else {
+					
+					int thread_num = min( uc / 1000, MAX_THREADS );
+					
+					int step = uc / thread_num + 1;
+					
+					std::set<std::string> result_set[MAX_THREADS]; // result ID lists for storage nodes
+
+					std::vector<std::thread> threads;
+				
+					for (int i = 0; i < thread_num; i++) {
+						int left = i * step, right = min((i + 1) * step, uc);
+						if(left < right) threads.push_back( std::thread(search_task, i,  kw, left, right, &(result_set[i])) );
+					}
+
+					// join theads
+					for (auto& t : threads) {
+						t.join();
+					}				
+
+					merge(result_set, MAX_THREADS, ID, merge_string);
 				}
-				// join theads
-				for (auto& t : threads) {
-					t.join();
+				
+				// merge to cache
+				if (merge_string != "") {
+					int s = merge(cache_db, tw, merge_string);
+					assert(s == 0);
 				}
 
-				merge(result_set, MAX_THREADS, new_ID, ID);
-		  		// logger::log(logger::INFO) <<"ID.size():"<< ID.size() <<" ,search time: "<< search_time<<" ms" <<std::endl;
-			}
-
-			// search_log(kw, search_time, ID.size());
-
-
-			cache_ind = get(cache_db, tw);
-			Util::split(cache_ind, '|', ID); // get all cached inds
-
-			std::string new_ID_string = "";
-			for (std::set<std::string>::iterator it = new_ID.begin(); it != new_ID.end(); ++it){
-				new_ID_string += Util::str2hex(*it) + "|";
-			}
-
-			if (new_ID_string != "") {
-
-				int s = merge(cache_db, tw, new_ID_string);
-				assert(s == 0);
 			}
 
 			gettimeofday(&t2, NULL);
-
+			
 			search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
 
 			search_log(kw, search_time, ID.size());
