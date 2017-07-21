@@ -272,8 +272,7 @@ namespace DistSSE{
 			for(size_t i = 0; i < 4; i++ ) {
 
 				// double search_rate = search_rate[i];
-
-				for(size_t j = 1; j <= 5; j++) {
+				for(size_t j = 4; j <= 4; j++) {
 					std::string keyword = TraceKeywordGroupBase + "_" + std::to_string(i) + "_" + std::to_string(j);
 					
 					for(size_t k = 0; k < pow(10, j);) {

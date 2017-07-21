@@ -1,9 +1,19 @@
 #include "DistSSE.client.h"
 #include "DistSSE.Util.h"
-
+#include <cmath>
 
 
 namespace DistSSE{
+
+		static bool sample(double value, double rate) {
+			double _value = value;			
+			_value -= rate;
+			return _value < 0.000000001 ? true : false;
+		}
+		
+		static double rand_0_to_1(){ //
+			return ((double) rand() / (RAND_MAX));		
+		}
 
 		static void generation_job(Client* client, unsigned int thread_id, size_t N_entries, unsigned int step, std::atomic_size_t* entries_counter) {
 			const std::string kKeyword01PercentBase    = "0.1";
@@ -33,7 +43,7 @@ namespace DistSSE{
 
 			ClientContext context;
 
-			ExecuteStatus exec_status;	
+			ExecuteStatus exec_status;
 	
 			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()) ) );
 
@@ -186,7 +196,6 @@ namespace DistSSE{
 		        writer->Write( client->gen_update_request("1", kw_20, ind));
 		        writer->Write( client->gen_update_request("1", kw_30, ind));
 		        writer->Write( client->gen_update_request("1", kw_60, ind));
-				
 
 		    }
 		    
@@ -230,5 +239,80 @@ namespace DistSSE{
 
 		        // client->end_update_session();
 		    }
+
+
+		static void generate_trace(Client* client,  size_t N_entries) {
+			// randomly generate a large db
+			gen_db(*client, N_entries, 4);
+			logger::log(logger::DBG) << "DB generation finished."<< std::endl;
+
+			// then perform trace generation
+			const std::string TraceKeywordGroupBase = "Trace-";
+
+			AutoSeededRandomPool prng;
+			int ind_len = AES::BLOCKSIZE / 2; // AES::BLOCKSIZE = 16
+			byte tmp[ind_len];
+
+
+			UpdateRequestMessage request;
+			ClientContext context;
+			ExecuteStatus exec_status;
+			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()) ) );
+			std::unique_ptr<ClientWriterInterface<UpdateRequestMessage>> writer(stub_->batch_update(&context, &exec_status));
+
+			// generate some trash data to certain large...
+			double search_rate[4] = {0.0001, 0.001, 0.01, 0.1};
+			std::string l, e;
+
+			bool not_repeat_search = true;
+			srand(N_entries);
+			int search_time = 0, entries_counter = 0;
+			
+			Status s;
+			for(size_t i = 0; i < 4; i++ ) {
+
+				// double search_rate = search_rate[i];
+				for(size_t j = 4; j <= 4; j++) {
+					std::string keyword = TraceKeywordGroupBase + "_" + std::to_string(i) + "_" + std::to_string(j);
+					
+					for(size_t k = 0; k < pow(10, j);) {
+						double r = rand_0_to_1();
+						bool is_search = sample(r, search_rate[i]);
+						
+						if (!is_search) {// if not a search query
+							prng.GenerateBlock(tmp, sizeof(tmp));
+							std::string ind = /*Util.str2hex*/(std::string((const char*)tmp, ind_len));
+
+		 					entries_counter++;
+							if((entries_counter % 100) == 0) {
+								logger::log(logger::INFO) << "Trace DB generation: " << ": " << (entries_counter) << " entries generated\r" << std::flush;					}
+						    // client->gen_update_request("1", keyword, ind, );
+							bool success = writer->Write( client->gen_update_request("1", keyword, ind) );
+							assert(success);
+							
+							// only update counts
+							k++;
+						}
+						else /*if(not_repeat_search)*/ {
+							// 执行搜索
+							client->search(keyword);
+							search_time++ ;
+							// not_repeat_search = false ;
+						}
+					}// for k	
+				}//for j
+			}//for i
+
+			logger::log(logger::INFO) << "Trace DB generation: " << ": " << (entries_counter) << " entries generated" <<std::endl;
+			
+
+			logger::log(logger::INFO) << "search time: "<<search_time << std::endl ;			
+
+			// now tell server we have finished
+			writer->WritesDone();
+	    	s = writer->Finish();
+			assert(s.ok());
+		}// generate_trace
+
 
 }//namespace DistSSE
