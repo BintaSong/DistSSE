@@ -37,8 +37,8 @@ int main(int argc, char** argv) {
 	std::string kw, tw;
 	size_t uc;
 
-	client.gen_search_token(w, kw, tw, uc);
-	client.search(kw, tw, uc);
+	// client.gen_search_token(w, kw, tw, uc);
+	// client.search(kw, tw, uc);
 	
 	client.increase_search_time(w);
 	client.set_update_time(w, 0);

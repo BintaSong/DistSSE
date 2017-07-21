@@ -241,7 +241,7 @@ namespace DistSSE{
 		    }
 
 
-		static void generate_trace(Client* client,  size_t N_entries) {
+		static void generate_trace(Client* client, size_t N_entries) {
 			// randomly generate a large db
 			gen_db(*client, N_entries, 4);
 			logger::log(logger::DBG) << "DB generation finished."<< std::endl;
@@ -265,9 +265,9 @@ namespace DistSSE{
 			std::string l, e;
 
 			bool not_repeat_search = true;
-			srand(N_entries);
 			int search_time = 0, entries_counter = 0;
-			
+			srand(N_entries);
+
 			Status s;
 			for(size_t i = 0; i < 4; i++ ) {
 

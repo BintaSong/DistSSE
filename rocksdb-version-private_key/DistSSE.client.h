@@ -350,7 +350,7 @@ public:
 
 			uc = get_update_time(w);
 
-			logger::log(logger::INFO) <<"In gen_search_token==>  " << "st:" << st << ", tw: " << tw <<", uc:"<< uc <<std::endl;
+			// logger::log(logger::INFO) <<"In gen_search_token==>  " << "st:" << st << ", tw: " << tw <<", uc:"<< uc <<std::endl;
 			
 		}
 		catch(const CryptoPP::Exception& e){
@@ -361,10 +361,21 @@ public:
 
 // 客户端RPC通信部分
 
+	std::string search(const std::string w) {
+		std::string tw, st;
+		size_t uc;
+		gen_search_token(w, tw, st, uc);
+		
+		search(tw, st, uc);
+
+		return "OK";
+	}
+
+
 	std::string search(const std::string tw, const std::string st, const size_t uc) {
 		// request包含 enc_token 和 st
 		SearchRequestMessage request;
-		if( uc == 0 ) request.set_kw(""); // attentaion here !!!
+		if( uc == 0 ) request.set_kw(""); // TODO attentaion here !!!
 		else request.set_kw(st);
 		request.set_tw(tw);
 		request.set_uc(uc);
@@ -382,7 +393,7 @@ public:
 			// logger::log(logger::INFO) << reply.ind()<<std::endl;
 			counter++;
 		}
-		logger::log(logger::INFO) << " search result: "<< counter << std::endl;
+		// logger::log(logger::INFO) << " search result: "<< counter << std::endl;
 		return "OK";
 	  }
 
@@ -397,31 +408,6 @@ public:
 
 		return status;
 	}
-/*
-	Status async_update(std::string op, std::string w, std::string ind) {
-		ClientContext context;
-
-		ExecuteStatus exec_status;
-		// 执行RPC
-		std::string l, e;
-		gen_update_token(op, w, ind, l, e); // update(op, w, ind, _l, _e);
-		UpdateRequestMessage update_request;
-		update_request.set_l(l);
-		update_request.set_e(e);
-
-
-		std::unique_ptr<ClientAsyncResponseReaderInterface<ExecuteStatus> > rpc( stub_->Asyncupdate(&context, update_request, &update_cq) );
-
-		// Request that, upon completion of the RPC, "reply" be updated with the
-		// server's response; "status" with the indication of whether the operation
-		// was successful. Tag the request with the integer 1.
-		Status status;
-		
-		rpc->Finish(&exec_status, &status, (void*) (update_launched_count++));
-        if(status.ok()) std::cout<< exec_status.status() <<std::endl;
-		return status;
-	}
-*/
 
 	Status update(std::string op, std::string w, std::string ind) {
 		ClientContext context;

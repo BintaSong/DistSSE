@@ -37,60 +37,36 @@ private:
 
 public:
 	DistSSEServiceImpl(const std::string db_path, const std::string cache_path, int concurrent){
+		signal(SIGINT, abort);
+
 		rocksdb::Options options;
 
-		    rocksdb::CuckooTableOptions cuckoo_options;
-            cuckoo_options.identity_as_first_hash = false;
-            cuckoo_options.hash_table_ratio = 0.9;
-            
-            
-            cuckoo_options.use_module_hash = false;
-            cuckoo_options.identity_as_first_hash = true;
-            
+	    Util::set_db_common_options(options);
 
-            options.table_cache_numshardbits = 4;
-            options.max_open_files = -1;
-            
-			options.allow_concurrent_memtable_write = true;
-    		options.enable_write_thread_adaptive_yield = true;
-            
-			options.table_factory.reset(rocksdb::NewCuckooTableFactory(cuckoo_options));
-            
-            // options.memtable_factory.reset(new rocksdb::VectorRepFactory());
-            
-            options.compression = rocksdb::kNoCompression;
-            options.bottommost_compression = rocksdb::kDisableCompressionOption;
-            
-            options.compaction_style = rocksdb::kCompactionStyleLevel;
-            options.info_log_level = rocksdb::InfoLogLevel::INFO_LEVEL;
-            
-            
-            // options.max_grandparent_overlap_factor = 10;
-            
-            options.delayed_write_rate = 8388608;
-            options.max_background_compactions = 20;
-            
-            options.disableDataSync = true;
-            options.allow_mmap_reads = true;
-            options.new_table_reader_for_compaction_inputs = true;
-            
-            options.max_bytes_for_level_base = 4294967296;
-            options.arena_block_size = 134217728;
-            options.level0_file_num_compaction_trigger = 10;
-            options.level0_slowdown_writes_trigger = 16;
-            options.hard_pending_compaction_bytes_limit = 137438953472;
-            options.target_file_size_base=201327616;
-            options.write_buffer_size=1073741824;
-    		options.create_if_missing = true;
+		rocksdb::Status s1 = rocksdb::DB::Open(options, db_path, &ss_db);
 
-    	rocksdb::Status s1 = rocksdb::DB::Open(options, db_path, &ss_db);
-    	rocksdb::Status s2 = rocksdb::DB::Open(options, cache_path, &cache_db);
-			
-			if (!s1.ok() || !s2.ok()) {
-                logger::log(logger::CRITICAL) << "Unable to open the database: " << s1.ToString() <<", s2:"<< s2.ToString()<< std::endl;
-                // db_ = NULL;
-            }
+		assert(s1.ok());
+
+		// set options for merge operation
+		/*rocksdb::Options simple_options;
+		simple_options.create_if_missing = true;
+		simple_options.merge_operator.reset(new rocksdb::StringAppendOperator() );
+		simple_options.use_fsync = true;
+
+		rocksdb::Status s2 = rocksdb::DB::Open(simple_options, cache_path, &cache_db);
+
+		assert(s1.ok());
+		assert(s2.ok());*/
+
 		MAX_THREADS = concurrent; //std::thread::hardware_concurrency();
+	}
+
+	static void abort( int signum )
+	{
+		delete ss_db;
+		// delete cache_db; 
+		logger::log(logger::INFO)<< "abort: "<< signum <<std::endl;
+	   	exit(signum);
 	}
 
 	static int store(rocksdb::DB* &db, const std::string l, const std::string e){
@@ -133,6 +109,20 @@ public:
 		}
 	}
 
+	// only used for expriment measurement
+	static void search_log(std::string kw, double search_time, int result_size) { 
+		// std::ofstream out( "search.slog", std::ios::out|std::ios::app);
+		byte k_s[17] = "0123456789abcdef";
+		byte iv_s[17] = "0123456789abcdef";
+
+		std::string keyword = Util::dec_token(k_s, AES128_KEY_LEN, iv_s, kw);
+			
+		std::string word = keyword == "" ? "cached" : keyword;
+		
+		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(search_time) + "\t" + std::to_string(search_time/		result_size) << std::endl;
+
+	}
+
 	void search(std::string tw, std::string st, size_t uc, std::set<std::string>& ID){
 	
 		std::vector<std::string> op_ind;
@@ -149,40 +139,60 @@ public:
 
 
 		std::set<std::string> result_set;
+		std::set<std::string> delete_set;
 	    _st = st;
 		
 		// logger::log(logger::INFO) << "uc: "<< uc <<std::endl;
-		logger::log(logger::INFO) <<"In gen_search_token==>  " << "st:" << st << ", tw: " << tw << ", uc: "<< uc <<std::endl;
+		// logger::log(logger::INFO) <<"In gen_search_token==>  " << "st:" << st << ", tw: " << tw << ", uc: "<< uc <<std::endl;
 		for(size_t i = 1; i <= uc; i++) {
 			l = Util::H1(tw + _st);
 
+		fuck:
 			e = get(ss_db, l);
 			if(e == "") {
 				logger::log(logger::ERROR) << "No found" <<std::endl;
-				return;
+				goto fuck;
+				// return;
 			}
 			value = Util::Xor( e, Util::H2(tw + _st) );
 			// logger::log(logger::INFO) << "value: "<< value <<std::endl;
-			ID.insert(value);
+			ID.insert( value );
 
-			 // parse(value, op, ind, rand_key);
-            parse(value, op, ind, _st);
+			// parse(value, op, ind, rand_key); 
+
+            parse(value, op, ind, _st); // At present, |st| = |key|, so we just store st too prevent envole P^-1(st_i)
+
 			/*if(op == "1")*/ result_set.insert(ind); // TODO
 			//else result_set->erase(ind);
 			
+			// remove or add 
+			/*if (op == "0") {
+				delete_set.insert(ind);		
+			}
+			else if(op == "1") {
+				std::set<std::string>::iterator it = delete_set.find(ind);
+				if (it != delete_set.end() ) {
+					delete_set.erase(ind);				
+				}else{
+					result_set.insert(ind);				
+				}
+			}*/
+
 			// recover_st( _st, rand_key, _st );
 		}
 
 		gettimeofday(&t2, NULL);
 
-  		logger::log(logger::INFO) <<"ID.size():"<< ID.size() <<" ,search time: "<< ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0/ID.size()<<" ms" <<std::endl;
+		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0;
 
-
+		search_log(tw, search_time, ID.size()); 		
+		
 		std::string ID_string = "";
 		for (std::set<std::string>::iterator it=ID.begin(); it!=ID.end(); ++it){
     		ID_string += Util::str2hex(*it) + "|";
 		}
-		store(cache_db, tw, ID_string);
+		// no cache at present
+		// store(cache_db, tw, ID_string); 
 	}
 
 // server RPC
@@ -200,7 +210,7 @@ public:
 		
 		std::set<std::string> ID;
 
-		logger::log(logger::INFO) << "searching... " <<std::endl;
+		// logger::log(logger::INFO) << "searching... " <<std::endl;
 
 		// gettimeofday(&t1, NULL);
 		search(tw, st, uc, ID);
@@ -216,7 +226,7 @@ public:
 			writer->Write(reply);
 		}
 
-		logger::log(logger::INFO) << "search done." <<std::endl;
+		// logger::log(logger::INFO) << "search done." <<std::endl;
 
 	    return Status::OK;
   	}

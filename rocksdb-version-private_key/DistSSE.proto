@@ -16,6 +16,10 @@ rpc search (SearchRequestMessage) returns (stream SearchReply) {}
 rpc update (UpdateRequestMessage) returns ( ExecuteStatus ) {}
 rpc batch_update (stream UpdateRequestMessage) returns ( ExecuteStatus ) {}
 
+// only used for expriment simulation
+rpc cache (CacheRequestMessage) returns ( ExecuteStatus ) {}
+rpc batch_cache (stream CacheRequestMessage) returns ( ExecuteStatus ) {}
+
 }
 
 message SetupRequestMessage
@@ -26,16 +30,23 @@ message SetupRequestMessage
 
 message SearchRequestMessage
 {
-    bytes kw = 1;// `kw` now is `st`, we don't change the name for consistence wittout modification
+    bytes kw = 1;
     bytes tw = 2;
 	uint64 uc = 3; // update after last search
 
 }
 
+
 message SearchReply
 {
 	bytes ind = 1;
 
+}
+
+message CacheRequestMessage
+{
+    bytes tw = 1;
+    bytes inds = 2;
 }
 
 message UpdateRequestMessage

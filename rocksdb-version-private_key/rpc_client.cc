@@ -20,22 +20,20 @@ int main(int argc, char** argv) {
 	std::cout << "update begin..." <<std::endl;
 
   	// client.test_upload(wsize, dsize);
-	std::atomic_int total(0);
-	unsigned int n_threads = atoi(argv[4]);
-	gen_db(client, N_entry, n_threads);
+	//std::atomic_int total(0);
+	//unsigned int n_threads = atoi(argv[4]);
+	//gen_db(client, N_entry, n_threads);
+	generate_trace(&client, N_entry);
 	
   	std::cout <<"update done." <<std::endl;
 	
 	std::string w = std::string(argv[3]);
 	std::string st = "ffff", tw;
 	size_t uc;
-
-	client.gen_search_token(w, tw, st, uc);
-	std::cout <<"In rpc-client==>  " << "st:" << st << ", tw: " << tw <<", uc:"<< uc <<std::endl;
-	client.search(tw, st, uc);
 	
-	// client.increase_search_time(w);
-	// client.set_update_time(w, 0);
+	client.gen_search_token(w, tw, st, uc);
+	// std::cout <<"In rpc-client==>  " << "st:" << st << ", tw: " << tw <<", uc:"<< uc <<std::endl;
+	// client.search(tw, st, uc);
 	
 	std::cout << "search done: "<< std::endl;
 	
