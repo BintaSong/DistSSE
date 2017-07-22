@@ -184,9 +184,9 @@ namespace DistSSE{
 		        }*/
 		                
 		        (*entries_counter)++;
-		        if (((*entries_counter) % 100) == 0) {
+		        /*if (((*entries_counter) % 100) == 0) {
 		            logger::log(logger::INFO) << "Random DB generation: " << ": " << (*entries_counter) << " entries generated\r" << std::flush;
-		        }
+		        }*/
 		            
 		        writer->Write( client->gen_update_request("1", kw_10_1, ind) );
 		        writer->Write( client->gen_update_request("1", kw_10_2, ind));
@@ -284,8 +284,8 @@ namespace DistSSE{
 							std::string ind = /*Util.str2hex*/(std::string((const char*)tmp, ind_len));
 
 		 					entries_counter++;
-							if((entries_counter % 100) == 0) {
-								logger::log(logger::INFO) << "Trace DB generation: " << ": " << (entries_counter) << " entries generated\r" << std::flush;					}
+							/*if((entries_counter % 100) == 0) {
+								logger::log(logger::INFO) << "Trace DB generation: " << ": " << (entries_counter) << " entries generated\r" << std::flush;					}*/
 						    // client->gen_update_request("1", keyword, ind, );
 							bool success = writer->Write( client->gen_update_request("1", keyword, ind) );
 							assert(success);

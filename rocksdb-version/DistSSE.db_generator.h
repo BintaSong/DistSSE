@@ -184,9 +184,9 @@ namespace DistSSE{
 		        }*/
 		                
 		        (*entries_counter)++;
-		        if (((*entries_counter) % 100) == 0) {
+		        /*if (((*entries_counter) % 100) == 0) {
 		            logger::log(logger::INFO) << "Random DB generation: " << ": " << (*entries_counter) << " entries generated\r" << std::flush;
-		        }
+		  	     }*/
 		            
 		        writer->Write( client->gen_update_request("1", kw_10_1, ind) );
 		        writer->Write( client->gen_update_request("1", kw_10_2, ind));
@@ -234,8 +234,7 @@ namespace DistSSE{
 
 				gettimeofday(&t2, NULL);
 
-				logger::log(logger::INFO) <<"update time: "<<((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec -t1.tv_usec) /1000.0<<" ms" <<std::endl;
-
+				logger::log(logger::INFO) <<"total update time: "<<((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec -t1.tv_usec) /1000.0<<" ms" <<std::endl;
 
 		        // client->end_update_session();
 		    }
@@ -284,8 +283,8 @@ namespace DistSSE{
 							std::string ind = /*Util.str2hex*/(std::string((const char*)tmp, ind_len));
 
 		 					entries_counter++;
-							if((entries_counter % 100) == 0) {
-								logger::log(logger::INFO) << "Trace DB generation: " << ": " << (entries_counter) << " entries generated\r" << std::flush;					}
+							//if(( entries_counter == N_entries) {
+							//	logger::log(logger::INFO) << "Trace DB generation: " << ": " << (entries_counter) << " entries generated\r" << std::flush;					//}
 						    // client->gen_update_request("1", keyword, ind, );
 							bool success = writer->Write( client->gen_update_request("1", keyword, ind) );
 							assert(success);
