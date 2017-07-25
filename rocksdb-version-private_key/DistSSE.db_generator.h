@@ -15,6 +15,11 @@ namespace DistSSE{
 			return ((double) rand() / (RAND_MAX));		
 		}
 
+		static void search_log(std::string word, int counter) {
+		
+				std::cout << word + "\t" + std::to_string(counter)<< std::endl;
+		}
+
 		static void generation_job(Client* client, unsigned int thread_id, size_t N_entries, unsigned int step, std::atomic_size_t* entries_counter) {
 			const std::string kKeyword01PercentBase    = "0.1";
 		    const std::string kKeyword1PercentBase     = "1";
@@ -186,7 +191,7 @@ namespace DistSSE{
 		        (*entries_counter)++;
 		        /*if (((*entries_counter) % 100) == 0) {
 		            logger::log(logger::INFO) << "Random DB generation: " << ": " << (*entries_counter) << " entries generated\r" << std::flush;
-		        }*/
+		  	     }*/
 		            
 		        writer->Write( client->gen_update_request("1", kw_10_1, ind) );
 		        writer->Write( client->gen_update_request("1", kw_10_2, ind));
@@ -234,14 +239,13 @@ namespace DistSSE{
 
 				gettimeofday(&t2, NULL);
 
-				logger::log(logger::INFO) <<"update time: "<<((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec -t1.tv_usec) /1000.0<<" ms" <<std::endl;
-
+				logger::log(logger::INFO) <<"total update time: "<<((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec -t1.tv_usec) /1000.0<<" ms" <<std::endl;
 
 		        // client->end_update_session();
 		    }
 
 
-		static void generate_trace(Client* client,  size_t N_entries) {
+		static void generate_trace(Client* client, size_t N_entries) {
 			// randomly generate a large db
 			gen_db(*client, N_entries, 4);
 			logger::log(logger::DBG) << "DB generation finished."<< std::endl;
@@ -265,14 +269,14 @@ namespace DistSSE{
 			std::string l, e;
 
 			bool not_repeat_search = true;
+			int search_time = 0, entries_counter = 0, update_time = 0;
 			srand(N_entries);
-			int search_time = 0, entries_counter = 0;
-			
+
 			Status s;
 			for(size_t i = 0; i < 4; i++ ) {
 
 				// double search_rate = search_rate[i];
-				for(size_t j = 5; j <= 5; j++) {
+				for(size_t j = 4; j <= 4; j++) {
 					std::string keyword = TraceKeywordGroupBase + "_" + std::to_string(i) + "_" + std::to_string(j);
 					
 					for(size_t k = 0; k < pow(10, j);) {
@@ -284,23 +288,26 @@ namespace DistSSE{
 							std::string ind = /*Util.str2hex*/(std::string((const char*)tmp, ind_len));
 
 		 					entries_counter++;
-							/*if((entries_counter % 100) == 0) {
-								logger::log(logger::INFO) << "Trace DB generation: " << ": " << (entries_counter) << " entries generated\r" << std::flush;					}*/
+							//if(( entries_counter == N_entries) {
+							//	logger::log(logger::INFO) << "Trace DB generation: " << ": " << (entries_counter) << " entries generated\r" << std::flush;					//}
 						    // client->gen_update_request("1", keyword, ind, );
 							bool success = writer->Write( client->gen_update_request("1", keyword, ind) );
 							assert(success);
 							
 							// only update counts
 							k++;
+							update_time++;
 						}
 						else /*if(not_repeat_search)*/ {
 							// 执行搜索
 							client->search(keyword);
 							search_time++ ;
+							search_log(keyword, update_time);
 							// not_repeat_search = false ;
 						}
-					}// for k	
+					}// for k					
 				}//for j
+				update_time = 0;
 			}//for i
 
 			logger::log(logger::INFO) << "Trace DB generation: " << ": " << (entries_counter) << " entries generated" <<std::endl;
