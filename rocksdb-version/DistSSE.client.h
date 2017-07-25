@@ -313,7 +313,8 @@ public:
 
 			tw = gen_enc_token( w + "|" + std::to_string(-1) );
 			if(uc != 0)	kw = gen_enc_token( w + "|" + std::to_string(sc) );
-			else kw = "";
+			else kw = gen_enc_token( w + "|" + "cache" );
+			//else kw = "";
 			
 		}
 		catch(const CryptoPP::Exception& e){

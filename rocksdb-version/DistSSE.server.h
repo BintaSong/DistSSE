@@ -225,11 +225,12 @@ public:
 
 			cache_ind = get(cache_db, tw);
 			Util::split(cache_ind, '|', ID); // get all cached inds					
+			gettimeofday(&t2, NULL);
+
+			std::string merge_string;				
 			
 			if(kw != "") {
-				//================ God bless =================
-
-				std::string merge_string;
+				// ================ God bless =================
 
 				if (uc < 1000) {
 
@@ -238,7 +239,7 @@ public:
 	
 				}else {
 					
-					int thread_num = min( uc / 1000, MAX_THREADS );
+					int thread_num = min( uc / 1000, MAX_THREADS);
 					
 					int step = uc / thread_num + 1;
 					
@@ -254,21 +255,22 @@ public:
 					// join theads
 					for (auto& t : threads) {
 						t.join();
-					}				
+					}
 
 					merge(result_set, MAX_THREADS, ID, merge_string);
 				}
 
 				// merge to cache can be done by a seperate thread backgroud, the result can be returned before.
 				// so we don't count the time...
-				gettimeofday(&t2, NULL);				
-
-				if (merge_string != "") {
-					int s = merge(cache_db, tw, merge_string);
-					assert(s == 0);
-				}
 			}
 			
+			gettimeofday(&t2, NULL);		
+
+			if (merge_string != "") {
+				int s = merge(cache_db, tw, merge_string);
+				assert(s == 0);
+			}
+
 			search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
 
 			search_log(kw, search_time, ID.size());
