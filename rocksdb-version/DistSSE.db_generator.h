@@ -270,7 +270,7 @@ namespace DistSSE{
 
 			bool not_repeat_search = true;
 			int search_time = 0, entries_counter = 0, update_time = 0;
-			srand(N_entries);
+			srand(123);
 
 			Status s;
 			for(size_t i = 0; i < 4; i++ ) {

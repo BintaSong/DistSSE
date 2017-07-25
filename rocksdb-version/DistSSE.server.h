@@ -34,14 +34,17 @@ private:
 	static rocksdb::DB* cache_db;
     int MAX_THREADS;
 
+	static std::mutex ssdb_write_mtx;
+	static std::mutex cache_write_mtx;
+
 public:
 	DistSSEServiceImpl(const std::string db_path, std::string cache_path, int concurrent){
 
   		signal(SIGINT, abort);
 
 		rocksdb::Options options;
-
-	    Util::set_db_common_options(options);
+    	options.create_if_missing = true;
+	    // Util::set_db_common_options(options);
 
 		rocksdb::Status s1 = rocksdb::DB::Open(options, db_path, &ss_db);
 
@@ -68,7 +71,12 @@ public:
 	}
 
 	static int store(rocksdb::DB* &db, const std::string l, const std::string e){
-		rocksdb::Status s = db->Put(rocksdb::WriteOptions(), l, e);
+		rocksdb::Status s; 		
+		{
+			std::lock_guard<std::mutex> lock(ssdb_write_mtx);		
+			s = db->Put(rocksdb::WriteOptions(), l, e);
+		}
+
 		assert(s.ok());
 		if (s.ok())	return 0;
 		else return -1;
@@ -76,7 +84,11 @@ public:
 
 	static std::string get(rocksdb::DB* &db, const std::string l){
 		std::string tmp;
-		rocksdb::Status s = db->Get(rocksdb::ReadOptions(), l, &tmp);
+		rocksdb::Status s;
+		{
+			std::lock_guard<std::mutex> lock(ssdb_write_mtx);
+			s = db->Get(rocksdb::ReadOptions(), l, &tmp);
+		}
 		// assert(s.ok());
 		if (s.ok())	return tmp;
 		else return "";
@@ -91,8 +103,12 @@ public:
 			rocksdb::WriteOptions write_option = rocksdb::WriteOptions();
 			write_option.sync = true;
 			// write_option.disableWAL = true;
-			rocksdb::Status s = db->Merge(write_option, l, append_str);
-			
+			rocksdb::Status s;
+			{
+				std::lock_guard<std::mutex> lock(cache_write_mtx);
+				s = db->Merge(write_option, l, append_str);
+			}
+
 			if (s.ok())	status = 0;
 
 		}catch(std::exception &e) {
@@ -111,8 +127,11 @@ public:
 			rocksdb::WriteOptions write_option = rocksdb::WriteOptions();
 			write_option.sync = true;
 			// write_option.disableWAL = true;
-			rocksdb::Status s = db->Delete(write_option, l);
-			
+			rocksdb::Status s;
+			{
+				std::lock_guard<std::mutex> lock(ssdb_write_mtx);				
+				s = db->Delete(write_option, l);
+			}
 			if (s.ok())	status = 0;
 
 		}catch(std::exception &e) {
@@ -182,7 +201,7 @@ public:
 			e = get(ss_db, l);
 
 			if (e.compare("") == 0) {// unknow reason for read losing TODO
-				// logger::log(logger::ERROR) << "ERROR in search, null str found: " << i <<std::endl;
+				logger::log(logger::ERROR) << "ERROR in search, null str found: " << i <<std::endl;
 				continue;
 			}
 			
@@ -377,7 +396,8 @@ public:
 // static member must declare out of main function !!!
 rocksdb::DB* DistSSE::DistSSEServiceImpl::ss_db;
 rocksdb::DB* DistSSE::DistSSEServiceImpl::cache_db;
-
+std::mutex DistSSE::DistSSEServiceImpl::ssdb_write_mtx;
+std::mutex DistSSE::DistSSEServiceImpl::cache_write_mtx;
 
 void RunServer(std::string db_path, std::string cache_path, int concurrent) {
 
