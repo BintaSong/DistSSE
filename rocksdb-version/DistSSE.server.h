@@ -258,16 +258,16 @@ public:
 
 					merge(result_set, MAX_THREADS, ID, merge_string);
 				}
-				
-				// merge to cache
+
+				// merge to cache can be done by a seperate thread backgroud, the result can be returned before.
+				// so we don't count the time...
+				gettimeofday(&t2, NULL);				
+
 				if (merge_string != "") {
 					int s = merge(cache_db, tw, merge_string);
 					assert(s == 0);
 				}
-
 			}
-
-			gettimeofday(&t2, NULL);
 			
 			search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
 

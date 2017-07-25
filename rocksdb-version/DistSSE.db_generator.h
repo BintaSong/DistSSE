@@ -15,6 +15,11 @@ namespace DistSSE{
 			return ((double) rand() / (RAND_MAX));		
 		}
 
+		static void search_log(std::string word, int counter) {
+		
+				std::cout << word + "\t" + std::to_string(counter)<< std::endl;
+		}
+
 		static void generation_job(Client* client, unsigned int thread_id, size_t N_entries, unsigned int step, std::atomic_size_t* entries_counter) {
 			const std::string kKeyword01PercentBase    = "0.1";
 		    const std::string kKeyword1PercentBase     = "1";
@@ -264,7 +269,7 @@ namespace DistSSE{
 			std::string l, e;
 
 			bool not_repeat_search = true;
-			int search_time = 0, entries_counter = 0;
+			int search_time = 0, entries_counter = 0, update_time = 0;
 			srand(N_entries);
 
 			Status s;
@@ -291,15 +296,18 @@ namespace DistSSE{
 							
 							// only update counts
 							k++;
+							update_time++;
 						}
 						else /*if(not_repeat_search)*/ {
 							// 执行搜索
 							client->search(keyword);
 							search_time++ ;
+							search_log(keyword, update_time);
 							// not_repeat_search = false ;
 						}
-					}// for k	
+					}// for k					
 				}//for j
+				update_time = 0;
 			}//for i
 
 			logger::log(logger::INFO) << "Trace DB generation: " << ": " << (entries_counter) << " entries generated" <<std::endl;
