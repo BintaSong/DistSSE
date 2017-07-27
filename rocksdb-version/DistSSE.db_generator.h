@@ -273,7 +273,7 @@ namespace DistSSE{
 			srand(123);
 
 			Status s;
-			for(size_t i = 0; i < 4; i++ ) {
+			for(size_t i = 0; i < 4; i++) {
 
 				// double search_rate = search_rate[i];
 				for(size_t j = 4; j <= 4; j++) {
@@ -305,7 +305,7 @@ namespace DistSSE{
 							search_log(keyword, update_time);
 							// not_repeat_search = false ;
 						}
-					}// for k					
+					}// for k	
 				}//for j
 				update_time = 0;
 			}//for i

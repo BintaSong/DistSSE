@@ -44,7 +44,7 @@ public:
 		rocksdb::Options options;
     	options.create_if_missing = true;
 
-	    // Util::set_db_common_options(options);
+	    Util::set_db_common_options(options);
 
 		rocksdb::Status s1 = rocksdb::DB::Open(options, db_path, &ss_db);
 
@@ -155,16 +155,35 @@ public:
 		
 		// logger::log(logger::INFO) << "uc: "<< uc <<std::endl;
 		// logger::log(logger::INFO) <<"In gen_search_token==>  " << "st:" << st << ", tw: " << tw << ", uc: "<< uc <<std::endl;
-		for(size_t i = 1; i <= uc; i++) {
-			l = Util::H1(tw + _st);
+		
+		int repeat;
 
-		fuck:
+		for(size_t i = 1; i <= uc; i++) {
+			repeat = 0;
+
+			l = Util::H1(tw + _st);
+		
+		redo:
 			e = get(ss_db, l);
+
 			if(e == "") {
-				logger::log(logger::ERROR) << "No found" <<std::endl;
-				goto fuck;
-				// return;
+				//goto redo;
+				if( repeat < 100) {
+					repeat++; 
+					goto redo;
+				}
+				else {
+					logger::log(logger::ERROR) << "No found" <<std::endl;
+					gettimeofday(&t2, NULL);
+
+					double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0;
+
+					search_log(tw, search_time, ID.size());
+				
+					return;
+				}
 			}
+
 			value = Util::Xor( e, Util::H2(tw + _st) );
 			// logger::log(logger::INFO) << "value: "<< value <<std::endl;
 			ID.insert( value );
@@ -196,7 +215,7 @@ public:
 
 		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0;
 
-		search_log(tw, search_time, ID.size()); 		
+		search_log(tw, search_time, ID.size());	
 		
 		std::string ID_string = "";
 		for (std::set<std::string>::iterator it=ID.begin(); it!=ID.end(); ++it){

@@ -29,8 +29,6 @@ int main(int argc, char** argv) {
 	// std::cout << search_rate <<std::endl;
 	generate_trace(&client, N_entry);
 	
-
-
   	std::cout <<"update done." <<std::endl;
 	
 	std::string w = std::string(argv[3]);

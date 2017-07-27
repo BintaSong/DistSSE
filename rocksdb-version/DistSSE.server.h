@@ -242,11 +242,11 @@ public:
 			
 			gettimeofday(&t1, NULL);
 
-			cache_ind = get(cache_db, tw);
-			Util::split(cache_ind, '|', ID); // get all cached inds					
+			// cache_ind = get(cache_db, tw);
+			// Util::split(cache_ind, '|', ID); // get all cached inds					
 			gettimeofday(&t2, NULL);
 
-			std::string merge_string;				
+			std::string merge_string;	
 			
 			if(kw != "") {
 				// ================ God bless =================
@@ -292,7 +292,7 @@ public:
 
 			search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
 
-			search_log(kw, search_time, ID.size());
+			search_log(kw, search_time, uc);
 
 
 		}catch(const std::exception& e)
