@@ -303,7 +303,7 @@ public:
 		}
 	}
 
-	UpdateRequestMessage gen_update_request(std::string op, std::string w, std::string ind){
+	UpdateRequestMessage gen_update_request(std::string op, std::string w, std::string ind, int counter){
 		try{
 			std::string enc_token, rand_key;
 			UpdateRequestMessage msg;
@@ -327,6 +327,7 @@ public:
 
 			msg.set_l(l);
 			msg.set_e(e);
+			msg.set_counter(counter);
 
 			set_st(w, new_st); // TODO
 			increase_update_time(w);

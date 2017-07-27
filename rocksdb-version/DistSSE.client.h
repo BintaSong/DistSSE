@@ -256,7 +256,7 @@ public:
 		}
 	}
 
-	UpdateRequestMessage gen_update_request(std::string op, std::string w, std::string ind){
+	UpdateRequestMessage gen_update_request(std::string op, std::string w, std::string ind, int counter){
 		try{
 			std::string enc_token;
 			UpdateRequestMessage msg;
@@ -276,6 +276,7 @@ public:
 			e = Util::Xor( op + ind, Util::H2(kw + std::to_string(uc + 1)) );
 			msg.set_l(l);
 			msg.set_e(e);
+			msg.set_counter(counter);
 
 			set_update_time(w, uc + 1); // TODO 	
 

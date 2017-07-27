@@ -52,6 +52,7 @@ message UpdateRequestMessage
 {
     bytes l = 1;
     bytes e = 2;
+	uint64 counter = 3;
 }
 
 message ExecuteStatus

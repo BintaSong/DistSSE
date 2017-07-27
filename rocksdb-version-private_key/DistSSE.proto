@@ -33,7 +33,6 @@ message SearchRequestMessage
     bytes kw = 1;
     bytes tw = 2;
 	uint64 uc = 3; // update after last search
-
 }
 
 
@@ -53,6 +52,7 @@ message UpdateRequestMessage
 {
     bytes l = 1;
     bytes e = 2;
+	uint64 counter = 3;
 }
 
 message ExecuteStatus

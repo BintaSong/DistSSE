@@ -31,11 +31,12 @@ namespace DistSSE{
 class DistSSEServiceImpl final : public RPC::Service {
 private:	
 	static rocksdb::DB* ss_db;
+	// static rocksdb::DB* ss_db_read;
 	static rocksdb::DB* cache_db;
     int MAX_THREADS;
 
-	static std::mutex ssdb_write_mtx;
-	static std::mutex cache_write_mtx;
+	//static std::mutex ssdb_write_mtx;
+	//static std::mutex cache_write_mtx;
 
 public:
 	DistSSEServiceImpl(const std::string db_path, std::string cache_path, int concurrent){
@@ -44,9 +45,11 @@ public:
 
 		rocksdb::Options options;
     	options.create_if_missing = true;
-	    // Util::set_db_common_options(options);
+	    Util::set_db_common_options(options);
+		// options.use_fsync = true;
 
 		rocksdb::Status s1 = rocksdb::DB::Open(options, db_path, &ss_db);
+		// rocksdb::Status s2 = rocksdb::DB::OpenForReadOnly(options, db_path, &ss_db_read);
 
 		// set options for merge operation
 		rocksdb::Options simple_options;
@@ -54,10 +57,11 @@ public:
 		simple_options.merge_operator.reset(new rocksdb::StringAppendOperator() );
 		simple_options.use_fsync = true;
 
-		rocksdb::Status s2 = rocksdb::DB::Open(simple_options, cache_path, &cache_db);
+		rocksdb::Status s3 = rocksdb::DB::Open(simple_options, cache_path, &cache_db);
 
 		assert(s1.ok());
-		assert(s2.ok());
+		// assert(s2.ok());
+		assert(s3.ok());
 
 		MAX_THREADS = concurrent; //std::thread::hardware_concurrency();
 	}
@@ -71,10 +75,13 @@ public:
 	}
 
 	static int store(rocksdb::DB* &db, const std::string l, const std::string e){
-		rocksdb::Status s; 		
+		rocksdb::Status s; 	
+		rocksdb::WriteOptions write_option = rocksdb::WriteOptions();
+		// write_option.sync = true;
+		// write_option.disableWAL = false;
 		{
-			std::lock_guard<std::mutex> lock(ssdb_write_mtx);		
-			s = db->Put(rocksdb::WriteOptions(), l, e);
+			//std::lock_guard<std::mutex> lock(ssdb_write_mtx);		
+			s = db->Put(write_option, l, e);
 		}
 
 		assert(s.ok());
@@ -85,13 +92,16 @@ public:
 	static std::string get(rocksdb::DB* &db, const std::string l){
 		std::string tmp;
 		rocksdb::Status s;
+	
+	//redo:
 		{
-			std::lock_guard<std::mutex> lock(ssdb_write_mtx);
+			//std::lock_guard<std::mutex> lock(ssdb_write_mtx);
 			s = db->Get(rocksdb::ReadOptions(), l, &tmp);
 		}
-		// assert(s.ok());
-		if (s.ok())	return tmp;
-		else return "";
+
+		if (!s.ok())	std::cerr << "in get() " << s.ToString()<< std::endl;
+		
+ 	 return tmp;
 	}
 
 	static int merge(rocksdb::DB* &db, const std::string l, const std::string append_str) {
@@ -101,11 +111,11 @@ public:
 		try{
 
 			rocksdb::WriteOptions write_option = rocksdb::WriteOptions();
-			write_option.sync = true;
-			// write_option.disableWAL = true;
+			//write_option.sync = true;
+			//write_option.disableWAL = true;
 			rocksdb::Status s;
 			{
-				std::lock_guard<std::mutex> lock(cache_write_mtx);
+				//std::lock_guard<std::mutex> lock(cache_write_mtx);
 				s = db->Merge(write_option, l, append_str);
 			}
 
@@ -125,11 +135,11 @@ public:
 		try{
 
 			rocksdb::WriteOptions write_option = rocksdb::WriteOptions();
-			write_option.sync = true;
+			//write_option.sync = true;
 			// write_option.disableWAL = true;
 			rocksdb::Status s;
 			{
-				std::lock_guard<std::mutex> lock(ssdb_write_mtx);				
+				//std::lock_guard<std::mutex> lock(ssdb_write_mtx);				
 				s = db->Delete(write_option, l);
 			}
 			if (s.ok())	status = 0;
@@ -165,12 +175,13 @@ public:
 
 		bool flag = false;
 		for(int i = begin + 1; i <= end; i++) {
+
 			l = Util::H1(kw + std::to_string(i));
 			// logger::log(logger::INFO) << "server.search(), l:" << l << ", kw: " << kw <<std::endl;
 			e = get(ss_db, l);
 			if (e.compare("") == 0) {// unknow reason for read losing TODO
-				// logger::log(logger::ERROR) << "ERROR in search, null str found: " << i <<std::endl;
-				continue;
+				logger::log(logger::ERROR) << "ERROR in search, null str found: " << l << l.length() <<std::endl;
+				//continue;
 			}
 			
 			value = Util::Xor( e, Util::H2(kw + std::to_string(i)) );
@@ -192,20 +203,26 @@ public:
 		std::string ind, op;
 		std::string l, e, value;
 
-
 		for(int i = begin + 1; i <= end; i++) {
 
 			l = Util::H1(kw + std::to_string(i));
 			// logger::log(logger::INFO) << "server.search(), l:" << l << ", kw: " << kw <<std::endl;
+			
+			bool flag = false;
 
+			// redo:
 			e = get(ss_db, l);
 
-			if (e.compare("") == 0) {// unknow reason for read losing TODO
-				logger::log(logger::ERROR) << "ERROR in search, null str found: " << i <<std::endl;
-				continue;
+			if (e.compare("") == 0) {
+				logger::log(logger::ERROR) << "ERROR in search, null str found, i= "<< i<<", begin: " << begin<< ", end: " << end <<std::endl;
+				
+				flag = true;
+				// goto redo;
+				// continue;
 			}
+			// if(flag) exit(-1);
 			
-			value = Util::Xor( e, Util::H2(kw + std::to_string(i)) );
+			value = Util::Xor(e, Util::H2(kw + std::to_string(i)) );
 
 			parse(value, op, ind);
 			
@@ -242,18 +259,17 @@ public:
 			
 			gettimeofday(&t1, NULL);
 
-			// cache_ind = get(cache_db, tw);
-			// Util::split(cache_ind, '|', ID); // get all cached inds					
+			//cache_ind = get(cache_db, tw);
+			//Util::split(cache_ind, '|', ID); // get all cached inds					
 			gettimeofday(&t2, NULL);
 
 			std::string merge_string;	
 			
 			if(kw != "") {
-				// ================ God bless =================
 
 				if (uc < 1000) {
 
-					search_single(kw, 0, uc, ID,  merge_string);
+					search_single( kw, 0, uc, ID, merge_string );
 					// std::cout<< "ID.size(): " << ID.size() <<std::endl;
 	
 				}else {
@@ -285,14 +301,14 @@ public:
 			
 			gettimeofday(&t2, NULL);		
 
-			if (merge_string != "") {
+			/*if (merge_string != "") {
 				int s = merge(cache_db, tw, merge_string);
 				assert(s == 0);
 			}
-
+			*/
 			search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
 
-			search_log(kw, search_time, uc);
+			search_log(kw, search_time, ID.size());
 
 
 		}catch(const std::exception& e)
@@ -342,11 +358,12 @@ public:
 	Status update(ServerContext* context, const UpdateRequestMessage* request, ExecuteStatus* response) {
 		std::string l = request->l();
 		std::string e = request->e();
-		//std::cout<<"ut: "<<ut<< " # " <<"enc_value: "<<enc_value<<std::endl;
+		std::cout<<"in update(), counter:  "<<request->counter()<<std::endl;
 		// TODO 更新数据库之前要加锁
 
 		int status = store(ss_db, l, e);
 		// TODO 更新之后需要解锁
+		assert(status == 0);
 
 		if(status != 0) {
 			response->set_status(false);
@@ -362,10 +379,12 @@ public:
 		std::string e;
 		// TODO 读取数据库之前要加锁，读取之后要解锁
 		UpdateRequestMessage request;
-		while (reader->Read(&request)){
+		while (reader->Read(&request)) {
 			l = request.l();
 			e = request.e();
+			// std::cout<<"in update(), counter:  "<<request.counter()<<std::endl;
 			store(ss_db, l, e);
+		  //  assert(status == 0);
 		}
 		// TODO 读取之后需要解锁
 
@@ -395,9 +414,11 @@ public:
 
 // static member must declare out of main function !!!
 rocksdb::DB* DistSSE::DistSSEServiceImpl::ss_db;
+// rocksdb::DB* DistSSE::DistSSEServiceImpl::ss_db_read;
 rocksdb::DB* DistSSE::DistSSEServiceImpl::cache_db;
-std::mutex DistSSE::DistSSEServiceImpl::ssdb_write_mtx;
-std::mutex DistSSE::DistSSEServiceImpl::cache_write_mtx;
+
+//std::mutex DistSSE::DistSSEServiceImpl::ssdb_write_mtx;
+//std::mutex DistSSE::DistSSEServiceImpl::cache_write_mtx;
 
 void RunServer(std::string db_path, std::string cache_path, int concurrent) {
 

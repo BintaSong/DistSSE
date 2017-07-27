@@ -1,7 +1,7 @@
 #include "DistSSE.client.h"
 #include "DistSSE.Util.h"
 #include <cmath>
-
+#include <chrono>
 
 namespace DistSSE{
 
@@ -20,7 +20,7 @@ namespace DistSSE{
 				std::cout << word + "\t" + std::to_string(counter)<< std::endl;
 		}
 
-		static void generation_job(Client* client, unsigned int thread_id, size_t N_entries, unsigned int step, std::atomic_size_t* entries_counter) {
+	/*	static void generation_job(Client* client, unsigned int thread_id, size_t N_entries, unsigned int step, std::atomic_size_t* entries_counter) {
 			const std::string kKeyword01PercentBase    = "0.1";
 		    const std::string kKeyword1PercentBase     = "1";
 		    const std::string kKeyword10PercentBase    = "10";
@@ -32,7 +32,7 @@ namespace DistSSE{
 		    size_t counter = thread_id;
 		    std::string id_string = std::to_string(thread_id);
 		        
-		    uint32_t counter_10_1 = 0, counter_20 = 0, counter_30 = 0, counter_60 = 0, counter_10_2 = 0, counter_10_3 = 0, counter_10_4 = 0,      	               counter_10_5 = 0 /*, counter_10_6 = 0*/;
+		    uint32_t counter_10_1 = 0, counter_20 = 0, counter_30 = 0, counter_60 = 0, counter_10_2 = 0, counter_10_3 = 0, counter_10_4 = 0,      	               counter_10_5 = 0
 		        
 		    std::string keyword_01, keyword_1, keyword_10;
 		    std::string kw_10_1, kw_10_2, kw_10_3, kw_10_4, kw_10_5, kw_20, kw_30, kw_60;
@@ -57,7 +57,7 @@ namespace DistSSE{
 		    for (size_t i = 0; counter < N_entries; counter += step, i++) {
 
 				prng.GenerateBlock(tmp, sizeof(tmp));
-				std::string ind = /*Util.str2hex*/(std::string((const char*)tmp, ind_len));
+				std::string ind = (std::string((const char*)tmp, ind_len));
 		        
 		        std::string ind_01 = std::string((const char*)tmp, 3);
 		        std::string ind_1  = std::string((const char*)tmp + 3, 1);
@@ -176,22 +176,10 @@ namespace DistSSE{
 		                counter_10_5++;
 		            }
 		        }
-		        /*if (counter_10_6 < max_10_counter) {
-		            kw_10_5 = kKeyword10GroupBase  + "6_" + id_string + "_" + std::to_string(counter_10_6);
-		               
-		            if((i+1)%((size_t)(1e6)) == 0)
-		            {
-		                if (logger::severity() <= logger::DBG) {
-		                    logger::log(logger::DBG) << "Random DB generation: completed keyword: " << kw_10_5 << std::endl;
-		                }
-		                counter_10_6++;
-		            }
-		        }*/
+
 		                
 		        (*entries_counter)++;
-		        /*if (((*entries_counter) % 100) == 0) {
-		            logger::log(logger::INFO) << "Random DB generation: " << ": " << (*entries_counter) << " entries generated\r" << std::flush;
-		  	     }*/
+		  
 		            
 		        writer->Write( client->gen_update_request("1", kw_10_1, ind) );
 		        writer->Write( client->gen_update_request("1", kw_10_2, ind));
@@ -225,7 +213,7 @@ namespace DistSSE{
 		        std::vector<std::thread> threads;
 		        // std::mutex rpc_mutex;
 		        
-				struct timeval t1, t2;		
+				struct timeval t1, t2;	
 
 				gettimeofday(&t1, NULL);
 				
@@ -243,11 +231,11 @@ namespace DistSSE{
 
 		        // client->end_update_session();
 		    }
-
+*/
 
 		static void generate_trace(Client* client, size_t N_entries) {
 			// randomly generate a large db
-			gen_db(*client, N_entries, 4);
+			// gen_db(*client, N_entries, 4);
 			logger::log(logger::DBG) << "DB generation finished."<< std::endl;
 
 			// then perform trace generation
@@ -256,7 +244,6 @@ namespace DistSSE{
 			AutoSeededRandomPool prng;
 			int ind_len = AES::BLOCKSIZE / 2; // AES::BLOCKSIZE = 16
 			byte tmp[ind_len];
-
 
 			UpdateRequestMessage request;
 			ClientContext context;
@@ -273,39 +260,38 @@ namespace DistSSE{
 			srand(123);
 
 			Status s;
-			for(size_t i = 3; i < 4; i++ ) {
+			for(int i = 3; i >= 0; i--) {
 
 				// double search_rate = search_rate[i];
-				for(size_t j = 4; j <= 4; j++) {
+				for(int j = 4; j <= 4; j++) {
 					std::string keyword = TraceKeywordGroupBase + "_" + std::to_string(i) + "_" + std::to_string(j);
 					
-					for(size_t k = 0; k < pow(10, j);) {
+					for(int k = 0; k < pow(10, j); k++) {						
+
+						prng.GenerateBlock(tmp, sizeof(tmp));
+						std::string ind = /*Util.str2hex*/(std::string((const char*)tmp, ind_len));
+
+		 				entries_counter++;
+
+						bool success = writer->Write( client->gen_update_request("1", keyword, ind, k) );
+
+						assert(success);
+						std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
+						
+						// search ?
 						double r = rand_0_to_1();
 						bool is_search = sample(r, search_rate[i]);
-						
-						if (!is_search) {// if not a search query
-							prng.GenerateBlock(tmp, sizeof(tmp));
-							std::string ind = /*Util.str2hex*/(std::string((const char*)tmp, ind_len));
 
-		 					entries_counter++;
-							//if(( entries_counter == N_entries) {
-							//	logger::log(logger::INFO) << "Trace DB generation: " << ": " << (entries_counter) << " entries generated\r" << std::flush;					//}
-						    // client->gen_update_request("1", keyword, ind, );
-							bool success = writer->Write( client->gen_update_request("1", keyword, ind) );
-							assert(success);
-							
-							// only update counts
-							k++;
-							update_time++;
-						}
-						else /*if(not_repeat_search)*/ {
+						if(is_search) {
 							// 执行搜索
+							std::this_thread::sleep_for(std::chrono::milliseconds(20));
 							client->search(keyword);
 							search_time++ ;
-							search_log(keyword, update_time);
-							// not_repeat_search = false ;
+							search_log(keyword, k);
 						}
-					}// for k					
+
+					}// for k	
 				}//for j
 				update_time = 0;
 			}//for i
