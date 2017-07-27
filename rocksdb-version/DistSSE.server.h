@@ -259,7 +259,7 @@ public:
 			
 			gettimeofday(&t1, NULL);
 
-			//cache_ind = get(cache_db, tw);
+			cache_ind = get(cache_db, tw);
 			//Util::split(cache_ind, '|', ID); // get all cached inds					
 			gettimeofday(&t2, NULL);
 
@@ -301,11 +301,11 @@ public:
 			
 			gettimeofday(&t2, NULL);		
 
-			/*if (merge_string != "") {
+			if (merge_string != "") {
 				int s = merge(cache_db, tw, merge_string);
 				assert(s == 0);
 			}
-			*/
+			
 			search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
 
 			search_log(kw, search_time, ID.size());
