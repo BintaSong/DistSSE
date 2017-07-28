@@ -14,6 +14,9 @@
 
 #include "logger.h"
 
+#include <unordered_set>
+
+
 #define min(x ,y) ( x < y ? x : y)
 
 using grpc::Server;
@@ -121,7 +124,7 @@ public:
 	}
 
 	// only used for expriment measurement
-	static void search_log(std::string kw, double search_time, int result_size) { 
+	static void search_log(std::string kw, double search_time, double get_time, int result_size) { 
 		// std::ofstream out( "search.slog", std::ios::out|std::ios::app);
 		byte k_s[17] = "0123456789abcdef";
 		byte iv_s[17] = "0123456789abcdef";
@@ -130,11 +133,11 @@ public:
 			
 		std::string word = keyword == "" ? "cached" : keyword;
 		
-		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(search_time) + "\t" + std::to_string(search_time/		result_size) << std::endl;
+		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(get_time) + "\t" + std::to_string(search_time) + "\t" + std::to_string(search_time/		result_size) << std::endl;
 
 	}
 
-	void search(std::string tw, std::string st, size_t uc, std::set<std::string>& ID){
+	void search(std::string tw, std::string st, size_t uc, std::unordered_set<std::string>& ID){
 	
 		std::vector<std::string> op_ind;
 
@@ -144,34 +147,36 @@ public:
 
 		int counter = 0;
 
-		struct timeval t1, t2;
+		struct timeval t1, t2, t3, t4;
 
 		gettimeofday(&t1, NULL);
 
 
-		std::set<std::string> result_set;
-		std::set<std::string> delete_set;
+		std::unordered_set<std::string> result_set;
+		std::unordered_set<std::string> delete_set;
 	    _st = st;
 		
 		// logger::log(logger::INFO) << "uc: "<< uc <<std::endl;
 		// logger::log(logger::INFO) <<"In gen_search_token==>  " << "st:" << st << ", tw: " << tw << ", uc: "<< uc <<std::endl;
 		
 		int repeat;
-
+		double get_time = 0.0;
 		for(size_t i = 1; i <= uc; i++) {
 			repeat = 0;
 
 			l = Util::H1(tw + _st);
-		
+				gettimeofday(&t3, NULL);
 			e = get(ss_db, l);
+				gettimeofday(&t4, NULL);
+get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /1000.0;
 			
 			assert(e != "");
 
 			value = Util::Xor( e, Util::H2(tw + _st) );
 			// logger::log(logger::INFO) << "value: "<< value <<std::endl;
-			ID.insert( value );
+			//ID.insert( value );
 
-			// parse(value, op, ind, rand_key); 
+			parse(value, op, ind, rand_key); 
 
             parse(value, op, ind, _st); // At present, |st| = |key|, so we just store st too prevent envole P^-1(st_i)
 
@@ -198,10 +203,10 @@ public:
 
 		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0;
 
-		search_log(tw, search_time, ID.size());	
+		search_log(tw, search_time, get_time,  ID.size());	
 		
 		std::string ID_string = "";
-		for (std::set<std::string>::iterator it=ID.begin(); it!=ID.end(); ++it){
+		for (std::unordered_set<std::string>::iterator it=ID.begin(); it!=ID.end(); ++it){
     		ID_string += Util::str2hex(*it) + "|";
 		}
 		// no cache at present
@@ -221,7 +226,7 @@ public:
 
 		// TODO 读取数据库之前要加锁，读取之后要解锁
 		
-		std::set<std::string> ID;
+		std::unordered_set<std::string> ID;
 
 		// logger::log(logger::INFO) << "searching... " <<std::endl;
 
