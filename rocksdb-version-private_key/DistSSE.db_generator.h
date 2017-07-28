@@ -20,7 +20,7 @@ namespace DistSSE{
 				std::cout << word + "\t" + std::to_string(counter)<< std::endl;
 		}
 
-	/*	static void generation_job(Client* client, unsigned int thread_id, size_t N_entries, unsigned int step, std::atomic_size_t* entries_counter) {
+		static void generation_job(Client* client, unsigned int thread_id, size_t N_entries, unsigned int step, std::atomic_size_t* entries_counter) {
 			const std::string kKeyword01PercentBase    = "0.1";
 		    const std::string kKeyword1PercentBase     = "1";
 		    const std::string kKeyword10PercentBase    = "10";
@@ -32,7 +32,7 @@ namespace DistSSE{
 		    size_t counter = thread_id;
 		    std::string id_string = std::to_string(thread_id);
 		        
-		    uint32_t counter_10_1 = 0, counter_20 = 0, counter_30 = 0, counter_60 = 0, counter_10_2 = 0, counter_10_3 = 0, counter_10_4 = 0,      	               counter_10_5 = 0
+		    uint32_t counter_10_1 = 0, counter_20 = 0, counter_30 = 0, counter_60 = 0, counter_10_2 = 0, counter_10_3 = 0, counter_10_4 = 0, counter_10_5 = 0;
 		        
 		    std::string keyword_01, keyword_1, keyword_10;
 		    std::string kw_10_1, kw_10_2, kw_10_3, kw_10_4, kw_10_5, kw_20, kw_30, kw_60;
@@ -69,9 +69,9 @@ namespace DistSSE{
 		        
 				// logger::log(logger::INFO) << "k_01: " << keyword_01 << std::endl;
 
-		        writer->Write( client->gen_update_request("1", keyword_01, ind) );
-		        writer->Write( client->gen_update_request("1", keyword_1, ind) );
-		        writer->Write( client->gen_update_request("1", keyword_10, ind) );
+		        writer->Write( client->gen_update_request("1", keyword_01, ind, 0) );
+		        writer->Write( client->gen_update_request("1", keyword_1, ind, 0) );
+		        writer->Write( client->gen_update_request("1", keyword_10, ind, 0) );
 		            
 				
 
@@ -83,9 +83,9 @@ namespace DistSSE{
 		        keyword_1   = kKeyword1PercentBase     + "_" + ind_1    + "_2";
 		        keyword_10  = kKeyword10PercentBase    + "_" + ind_10   + "_2";
 		            
-		        writer->Write( client->gen_update_request("1", keyword_01, ind) );
-		        writer->Write( client->gen_update_request("1", keyword_1, ind) );
-		        writer->Write( client->gen_update_request("1", keyword_10, ind) );
+		        writer->Write( client->gen_update_request("1", keyword_01, ind, 0) );
+		        writer->Write( client->gen_update_request("1", keyword_1, ind, 0) );
+		        writer->Write( client->gen_update_request("1", keyword_10, ind, 0) );
 
 		            
 		        if (counter_10_1 < max_10_counter) {
@@ -181,14 +181,14 @@ namespace DistSSE{
 		        (*entries_counter)++;
 		  
 		            
-		        writer->Write( client->gen_update_request("1", kw_10_1, ind) );
-		        writer->Write( client->gen_update_request("1", kw_10_2, ind));
-		        writer->Write( client->gen_update_request("1", kw_10_3, ind));
-		        writer->Write( client->gen_update_request("1", kw_10_4, ind));
-		        writer->Write( client->gen_update_request("1", kw_10_5, ind));
-		        writer->Write( client->gen_update_request("1", kw_20, ind));
-		        writer->Write( client->gen_update_request("1", kw_30, ind));
-		        writer->Write( client->gen_update_request("1", kw_60, ind));
+		        writer->Write( client->gen_update_request("1", kw_10_1, ind, 0) );
+		        writer->Write( client->gen_update_request("1", kw_10_2, ind, 0));
+		        writer->Write( client->gen_update_request("1", kw_10_3, ind, 0));
+		        writer->Write( client->gen_update_request("1", kw_10_4, ind, 0));
+		        writer->Write( client->gen_update_request("1", kw_10_5, ind, 0));
+		        writer->Write( client->gen_update_request("1", kw_20, ind, 0));
+		        writer->Write( client->gen_update_request("1", kw_30, ind, 0));
+		        writer->Write( client->gen_update_request("1", kw_60, ind, 0));
 
 		    }
 		    
@@ -231,11 +231,11 @@ namespace DistSSE{
 
 		        // client->end_update_session();
 		    }
-*/
+
 
 		static void generate_trace(Client* client, size_t N_entries) {
 			// randomly generate a large db
-			// gen_db(*client, N_entries, 4);
+			gen_db(*client, N_entries, 4);
 			logger::log(logger::DBG) << "DB generation finished."<< std::endl;
 
 			// then perform trace generation
