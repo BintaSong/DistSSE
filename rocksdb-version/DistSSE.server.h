@@ -99,7 +99,7 @@ public:
 			s = db->Get(rocksdb::ReadOptions(), l, &tmp);
 		}
 
-		if (!s.ok())	std::cerr << "in get() " << s.ToString()<< std::endl;
+		if (!s.ok())	std::cerr << "in get() " << s.ToString()<<", tmp: "<< tmp << std::endl;
 		
  	 return tmp;
 	}
@@ -111,12 +111,13 @@ public:
 		try{
 
 			rocksdb::WriteOptions write_option = rocksdb::WriteOptions();
-			//write_option.sync = true;
+			write_option.sync = true;
 			//write_option.disableWAL = true;
 			rocksdb::Status s;
 			{
 				//std::lock_guard<std::mutex> lock(cache_write_mtx);
-				s = db->Merge(write_option, l, append_str);
+				s = db->Delete(write_option, l);
+				s = db->Put(write_option, l, append_str);
 			}
 
 			if (s.ok())	status = 0;
@@ -259,11 +260,11 @@ public:
 			
 			gettimeofday(&t1, NULL);
 
-			cache_ind = get(cache_db, tw);
-			//Util::split(cache_ind, '|', ID); // get all cached inds					
+			std::string merge_string = get(cache_db, tw);
+			//Util::split(merge_string, '|', ID); // get all cached inds					
 			gettimeofday(&t2, NULL);
 
-			std::string merge_string;	
+			//std::string merge_string = cache_ind;
 			
 			if(kw != "") {
 

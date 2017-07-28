@@ -252,7 +252,8 @@ namespace DistSSE{
 			std::unique_ptr<ClientWriterInterface<UpdateRequestMessage>> writer(stub_->batch_update(&context, &exec_status));
 
 			// generate some trash data to certain large...
-			double search_rate[4] = {0.0001, 0.001, 0.01 };
+			double search_rate[4] = {0.0001, 0.001, 0.01};
+			int dely_time[4] = {10, 20, 40};
 			std::string l, e;
 
 			bool not_repeat_search = true;
@@ -261,7 +262,7 @@ namespace DistSSE{
 			srand(123);
 
 			Status s;
-			for(int i = 0; i < 3; i++) {
+			for(int i = 2; i >= 0; --i) {
 
 				// double search_rate = search_rate[i];
 				for(int j = 5; j <= 5; j++) {
@@ -275,8 +276,9 @@ namespace DistSSE{
 		 				entries_counter++;
 
 						bool success = writer->Write( client->gen_update_request("1", keyword, ind, k) );
-
 						assert(success);
+
+						if (k % 10 == 0) std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
 
 						
 						// search or not ??
@@ -285,7 +287,7 @@ namespace DistSSE{
 
 						if(is_search) {
 							// 执行搜索
-							std::this_thread::sleep_for(std::chrono::milliseconds(20));
+							std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
 							client->search(keyword);
 							search_time++ ;
 							search_log(keyword, k);

@@ -29,6 +29,7 @@ bool StringAppendOperator::Merge(const Slice& key,
   // new_value->assign(value.data(), value.size());
 
 
+/*
   if (!existing_value) {
     // No existing_value. Set *new_value = value
     new_value->assign(value.data(), value.size());
@@ -40,8 +41,11 @@ bool StringAppendOperator::Merge(const Slice& key,
     // new_value->append(1,delim_);
     new_value->append(value.data(), value.size());
   }
+*/
+  new_value->assign(value.data(), value.size());
 
   return true;
+
 }
 
 const char* StringAppendOperator::Name() const {

@@ -252,48 +252,49 @@ namespace DistSSE{
 			std::unique_ptr<ClientWriterInterface<UpdateRequestMessage>> writer(stub_->batch_update(&context, &exec_status));
 
 			// generate some trash data to certain large...
-			double search_rate[4] = {0.0001, 0.001, 0.01, 0.1};
+			double search_rate[4] = {0.0001, 0.001, 0.01};
+			int dely_time[4] = {20, 40, 80};
 			std::string l, e;
 
 			bool not_repeat_search = true;
 			int search_time = 0, entries_counter = 0, update_time = 0;
+			
 			srand(123);
 
 			Status s;
-			for(int i = 3; i >= 0; i--) {
+			for(int i = 2; i >= 0; --i) {
 
 				// double search_rate = search_rate[i];
-				for(int j = 4; j <= 4; j++) {
+				for(int j = 5; j <= 5; j++) {
 					std::string keyword = TraceKeywordGroupBase + "_" + std::to_string(i) + "_" + std::to_string(j);
 					
-					for(int k = 0; k < pow(10, j); k++) {						
-
+					for(int k = 0; k < pow(10, j); k++) {
+						
 						prng.GenerateBlock(tmp, sizeof(tmp));
 						std::string ind = /*Util.str2hex*/(std::string((const char*)tmp, ind_len));
 
 		 				entries_counter++;
 
 						bool success = writer->Write( client->gen_update_request("1", keyword, ind, k) );
-
 						assert(success);
-						std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
+						if (k % 10 == 0) std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
 
 						
-						// search ?
+						// search or not ??
 						double r = rand_0_to_1();
 						bool is_search = sample(r, search_rate[i]);
 
 						if(is_search) {
 							// 执行搜索
-							std::this_thread::sleep_for(std::chrono::milliseconds(20));
+							std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
 							client->search(keyword);
 							search_time++ ;
 							search_log(keyword, k);
 						}
 
-					}// for k	
+					}// for k
 				}//for j
-				update_time = 0;
 			}//for i
 
 			logger::log(logger::INFO) << "Trace DB generation: " << ": " << (entries_counter) << " entries generated" <<std::endl;
