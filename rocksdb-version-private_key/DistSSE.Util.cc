@@ -192,7 +192,8 @@ std::string Util::hex2str(const std::string& input)
 
 void Util::set_db_common_options(rocksdb::Options& options) {
 
-			
+			options.statistics = rocksdb::CreateDBStatistics();
+
 		    rocksdb::CuckooTableOptions cuckoo_options;
             cuckoo_options.identity_as_first_hash = false;
             cuckoo_options.hash_table_ratio = 0.9;
@@ -248,7 +249,7 @@ void Util::set_db_common_options(rocksdb::Options& options) {
             options.level0_slowdown_writes_trigger = 16;
             options.hard_pending_compaction_bytes_limit = 137438953472;
             options.target_file_size_base=201327616;
-            options.write_buffer_size=1073741824;
+            options.write_buffer_size= //1073741824;
     		options.create_if_missing = true;
 }
 

@@ -38,13 +38,14 @@ private:
 	rocksdb::DB* cache_db;
     int MAX_THREADS;
 
+	rocksdb::Options options;
+
 	// static std::mutex ssdb_write_mtx;
 
 public:
 	DistSSEServiceImpl(const std::string db_path, const std::string cache_path, int concurrent){
 		signal(SIGINT, abort);
 
-		rocksdb::Options options;
     	options.create_if_missing = true;
 
 	    Util::set_db_common_options(options);
@@ -124,7 +125,7 @@ public:
 	}
 
 	// only used for expriment measurement
-	static void search_log(std::string kw, double search_time, double get_time, int result_size) { 
+	static void search_log(std::string kw, double search_time, double get_time, int result_size, int hit) { 
 		// std::ofstream out( "search.slog", std::ios::out|std::ios::app);
 		byte k_s[17] = "0123456789abcdef";
 		byte iv_s[17] = "0123456789abcdef";
@@ -133,7 +134,7 @@ public:
 			
 		std::string word = keyword == "" ? "cached" : keyword;
 		
-		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(get_time) + "\t" + std::to_string(search_time) + "\t" + std::to_string(search_time/		result_size) << std::endl;
+		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(get_time) + "\t" + std::to_string(search_time) + "\t" + std::to_string(search_time/	result_size)  + "\t" + std::to_string( hit )<< std::endl;
 
 	}
 
@@ -161,6 +162,8 @@ public:
 		
 		int repeat;
 		double get_time = 0.0;
+		int old_miss = 0, new_miss = 0;
+
 		for(size_t i = 1; i <= uc; i++) {
 			repeat = 0;
 
@@ -176,7 +179,7 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 			// logger::log(logger::INFO) << "value: "<< value <<std::endl;
 			//ID.insert( value );
 
-			parse(value, op, ind, rand_key); 
+			// parse(value, op, ind, rand_key); 
 
             parse(value, op, ind, _st); // At present, |st| = |key|, so we just store st too prevent envole P^-1(st_i)
 
@@ -202,8 +205,12 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 		gettimeofday(&t2, NULL);
 
 		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0;
-
-		search_log(tw, search_time, get_time,  uc);	
+		
+		new_miss = options.statistics->getTickerCount(0);
+		 
+		search_log(tw, search_time, get_time, uc, new_miss - old_miss);
+		
+		old_miss = new_miss;	
 		
 		std::string ID_string = "";
 		for (std::unordered_set<std::string>::iterator it=ID.begin(); it!=ID.end(); ++it){
