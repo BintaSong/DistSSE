@@ -40,6 +40,8 @@ private:
 
 	rocksdb::Options options;
 
+	int old_miss, new_miss;
+
 	// static std::mutex ssdb_write_mtx;
 
 public:
@@ -52,7 +54,7 @@ public:
 
 		rocksdb::Status s1 = rocksdb::DB::Open(options, db_path, &ss_db);
 
-		assert(s1.ok());
+		// assert(s1.ok());
 
 		// set options for merge operation
 		/*rocksdb::Options simple_options;
@@ -66,6 +68,10 @@ public:
 		assert(s2.ok());*/
 
 		MAX_THREADS = concurrent; //std::thread::hardware_concurrency();
+
+	old_miss = 0;
+	new_miss = 0;
+
 	}
 
 	static void abort( int signum )
@@ -162,13 +168,15 @@ public:
 		
 		int repeat;
 		double get_time = 0.0;
-		int old_miss = 0, new_miss = 0;
+
+	new_miss = options.statistics->getTickerCount(0);
 
 		for(size_t i = 1; i <= uc; i++) {
 			repeat = 0;
 
 			l = Util::H1(tw + _st);
 				gettimeofday(&t3, NULL);
+
 			e = get(ss_db, l);
 				gettimeofday(&t4, NULL);
 get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /1000.0;
@@ -206,7 +214,6 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 
 		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0;
 		
-		new_miss = options.statistics->getTickerCount(0);
 		 
 		search_log(tw, search_time, get_time, uc, new_miss - old_miss);
 		
