@@ -192,6 +192,7 @@ std::string Util::hex2str(const std::string& input)
 
 void Util::set_db_common_options(rocksdb::Options& options) {
 
+			
 		    rocksdb::CuckooTableOptions cuckoo_options;
             cuckoo_options.identity_as_first_hash = false;
             cuckoo_options.hash_table_ratio = 0.9;
@@ -209,6 +210,17 @@ void Util::set_db_common_options(rocksdb::Options& options) {
 			options.table_factory.reset(rocksdb::NewCuckooTableFactory(cuckoo_options));
             
             //options.memtable_factory.reset(new rocksdb::VectorRepFactory());
+
+			// set block cache = 4M
+			std::shared_ptr<rocksdb::Cache> cache = rocksdb::NewLRUCache(2*1024*1024LL);
+			rocksdb::BlockBasedTableOptions table_options;
+			table_options.block_cache = cache;
+
+			// set compressed block cache = 4M
+			std::shared_ptr<rocksdb::Cache> compressed_cache = rocksdb::NewLRUCache(2*1024*1024LL);
+			table_options.block_cache_compressed = compressed_cache;
+			options.table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
+
             
             options.compression = rocksdb::kNoCompression;
             options.bottommost_compression = rocksdb::kDisableCompressionOption;
