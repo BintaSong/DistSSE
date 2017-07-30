@@ -169,8 +169,6 @@ public:
 		int repeat;
 		double get_time = 0.0;
 
-	new_miss = options.statistics->getTickerCount(0);
-
 		for(size_t i = 1; i <= uc; i++) {
 			repeat = 0;
 
@@ -214,10 +212,11 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 
 		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0;
 		
+		new_miss = options.statistics->getTickerCount(0);		
 		 
 		search_log(tw, search_time, get_time, uc, new_miss - old_miss);
 		
-		old_miss = new_miss;	
+		old_miss = new_miss;
 		
 		std::string ID_string = "";
 		for (std::unordered_set<std::string>::iterator it=ID.begin(); it!=ID.end(); ++it){
