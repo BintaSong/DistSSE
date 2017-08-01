@@ -213,14 +213,20 @@ void Util::set_db_common_options(rocksdb::Options& options) {
             //options.memtable_factory.reset(new rocksdb::VectorRepFactory());
 
 			// set block cache = 2M
-			std::shared_ptr<rocksdb::Cache> cache = rocksdb::NewLRUCache(8*1024*1024*1024LL);
+			std::shared_ptr<rocksdb::Cache> cache = rocksdb::NewLRUCache(500*1024*1024LL);
 			rocksdb::BlockBasedTableOptions table_options;
 			table_options.block_cache = cache;
 
 			// set compressed block cache = 4M
-			std::shared_ptr<rocksdb::Cache> compressed_cache = rocksdb::NewLRUCache(2*1024*1024*1024LL);
+			std::shared_ptr<rocksdb::Cache> compressed_cache = rocksdb::NewLRUCache(250*1024*1024LL);
 			table_options.block_cache_compressed = compressed_cache;
 			options.table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
+
+			// use direct I/O
+			options.use_direct_reads = true;
+			options.use_direct_io_for_flush_and_compaction = true;
+
+
 
 			// table_options.no_block_cache = true;
 			options.table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
