@@ -131,7 +131,7 @@ public:
 	}
 
 	// only used for expriment measurement
-	static void search_log(std::string kw, double search_time, double get_time, int result_size, int hit) { 
+	static void search_log(std::string kw, double search_time, double get_time, int result_size, int miss, int miss_n) { 
 		// std::ofstream out( "search.slog", std::ios::out|std::ios::app);
 		byte k_s[17] = "0123456789abcdef";
 		byte iv_s[17] = "0123456789abcdef";
@@ -140,7 +140,7 @@ public:
 			
 		std::string word = keyword == "" ? "cached" : keyword;
 		
-		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(get_time) + "\t" + std::to_string(search_time) + "\t" + std::to_string(search_time/	result_size)  + "\t" + std::to_string( hit )<< std::endl;
+		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(get_time) + "\t" + std::to_string(search_time) + "\t" + std::to_string(search_time/	result_size)  + "\t" + std::to_string(miss) + "\t" + std::to_string( miss_n )<< std::endl;
 
 	}
 
@@ -214,11 +214,11 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 		
 		new_miss = options.statistics->getTickerCount(0);		
 		 
-		search_log(tw, search_time, get_time, uc, new_miss - old_miss);
+		search_log(tw, search_time, get_time, uc, new_miss, new_miss - old_miss);
 		
 		old_miss = new_miss;
 		
-		std::cout<< options.statistics->ToString() << std::endl;
+		// std::cout<< options.statistics->ToString() << std::endl;
 		
 		std::string ID_string = "";
 		for (std::unordered_set<std::string>::iterator it=ID.begin(); it!=ID.end(); ++it){

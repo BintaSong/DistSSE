@@ -213,12 +213,12 @@ void Util::set_db_common_options(rocksdb::Options& options) {
             //options.memtable_factory.reset(new rocksdb::VectorRepFactory());
 
 			// set block cache = 2M
-			std::shared_ptr<rocksdb::Cache> cache = rocksdb::NewLRUCache(8*1024*1024LL);
+			std::shared_ptr<rocksdb::Cache> cache = rocksdb::NewLRUCache(2*1024*1024LL);
 			rocksdb::BlockBasedTableOptions table_options;
 			table_options.block_cache = cache;
 
 			// set compressed block cache = 4M
-			std::shared_ptr<rocksdb::Cache> compressed_cache = rocksdb::NewLRUCache(3*1024*1024LL);
+			std::shared_ptr<rocksdb::Cache> compressed_cache = rocksdb::NewLRUCache(1*1024*1024LL);
 			table_options.block_cache_compressed = compressed_cache;
 			// options.table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
 
@@ -231,7 +231,7 @@ void Util::set_db_common_options(rocksdb::Options& options) {
 			// table_options.no_block_cache = true;
 			options.table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
             
-            options.compression = rocksdb::kNoCompression;
+           options.compression = rocksdb::kNoCompression;
             options.bottommost_compression = rocksdb::kDisableCompressionOption;
             
             options.compaction_style = rocksdb::kCompactionStyleLevel;
@@ -240,12 +240,12 @@ void Util::set_db_common_options(rocksdb::Options& options) {
             
             // options.max_grandparent_overlap_factor = 10;
             
-            // options.delayed_write_rate = 8388608; //TODO ATTENTION, not set it if you need merge operation !!!
+            // options.delayed_write_rate = 8388608; // TODO ATTENTION, not set it if you need merge operation !!!
 
 
             options.max_background_compactions = 20;
-            /*
-            options.disableDataSync = true;
+            
+            /*options.disableDataSync = true;
             options.allow_mmap_reads = false; // TODO 载入内存
             options.new_table_reader_for_compaction_inputs = true;
             
