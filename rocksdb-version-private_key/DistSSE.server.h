@@ -218,7 +218,7 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 		
 		old_miss = new_miss;
 		
-		// std::cout<< options.statistics->ToString() << std::endl;
+		std::cout<< options.statistics->ToString() << std::endl;
 		
 		std::string ID_string = "";
 		for (std::unordered_set<std::string>::iterator it=ID.begin(); it!=ID.end(); ++it){
