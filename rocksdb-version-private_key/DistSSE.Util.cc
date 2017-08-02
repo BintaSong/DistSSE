@@ -220,7 +220,7 @@ void Util::set_db_common_options(rocksdb::Options& options) {
 			// set compressed block cache = 4M
 			std::shared_ptr<rocksdb::Cache> compressed_cache = rocksdb::NewLRUCache(3*1024*1024LL);
 			table_options.block_cache_compressed = compressed_cache;
-			options.table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
+			// options.table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
 
 			// use direct I/O
 			// options.use_direct_reads = true;
@@ -244,9 +244,9 @@ void Util::set_db_common_options(rocksdb::Options& options) {
 
 
             options.max_background_compactions = 20;
-            
+            /*
             options.disableDataSync = true;
-            options.allow_mmap_reads = true; // TODO 载入内存
+            options.allow_mmap_reads = false; // TODO 载入内存
             options.new_table_reader_for_compaction_inputs = true;
             
             options.max_bytes_for_level_base = 4294967296;
@@ -257,6 +257,7 @@ void Util::set_db_common_options(rocksdb::Options& options) {
             options.target_file_size_base=201327616;
             options.write_buffer_size= 1073741824;
     		options.create_if_missing = true;
+			*/
 }
 
 }// namespace DistSSE
