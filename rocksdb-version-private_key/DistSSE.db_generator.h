@@ -287,6 +287,7 @@ namespace DistSSE{
 
 						if(is_search) {
 							// 执行搜索
+							client->search("Group-10^5_0_0");
 							std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
 							client->search(keyword);
 							search_time++ ;
