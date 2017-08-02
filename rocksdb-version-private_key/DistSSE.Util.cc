@@ -245,7 +245,7 @@ void Util::set_db_common_options(rocksdb::Options& options) {
 
             options.max_background_compactions = 20;
             
-            /*options.disableDataSync = true;
+            options.disableDataSync = true;
             options.allow_mmap_reads = false; // TODO 载入内存
             options.new_table_reader_for_compaction_inputs = true;
             
@@ -257,7 +257,7 @@ void Util::set_db_common_options(rocksdb::Options& options) {
             options.target_file_size_base=201327616;
             options.write_buffer_size= 1073741824;
     		options.create_if_missing = true;
-			*/
+
 }
 
 }// namespace DistSSE

@@ -253,7 +253,7 @@ namespace DistSSE{
 
 			// generate some trash data to certain large...
 			double search_rate[4] = {0.0001, 0.001, 0.01};
-			int dely_time[4] = {20, 40, 80};
+			int dely_time[4] = {20, 40, 100};
 			std::string l, e;
 
 			bool not_repeat_search = true;
@@ -287,7 +287,7 @@ namespace DistSSE{
 
 						if(is_search) {
 							// 执行搜索
-							client->search("Group-10^5_0_0");
+							//client->search("Group-10^"+ std::to_string(j) +"_0_0");
 							std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
 							client->search(keyword);
 							search_time++ ;
