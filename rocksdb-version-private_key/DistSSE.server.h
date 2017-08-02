@@ -275,7 +275,7 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 		std::string e = request->e();
 		//std::cout<<"ut: "<<ut<< " # " <<"enc_value: "<<enc_value<<std::endl;
 		// TODO 更新数据库之前要加锁
-		logger::log(logger::INFO) <<"in update"<<std::endl;
+		//logger::log(logger::INFO) <<"in update"<<std::endl;
 		int status = store(ss_db, l, e);
 		// TODO 更新之后需要解锁
 		//logger::log(logger::INFO) << "*" << std::endl;
@@ -294,11 +294,12 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 		std::string e;
 		// TODO 读取数据库之前要加锁，读取之后要解锁
 		UpdateRequestMessage request;
-		std::cout<< "in batch update" <<std::endl;
+		//std::cout<< "in batch update" <<std::endl;
 		while (reader->Read(&request)){
 			l = request.l();
 			e = request.e();
 			store(ss_db, l, e);
+			//std::cout<< "in batch update" <<std::endl;
 		}
 		// TODO 读取之后需要解锁
 
@@ -315,7 +316,7 @@ rocksdb::DB* DistSSE::DistSSEServiceImpl::ss_db;
 // std::mutex DistSSE::DistSSEServiceImpl::ssdb_write_mtx;
 
 void RunServer(std::string db_path, std::string cache_path, int concurrent) {
-  std::string server_address("211.87.235.87:50051");
+  std::string server_address("localhost:50051");
   DistSSE::DistSSEServiceImpl service(db_path, cache_path, concurrent);
 
   ServerBuilder builder;
