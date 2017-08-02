@@ -8,7 +8,7 @@ using DistSSE::SearchRequestMessage;
 
 int main(int argc, char** argv) {
   // Instantiate the client and channel isn't authenticated
-	DistSSE::Client client(grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()), std::string(argv[1]));
+	DistSSE::Client client(grpc::CreateChannel("211.87.235.87:50051", grpc::InsecureChannelCredentials()), std::string(argv[1]));
 	
 	if (argc < 5) {
 		std::cerr<<"argc error"<<std::endl;	
