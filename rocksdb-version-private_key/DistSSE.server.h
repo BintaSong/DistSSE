@@ -41,6 +41,7 @@ private:
 	rocksdb::Options options;
 
 	int old_miss, new_miss;
+	int old_hit, new_hit;
 
 	// static std::mutex ssdb_write_mtx;
 
@@ -71,6 +72,8 @@ public:
 
 	old_miss = 0;
 	new_miss = 0;
+	old_hit = 0;
+	new_hit = 0;
 
 	}
 
@@ -131,7 +134,7 @@ public:
 	}
 
 	// only used for expriment measurement
-	static void search_log(std::string kw, double search_time, double get_time, int result_size, int miss, int miss_n) { 
+	static void search_log(std::string kw, double search_time, double get_time, int result_size, int miss, int miss_n, int hit, int hit_n) { 
 		// std::ofstream out( "search.slog", std::ios::out|std::ios::app);
 		byte k_s[17] = "0123456789abcdef";
 		byte iv_s[17] = "0123456789abcdef";
@@ -140,7 +143,7 @@ public:
 			
 		std::string word = keyword == "" ? "cached" : keyword;
 		
-		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(get_time) + "\t" + std::to_string(search_time) + "\t" + std::to_string(search_time/	result_size)  + "\t" + std::to_string(miss) + "\t" + std::to_string( miss_n )<< std::endl;
+		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(get_time) + "\t" + std::to_string(search_time) + "\t" + std::to_string(search_time/	result_size)  + "\t" + std::to_string(miss) + "\t" + std::to_string( miss_n )+ "\t" + std::to_string(hit) + "\t" + std::to_string(hit_n ) << std::endl;
 
 	}
 
@@ -212,11 +215,13 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 
 		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0;
 		
-		new_miss = options.statistics->getTickerCount(0);		
+		new_miss = options.statistics->getTickerCount(0);
+		new_hit = options.statistics->getTickerCount(1);		
 		 
-		search_log(tw, search_time, get_time, uc, new_miss, new_miss - old_miss);
+		search_log(tw, search_time, get_time, uc, new_miss, new_miss - old_miss, new_hit, new_hit - old_hit);
 		
 		old_miss = new_miss;
+		old_hit = new_hit;
 		
 		// std::cout<< options.statistics->ToString() << std::endl;
 		
