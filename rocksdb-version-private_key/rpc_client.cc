@@ -22,8 +22,8 @@ int main(int argc, char** argv) {
   	// client.test_upload(wsize, dsize);
 	//std::atomic_int total(0);
 	//unsigned int n_threads = atoi(argv[4]);
-	//gen_db(client, N_entry, 4);
-	generate_trace(&client, N_entry);
+	gen_db(client, N_entry, 4);
+	//generate_trace(&client, N_entry);
 	
   	std::cout <<"update done." <<std::endl;
 	
