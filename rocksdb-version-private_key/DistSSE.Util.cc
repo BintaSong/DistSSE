@@ -229,9 +229,9 @@ void Util::set_db_common_options(rocksdb::Options& options) {
 
 
 			// table_options.no_block_cache = true;
-			options.table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
+			// options.table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
             
-           options.compression = rocksdb::kNoCompression;
+            options.compression = rocksdb::kNoCompression;
             options.bottommost_compression = rocksdb::kDisableCompressionOption;
             
             options.compaction_style = rocksdb::kCompactionStyleLevel;
