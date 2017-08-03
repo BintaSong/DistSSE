@@ -7,7 +7,7 @@ using DistSSE::SearchRequestMessage;
 
 int main(int argc, char** argv) {
   // Instantiate the client and channel isn't authenticated
-	DistSSE::Client client(grpc::CreateChannel("211.87.235.87:50051", grpc::InsecureChannelCredentials()), std::string(argv[1]));
+	DistSSE::Client client(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()), std::string(argv[1]));
 	
 	if (argc < 5) {
 		std::cerr<<"argc error"<<std::endl;	
@@ -22,8 +22,8 @@ int main(int argc, char** argv) {
   	// client.test_upload(wsize, dsize);
 	//std::atomic_int total(0);
 	//unsigned int n_threads = atoi(argv[4]);
-	gen_db(client, N_entry, 4);
-	//generate_trace(&client, N_entry);
+	//gen_db(client, N_entry, 4);
+	generate_trace(&client, N_entry);
 	
   	std::cout <<"update done." <<std::endl;
 	

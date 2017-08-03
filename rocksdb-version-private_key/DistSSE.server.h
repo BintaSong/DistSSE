@@ -166,7 +166,7 @@ public:
 		std::unordered_set<std::string> delete_set;
 	    _st = st;
 		
-		// logger::log(logger::INFO) << "uc: "<< uc <<std::endl;
+		logger::log(logger::INFO) << "server searching... "<< uc <<std::endl;
 		// logger::log(logger::INFO) <<"In gen_search_token==>  " << "st:" << st << ", tw: " << tw << ", uc: "<< uc <<std::endl;
 		
 		int repeat;

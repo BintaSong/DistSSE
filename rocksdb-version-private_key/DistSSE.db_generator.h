@@ -50,7 +50,7 @@ namespace DistSSE{
 
 			ExecuteStatus exec_status;
 	
-			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("211.87.235.87:50051", grpc::InsecureChannelCredentials()) ) );
+			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()) ) );
 
 			std::unique_ptr<ClientWriterInterface<UpdateRequestMessage>> writer(stub_->batch_update(&context, &exec_status));
 		
@@ -179,9 +179,9 @@ namespace DistSSE{
 
 		                
 		        (*entries_counter)++;
-		  		if (((*entries_counter) % 1000) == 0) {
-                    logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
-                }
+	//	  		if (((*entries_counter) % 1000) == 0) {
+         //           logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
+          //      }
 
 		        writer->Write( client->gen_update_request("1", kw_10_1, ind, 0) );
 		        writer->Write( client->gen_update_request("1", kw_10_2, ind, 0));
@@ -250,12 +250,12 @@ namespace DistSSE{
 			UpdateRequestMessage request;
 			ClientContext context;
 			ExecuteStatus exec_status;
-			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("211.87.235.87:50051", grpc::InsecureChannelCredentials()) ) );
+			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()) ) );
 			std::unique_ptr<ClientWriterInterface<UpdateRequestMessage>> writer(stub_->batch_update(&context, &exec_status));
 
 			// generate some trash data to certain large...
 			double search_rate[4] = {0.0001, 0.001, 0.01};
-			int dely_time[4] = {20, 40, 100};
+			int dely_time[4] = {15, 30, 60};
 			std::string l, e;
 
 			bool not_repeat_search = true;
