@@ -316,7 +316,7 @@ rocksdb::DB* DistSSE::DistSSEServiceImpl::ss_db;
 // std::mutex DistSSE::DistSSEServiceImpl::ssdb_write_mtx;
 
 void RunServer(std::string db_path, std::string cache_path, int concurrent) {
-  std::string server_address("localhost:50051");
+  std::string server_address("0.0.0.0:50051");
   DistSSE::DistSSEServiceImpl service(db_path, cache_path, concurrent);
 
   ServerBuilder builder;
