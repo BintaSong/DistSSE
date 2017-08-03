@@ -1,0 +1,2140 @@
+I0803 21:07:01.580065639    5006 server_builder.cc:247]      Synchronous server. Num CQs: 1, Min pollers: 1, Max Pollers: 2147483647, CQ timeout (msec): 1000
+[INFO] - Server listening on 0.0.0.0:50051
+[INFO] - server searching... 30
+Trace-_2_5	30	0.226000	0.544000	0.018133	0	0	0	0
+[INFO] - server searching... 126
+Trace-_2_5	126	0.467000	1.458000	0.011571	0	0	0	0
+[INFO] - server searching... 255
+Trace-_2_5	255	0.881000	2.830000	0.011098	0	0	0	0
+[INFO] - server searching... 386
+Trace-_2_5	386	1.330000	4.214000	0.010917	0	0	0	0
+[INFO] - server searching... 582
+Trace-_2_5	582	2.029000	6.327000	0.010871	0	0	0	0
+[INFO] - server searching... 629
+Trace-_2_5	629	2.233000	6.925000	0.011010	0	0	0	0
+[INFO] - server searching... 694
+Trace-_2_5	694	2.490000	7.595000	0.010944	0	0	0	0
+[INFO] - server searching... 723
+Trace-_2_5	723	2.614000	7.961000	0.011011	0	0	0	0
+[INFO] - server searching... 967
+Trace-_2_5	967	3.573000	10.728000	0.011094	0	0	0	0
+[INFO] - server searching... 1040
+Trace-_2_5	1040	3.890000	11.528000	0.011085	0	0	0	0
+[INFO] - server searching... 1208
+Trace-_2_5	1208	4.620000	13.537000	0.011206	0	0	0	0
+[INFO] - server searching... 1229
+Trace-_2_5	1229	4.631000	13.702000	0.011149	0	0	0	0
+[INFO] - server searching... 1259
+Trace-_2_5	1259	4.808000	14.048000	0.011158	0	0	0	0
+[INFO] - server searching... 1264
+Trace-_2_5	1264	4.804000	14.105000	0.011159	0	0	0	0
+[INFO] - server searching... 1397
+Trace-_2_5	1397	5.368000	15.595000	0.011163	0	0	0	0
+[INFO] - server searching... 1474
+Trace-_2_5	1474	5.772000	16.614000	0.011271	0	0	0	0
+[INFO] - server searching... 1630
+Trace-_2_5	1630	6.459000	18.422000	0.011302	0	0	0	0
+[INFO] - server searching... 1636
+Trace-_2_5	1636	6.531000	18.468000	0.011289	0	0	0	0
+[INFO] - server searching... 1854
+Trace-_2_5	1854	7.096000	20.756000	0.011195	0	0	0	0
+[INFO] - server searching... 1966
+Trace-_2_5	1966	7.451000	21.818000	0.011098	0	0	0	0
+[INFO] - server searching... 1972
+Trace-_2_5	1972	7.559000	22.037000	0.011175	0	0	0	0
+[INFO] - server searching... 2015
+Trace-_2_5	2015	7.714000	22.546000	0.011189	0	0	0	0
+[INFO] - server searching... 2020
+Trace-_2_5	2020	7.697000	22.727000	0.011251	0	0	0	0
+[INFO] - server searching... 2044
+Trace-_2_5	2044	7.849000	22.892000	0.011200	0	0	0	0
+[INFO] - server searching... 2052
+Trace-_2_5	2052	7.835000	22.899000	0.011159	0	0	0	0
+[INFO] - server searching... 2059
+Trace-_2_5	2059	7.983000	23.090000	0.011214	0	0	0	0
+[INFO] - server searching... 2155
+Trace-_2_5	2155	8.300000	24.037000	0.011154	0	0	0	0
+[INFO] - server searching... 2424
+Trace-_2_5	2424	9.384000	27.233000	0.011235	0	0	0	0
+[INFO] - server searching... 2575
+Trace-_2_5	2575	10.063000	29.001000	0.011263	0	0	0	0
+[INFO] - server searching... 2771
+Trace-_2_5	2771	10.908000	31.150000	0.011241	0	0	0	0
+[INFO] - server searching... 2783
+Trace-_2_5	2783	10.883000	31.248000	0.011228	0	0	0	0
+[INFO] - server searching... 2844
+Trace-_2_5	2844	11.259000	32.111000	0.011291	0	0	0	0
+[INFO] - server searching... 2867
+Trace-_2_5	2867	11.317000	32.368000	0.011290	0	0	0	0
+[INFO] - server searching... 2933
+Trace-_2_5	2933	11.676000	33.161000	0.011306	0	0	0	0
+[INFO] - server searching... 3069
+Trace-_2_5	3069	12.229000	34.737000	0.011319	0	0	0	0
+[INFO] - server searching... 3096
+Trace-_2_5	3096	12.364000	35.030000	0.011315	0	0	0	0
+[INFO] - server searching... 3171
+Trace-_2_5	3171	12.650000	35.828000	0.011299	0	0	0	0
+[INFO] - server searching... 3296
+Trace-_2_5	3296	13.160000	37.298000	0.011316	0	0	0	0
+[INFO] - server searching... 3436
+Trace-_2_5	3436	13.723000	38.787000	0.011288	0	0	0	0
+[INFO] - server searching... 3608
+Trace-_2_5	3608	14.608000	40.811000	0.011311	0	0	0	0
+[INFO] - server searching... 3968
+Trace-_2_5	3968	16.064000	45.232000	0.011399	0	0	0	0
+[INFO] - server searching... 4106
+Trace-_2_5	4106	16.692000	46.871000	0.011415	0	0	0	0
+[INFO] - server searching... 4315
+Trace-_2_5	4315	17.450000	49.106000	0.011380	0	0	0	0
+[INFO] - server searching... 4353
+Trace-_2_5	4353	17.741000	49.910000	0.011466	0	0	0	0
+[INFO] - server searching... 4378
+Trace-_2_5	4378	17.716000	49.864000	0.011390	0	0	0	0
+[INFO] - server searching... 4442
+Trace-_2_5	4442	18.065000	50.743000	0.011423	0	0	0	0
+[INFO] - server searching... 4488
+Trace-_2_5	4488	18.380000	51.252000	0.011420	0	0	0	0
+[INFO] - server searching... 4753
+Trace-_2_5	4753	18.996000	54.182000	0.011400	0	0	0	0
+[INFO] - server searching... 4839
+Trace-_2_5	4839	20.513000	56.203000	0.011615	0	0	0	0
+[INFO] - server searching... 4884
+Trace-_2_5	4884	19.671000	55.275000	0.011318	0	0	0	0
+[INFO] - server searching... 4918
+Trace-_2_5	4918	19.739000	56.508000	0.011490	0	0	0	0
+[INFO] - server searching... 5087
+Trace-_2_5	5087	20.593000	58.015000	0.011405	0	0	0	0
+[INFO] - server searching... 5397
+Trace-_2_5	5397	22.106000	61.948000	0.011478	0	0	0	0
+[INFO] - server searching... 5460
+Trace-_2_5	5460	22.189000	62.352000	0.011420	0	0	0	0
+[INFO] - server searching... 5728
+Trace-_2_5	5728	23.711000	65.988000	0.011520	0	0	0	0
+[INFO] - server searching... 5741
+Trace-_2_5	5741	23.478000	65.824000	0.011466	0	0	0	0
+[INFO] - server searching... 5853
+Trace-_2_5	5853	24.151000	66.927000	0.011435	0	0	0	0
+[INFO] - server searching... 5959
+Trace-_2_5	5959	24.550000	69.152000	0.011605	0	0	0	0
+[INFO] - server searching... 6017
+Trace-_2_5	6017	24.653000	68.758000	0.011427	0	0	0	0
+[INFO] - server searching... 6331
+Trace-_2_5	6331	26.247000	72.519000	0.011455	0	0	0	0
+[INFO] - server searching... 6402
+Trace-_2_5	6402	26.463000	73.743000	0.011519	0	0	0	0
+[INFO] - server searching... 6428
+Trace-_2_5	6428	26.501000	73.710000	0.011467	0	0	0	0
+[INFO] - server searching... 6584
+Trace-_2_5	6584	27.300000	75.960000	0.011537	0	0	0	0
+[INFO] - server searching... 6690
+Trace-_2_5	6690	27.706000	77.007000	0.011511	0	0	0	0
+[INFO] - server searching... 6849
+Trace-_2_5	6849	28.265000	78.476000	0.011458	0	0	0	0
+[INFO] - server searching... 6985
+Trace-_2_5	6985	29.313000	81.135000	0.011616	0	0	0	0
+[INFO] - server searching... 7035
+Trace-_2_5	7035	28.994000	80.739000	0.011477	0	0	0	0
+[INFO] - server searching... 7169
+Trace-_2_5	7169	29.534000	81.947000	0.011431	0	0	0	0
+[INFO] - server searching... 7254
+Trace-_2_5	7254	30.285000	83.760000	0.011547	0	0	0	0
+[INFO] - server searching... 7431
+Trace-_2_5	7431	31.184000	86.433000	0.011631	0	0	0	0
+[INFO] - server searching... 7464
+Trace-_2_5	7464	31.251000	86.308000	0.011563	0	0	0	0
+[INFO] - server searching... 7469
+Trace-_2_5	7469	31.170000	85.953000	0.011508	0	0	0	0
+[INFO] - server searching... 7598
+Trace-_2_5	7598	31.554000	87.813000	0.011557	0	0	0	0
+[INFO] - server searching... 7717
+Trace-_2_5	7717	32.368000	89.335000	0.011576	0	0	0	0
+[INFO] - server searching... 7938
+Trace-_2_5	7938	33.104000	91.909000	0.011578	0	0	0	0
+[INFO] - server searching... 7997
+Trace-_2_5	7997	33.375000	92.237000	0.011534	0	0	0	0
+[INFO] - server searching... 8083
+Trace-_2_5	8083	34.077000	93.806000	0.011605	0	0	0	0
+[INFO] - server searching... 8100
+Trace-_2_5	8100	34.063000	93.609000	0.011557	0	0	0	0
+[INFO] - server searching... 8198
+Trace-_2_5	8198	36.086000	96.607000	0.011784	0	0	0	0
+[INFO] - server searching... 8378
+Trace-_2_5	8378	35.721000	97.940000	0.011690	0	0	0	0
+[INFO] - server searching... 8652
+Trace-_2_5	8652	36.594000	100.276000	0.011590	0	0	0	0
+[INFO] - server searching... 8691
+Trace-_2_5	8691	36.782000	100.603000	0.011576	0	0	0	0
+[INFO] - server searching... 8722
+Trace-_2_5	8722	36.948000	100.923000	0.011571	0	0	0	0
+[INFO] - server searching... 8736
+Trace-_2_5	8736	37.073000	101.021000	0.011564	0	0	0	0
+[INFO] - server searching... 8870
+Trace-_2_5	8870	37.666000	102.934000	0.011605	0	0	0	0
+[INFO] - server searching... 8904
+Trace-_2_5	8904	37.831000	103.010000	0.011569	0	0	0	0
+[INFO] - server searching... 9062
+Trace-_2_5	9062	38.834000	105.262000	0.011616	0	0	0	0
+[INFO] - server searching... 9078
+Trace-_2_5	9078	38.673000	105.435000	0.011614	0	0	0	0
+[INFO] - server searching... 9130
+Trace-_2_5	9130	38.837000	105.766000	0.011584	0	0	0	0
+[INFO] - server searching... 9176
+Trace-_2_5	9176	39.228000	106.792000	0.011638	0	0	0	0
+[INFO] - server searching... 9217
+Trace-_2_5	9217	39.214000	106.632000	0.011569	0	0	0	0
+[INFO] - server searching... 9239
+Trace-_2_5	9239	39.334000	107.266000	0.011610	0	0	0	0
+[INFO] - server searching... 9249
+Trace-_2_5	9249	39.362000	107.508000	0.011624	0	0	0	0
+[INFO] - server searching... 9256
+Trace-_2_5	9256	39.429000	107.619000	0.011627	0	0	0	0
+[INFO] - server searching... 9361
+Trace-_2_5	9361	39.753000	108.457000	0.011586	0	0	0	0
+[INFO] - server searching... 9509
+Trace-_2_5	9509	40.604000	110.547000	0.011626	0	0	0	0
+[INFO] - server searching... 9621
+Trace-_2_5	9621	41.156000	111.401000	0.011579	0	0	0	0
+[INFO] - server searching... 9699
+Trace-_2_5	9699	41.617000	112.817000	0.011632	0	0	0	0
+[INFO] - server searching... 9749
+Trace-_2_5	9749	41.612000	113.018000	0.011593	0	0	0	0
+[INFO] - server searching... 9852
+Trace-_2_5	9852	41.987000	114.161000	0.011588	0	0	0	0
+[INFO] - server searching... 9855
+Trace-_2_5	9855	42.157000	114.272000	0.011595	0	0	0	0
+[INFO] - server searching... 9952
+Trace-_2_5	9952	42.383000	115.535000	0.011609	0	0	0	0
+[INFO] - server searching... 9993
+Trace-_2_5	9993	42.665000	115.800000	0.011588	0	0	0	0
+[INFO] - server searching... 10243
+Trace-_2_5	10243	44.520000	120.166000	0.011732	0	0	0	0
+[INFO] - server searching... 10262
+Trace-_2_5	10262	44.181000	119.677000	0.011662	0	0	0	0
+[INFO] - server searching... 10481
+Trace-_2_5	10481	45.967000	123.436000	0.011777	0	0	0	0
+[INFO] - server searching... 10511
+Trace-_2_5	10511	45.756000	122.734000	0.011677	0	0	0	0
+[INFO] - server searching... 10916
+Trace-_2_5	10916	47.938000	128.425000	0.011765	0	0	0	0
+[INFO] - server searching... 11724
+Trace-_2_5	11724	52.096000	138.616000	0.011823	0	0	0	0
+[INFO] - server searching... 11764
+Trace-_2_5	11764	52.873000	139.955000	0.011897	0	0	0	0
+[INFO] - server searching... 11843
+Trace-_2_5	11843	52.188000	139.244000	0.011757	0	0	0	0
+[INFO] - server searching... 11849
+Trace-_2_5	11849	52.412000	139.310000	0.011757	0	0	0	0
+[INFO] - server searching... 11988
+Trace-_2_5	11988	53.054000	140.901000	0.011754	0	0	0	0
+[INFO] - server searching... 12212
+Trace-_2_5	12212	54.181000	143.855000	0.011780	0	0	0	0
+[INFO] - server searching... 12390
+Trace-_2_5	12390	55.137000	145.919000	0.011777	0	0	0	0
+[INFO] - server searching... 12497
+Trace-_2_5	12497	55.434000	147.361000	0.011792	0	0	0	0
+[INFO] - server searching... 12516
+Trace-_2_5	12516	55.758000	147.813000	0.011810	0	0	0	0
+[INFO] - server searching... 12529
+Trace-_2_5	12529	55.759000	147.586000	0.011780	0	0	0	0
+[INFO] - server searching... 12564
+Trace-_2_5	12564	55.671000	147.567000	0.011745	0	0	0	0
+[INFO] - server searching... 12583
+Trace-_2_5	12583	55.911000	147.657000	0.011735	0	0	0	0
+[INFO] - server searching... 12596
+Trace-_2_5	12596	56.078000	148.165000	0.011763	0	0	0	0
+[INFO] - server searching... 12625
+Trace-_2_5	12625	56.248000	148.983000	0.011801	0	0	0	0
+[INFO] - server searching... 12711
+Trace-_2_5	12711	56.483000	149.626000	0.011771	0	0	0	0
+[INFO] - server searching... 12747
+Trace-_2_5	12747	56.823000	150.107000	0.011776	0	0	0	0
+[INFO] - server searching... 12887
+Trace-_2_5	12887	57.211000	151.360000	0.011745	0	0	0	0
+[INFO] - server searching... 12892
+Trace-_2_5	12892	57.091000	151.357000	0.011740	0	0	0	0
+[INFO] - server searching... 12904
+Trace-_2_5	12904	57.156000	151.685000	0.011755	0	0	0	0
+[INFO] - server searching... 12910
+Trace-_2_5	12910	57.243000	152.132000	0.011784	0	0	0	0
+[INFO] - server searching... 13027
+Trace-_2_5	13027	58.686000	154.847000	0.011887	0	0	0	0
+[INFO] - server searching... 13095
+Trace-_2_5	13095	58.022000	153.775000	0.011743	0	0	0	0
+[INFO] - server searching... 13329
+Trace-_2_5	13329	59.487000	157.554000	0.011820	0	0	0	0
+[INFO] - server searching... 13609
+Trace-_2_5	13609	60.671000	159.931000	0.011752	0	0	0	0
+[INFO] - server searching... 13717
+Trace-_2_5	13717	60.984000	161.743000	0.011791	0	0	0	0
+[INFO] - server searching... 13776
+Trace-_2_5	13776	61.308000	162.024000	0.011761	0	0	0	0
+[INFO] - server searching... 13856
+Trace-_2_5	13856	61.998000	163.475000	0.011798	0	0	0	0
+[INFO] - server searching... 13958
+Trace-_2_5	13958	62.566000	164.712000	0.011801	0	0	0	0
+[INFO] - server searching... 14289
+Trace-_2_5	14289	64.611000	169.311000	0.011849	0	0	0	0
+[INFO] - server searching... 14547
+Trace-_2_5	14547	65.221000	171.582000	0.011795	0	0	0	0
+[INFO] - server searching... 14631
+Trace-_2_5	14631	66.067000	172.958000	0.011821	0	0	0	0
+[INFO] - server searching... 14861
+Trace-_2_5	14861	66.821000	175.927000	0.011838	0	0	0	0
+[INFO] - server searching... 14878
+Trace-_2_5	14878	66.902000	176.118000	0.011837	0	0	0	0
+[INFO] - server searching... 15145
+Trace-_2_5	15145	68.648000	180.528000	0.011920	0	0	0	0
+[INFO] - server searching... 15172
+Trace-_2_5	15172	68.923000	180.010000	0.011865	0	0	0	0
+[INFO] - server searching... 15184
+Trace-_2_5	15184	68.594000	180.814000	0.011908	0	0	0	0
+[INFO] - server searching... 15205
+Trace-_2_5	15205	68.808000	181.303000	0.011924	0	0	0	0
+[INFO] - server searching... 15210
+Trace-_2_5	15210	68.959000	181.111000	0.011907	0	0	0	0
+[INFO] - server searching... 15235
+Trace-_2_5	15235	68.983000	181.101000	0.011887	0	0	0	0
+[INFO] - server searching... 15333
+Trace-_2_5	15333	68.733000	182.217000	0.011884	0	0	0	0
+[INFO] - server searching... 15358
+Trace-_2_5	15358	68.949000	183.028000	0.011917	0	0	0	0
+[INFO] - server searching... 15532
+Trace-_2_5	15532	69.599000	184.131000	0.011855	0	0	0	0
+[INFO] - server searching... 15737
+Trace-_2_5	15737	71.364000	188.119000	0.011954	0	0	0	0
+[INFO] - server searching... 15766
+Trace-_2_5	15766	70.983000	186.785000	0.011847	0	0	0	0
+[INFO] - server searching... 15795
+Trace-_2_5	15795	71.544000	187.720000	0.011885	0	0	0	0
+[INFO] - server searching... 15901
+Trace-_2_5	15901	71.431000	188.875000	0.011878	0	0	0	0
+[INFO] - server searching... 16000
+Trace-_2_5	16000	72.522000	190.534000	0.011908	0	0	0	0
+[INFO] - server searching... 16074
+Trace-_2_5	16074	72.297000	190.402000	0.011845	0	0	0	0
+[INFO] - server searching... 16097
+Trace-_2_5	16097	72.723000	191.734000	0.011911	0	0	0	0
+[INFO] - server searching... 16407
+Trace-_2_5	16407	75.032000	195.551000	0.011919	0	0	0	0
+[INFO] - server searching... 16452
+Trace-_2_5	16452	74.444000	195.694000	0.011895	0	0	0	0
+[INFO] - server searching... 16586
+Trace-_2_5	16586	75.349000	197.372000	0.011900	0	0	0	0
+[INFO] - server searching... 16587
+Trace-_2_5	16587	75.456000	197.396000	0.011901	0	0	0	0
+[INFO] - server searching... 16700
+Trace-_2_5	16700	75.261000	198.721000	0.011899	0	0	0	0
+[INFO] - server searching... 16706
+Trace-_2_5	16706	76.142000	199.016000	0.011913	0	0	0	0
+[INFO] - server searching... 16887
+Trace-_2_5	16887	77.016000	201.079000	0.011907	0	0	0	0
+[INFO] - server searching... 16895
+Trace-_2_5	16895	76.539000	201.708000	0.011939	0	0	0	0
+[INFO] - server searching... 17028
+Trace-_2_5	17028	77.798000	202.920000	0.011917	0	0	0	0
+[INFO] - server searching... 17393
+Trace-_2_5	17393	80.286000	209.158000	0.012025	0	0	0	0
+[INFO] - server searching... 17561
+Trace-_2_5	17561	80.844000	210.313000	0.011976	0	0	0	0
+[INFO] - server searching... 17762
+Trace-_2_5	17762	83.235000	215.265000	0.012119	0	0	0	0
+[INFO] - server searching... 17809
+Trace-_2_5	17809	82.081000	213.249000	0.011974	0	0	0	0
+[INFO] - server searching... 17898
+Trace-_2_5	17898	82.568000	214.000000	0.011957	0	0	0	0
+[INFO] - server searching... 18046
+Trace-_2_5	18046	82.787000	215.904000	0.011964	0	0	0	0
+[INFO] - server searching... 18073
+Trace-_2_5	18073	82.990000	215.833000	0.011942	0	0	0	0
+[INFO] - server searching... 18182
+Trace-_2_5	18182	85.022000	219.382000	0.012066	0	0	0	0
+[INFO] - server searching... 18236
+Trace-_2_5	18236	84.420000	219.102000	0.012015	0	0	0	0
+[INFO] - server searching... 18341
+Trace-_2_5	18341	84.374000	219.721000	0.011980	0	0	0	0
+[INFO] - server searching... 18361
+Trace-_2_5	18361	85.278000	220.029000	0.011983	0	0	0	0
+[INFO] - server searching... 18422
+Trace-_2_5	18422	84.781000	220.040000	0.011944	0	0	0	0
+[INFO] - server searching... 18607
+Trace-_2_5	18607	86.202000	223.628000	0.012018	0	0	0	0
+[INFO] - server searching... 18833
+Trace-_2_5	18833	86.647000	225.175000	0.011956	0	0	0	0
+[INFO] - server searching... 18858
+Trace-_2_5	18858	86.571000	225.234000	0.011944	0	0	0	0
+[INFO] - server searching... 18906
+Trace-_2_5	18906	87.485000	226.690000	0.011990	0	0	0	0
+[INFO] - server searching... 19093
+Trace-_2_5	19093	88.658000	229.448000	0.012017	0	0	0	0
+[INFO] - server searching... 19099
+Trace-_2_5	19099	88.325000	228.574000	0.011968	0	0	0	0
+[INFO] - server searching... 19166
+Trace-_2_5	19166	88.795000	229.727000	0.011986	0	0	0	0
+[INFO] - server searching... 19339
+Trace-_2_5	19339	89.092000	231.750000	0.011984	0	0	0	0
+[INFO] - server searching... 19414
+Trace-_2_5	19414	89.852000	232.011000	0.011951	0	0	0	0
+[INFO] - server searching... 19439
+Trace-_2_5	19439	90.505000	233.623000	0.012018	0	0	0	0
+[INFO] - server searching... 19479
+Trace-_2_5	19479	89.771000	233.445000	0.011984	0	0	0	0
+[INFO] - server searching... 19548
+Trace-_2_5	19548	90.868000	234.771000	0.012010	0	0	0	0
+[INFO] - server searching... 19662
+Trace-_2_5	19662	90.806000	235.446000	0.011975	0	0	0	0
+[INFO] - server searching... 19703
+Trace-_2_5	19703	91.101000	235.900000	0.011973	0	0	0	0
+[INFO] - server searching... 19976
+Trace-_2_5	19976	92.641000	239.450000	0.011987	0	0	0	0
+[INFO] - server searching... 20080
+Trace-_2_5	20080	92.595000	241.371000	0.012020	0	0	0	0
+[INFO] - server searching... 20086
+Trace-_2_5	20086	93.028000	240.654000	0.011981	0	0	0	0
+[INFO] - server searching... 20170
+Trace-_2_5	20170	93.710000	243.940000	0.012094	0	0	0	0
+[INFO] - server searching... 20349
+Trace-_2_5	20349	94.755000	244.263000	0.012004	0	0	0	0
+[INFO] - server searching... 20441
+Trace-_2_5	20441	94.707000	245.149000	0.011993	0	0	0	0
+[INFO] - server searching... 20529
+Trace-_2_5	20529	95.483000	246.156000	0.011991	0	0	0	0
+[INFO] - server searching... 20712
+Trace-_2_5	20712	97.373000	250.262000	0.012083	0	0	0	0
+[INFO] - server searching... 20805
+Trace-_2_5	20805	96.614000	249.433000	0.011989	0	0	0	0
+[INFO] - server searching... 21064
+Trace-_2_5	21064	97.523000	253.056000	0.012014	0	0	0	0
+[INFO] - server searching... 21409
+Trace-_2_5	21409	100.206000	258.126000	0.012057	0	0	0	0
+[INFO] - server searching... 21521
+Trace-_2_5	21521	100.704000	258.992000	0.012034	0	0	0	0
+[INFO] - server searching... 21652
+Trace-_2_5	21652	100.811000	259.640000	0.011992	0	0	0	0
+[INFO] - server searching... 21682
+Trace-_2_5	21682	101.150000	260.064000	0.011994	0	0	0	0
+[INFO] - server searching... 21786
+Trace-_2_5	21786	101.780000	262.648000	0.012056	0	0	0	0
+[INFO] - server searching... 21849
+Trace-_2_5	21849	102.189000	262.421000	0.012011	0	0	0	0
+[INFO] - server searching... 21923
+Trace-_2_5	21923	102.784000	263.861000	0.012036	0	0	0	0
+[INFO] - server searching... 22085
+Trace-_2_5	22085	103.264000	265.699000	0.012031	0	0	0	0
+[INFO] - server searching... 22176
+Trace-_2_5	22176	103.478000	265.674000	0.011980	0	0	0	0
+[INFO] - server searching... 22392
+Trace-_2_5	22392	105.422000	269.969000	0.012056	0	0	0	0
+[INFO] - server searching... 22566
+Trace-_2_5	22566	106.128000	271.345000	0.012025	0	0	0	0
+[INFO] - server searching... 22892
+Trace-_2_5	22892	107.960000	275.752000	0.012046	0	0	0	0
+[INFO] - server searching... 22949
+Trace-_2_5	22949	108.221000	276.528000	0.012050	0	0	0	0
+[INFO] - server searching... 22965
+Trace-_2_5	22965	108.942000	278.689000	0.012135	0	0	0	0
+[INFO] - server searching... 23055
+Trace-_2_5	23055	109.061000	277.734000	0.012047	0	0	0	0
+[INFO] - server searching... 23122
+Trace-_2_5	23122	109.185000	278.627000	0.012050	0	0	0	0
+[INFO] - server searching... 23426
+Trace-_2_5	23426	110.978000	284.014000	0.012124	0	0	0	0
+[INFO] - server searching... 23547
+Trace-_2_5	23547	112.121000	285.195000	0.012112	0	0	0	0
+[INFO] - server searching... 23570
+Trace-_2_5	23570	111.625000	284.299000	0.012062	0	0	0	0
+[INFO] - server searching... 23606
+Trace-_2_5	23606	111.985000	286.065000	0.012118	0	0	0	0
+[INFO] - server searching... 23675
+Trace-_2_5	23675	112.512000	286.471000	0.012100	0	0	0	0
+[INFO] - server searching... 23803
+Trace-_2_5	23803	118.952000	295.117000	0.012398	0	0	0	0
+[INFO] - server searching... 24070
+Trace-_2_5	24070	115.351000	293.530000	0.012195	0	0	0	0
+[INFO] - server searching... 24079
+Trace-_2_5	24079	115.120000	293.136000	0.012174	0	0	0	0
+[INFO] - server searching... 24292
+Trace-_2_5	24292	116.463000	296.149000	0.012191	0	0	0	0
+[INFO] - server searching... 24302
+Trace-_2_5	24302	115.211000	293.561000	0.012080	0	0	0	0
+[INFO] - server searching... 24318
+Trace-_2_5	24318	115.740000	297.328000	0.012227	0	0	0	0
+[INFO] - server searching... 24587
+Trace-_2_5	24587	118.884000	301.793000	0.012274	0	0	0	0
+[INFO] - server searching... 24623
+Trace-_2_5	24623	116.982000	301.631000	0.012250	0	0	0	0
+[INFO] - server searching... 24714
+Trace-_2_5	24714	117.106000	299.159000	0.012105	0	0	0	0
+[INFO] - server searching... 24768
+Trace-_2_5	24768	117.894000	299.963000	0.012111	0	0	0	0
+[INFO] - server searching... 24796
+Trace-_2_5	24796	118.445000	301.663000	0.012166	0	0	0	0
+[INFO] - server searching... 24898
+Trace-_2_5	24898	119.563000	302.846000	0.012163	0	0	0	0
+[INFO] - server searching... 24941
+Trace-_2_5	24941	118.913000	303.755000	0.012179	0	0	0	0
+[INFO] - server searching... 24956
+Trace-_2_5	24956	118.494000	301.861000	0.012096	0	0	0	0
+[INFO] - server searching... 25047
+Trace-_2_5	25047	118.812000	303.746000	0.012127	0	0	0	0
+[INFO] - server searching... 25104
+Trace-_2_5	25104	119.331000	303.959000	0.012108	0	0	0	0
+[INFO] - server searching... 25136
+Trace-_2_5	25136	118.850000	303.844000	0.012088	0	0	0	0
+[INFO] - server searching... 25156
+Trace-_2_5	25156	119.369000	304.500000	0.012104	0	0	0	0
+[INFO] - server searching... 25161
+Trace-_2_5	25161	120.147000	305.477000	0.012141	0	0	0	0
+[INFO] - server searching... 25230
+Trace-_2_5	25230	119.241000	303.599000	0.012033	0	0	0	0
+[INFO] - server searching... 25276
+Trace-_2_5	25276	119.985000	304.851000	0.012061	0	0	0	0
+[INFO] - server searching... 25514
+Trace-_2_5	25514	121.428000	309.536000	0.012132	0	0	0	0
+[INFO] - server searching... 25706
+Trace-_2_5	25706	121.487000	310.888000	0.012094	0	0	0	0
+[INFO] - server searching... 25746
+Trace-_2_5	25746	124.137000	314.728000	0.012224	0	0	0	0
+[INFO] - server searching... 25793
+Trace-_2_5	25793	122.546000	314.327000	0.012187	0	0	0	0
+[INFO] - server searching... 25807
+Trace-_2_5	25807	122.511000	312.472000	0.012108	0	0	0	0
+[INFO] - server searching... 25839
+Trace-_2_5	25839	122.509000	313.450000	0.012131	0	0	0	0
+[INFO] - server searching... 25923
+Trace-_2_5	25923	122.432000	312.831000	0.012068	0	0	0	0
+[INFO] - server searching... 25955
+Trace-_2_5	25955	123.097000	313.873000	0.012093	0	0	0	0
+[INFO] - server searching... 26131
+Trace-_2_5	26131	123.925000	315.533000	0.012075	0	0	0	0
+[INFO] - server searching... 26249
+Trace-_2_5	26249	125.493000	318.529000	0.012135	0	0	0	0
+[INFO] - server searching... 26476
+Trace-_2_5	26476	126.397000	322.326000	0.012174	0	0	0	0
+[INFO] - server searching... 27016
+Trace-_2_5	27016	129.135000	327.623000	0.012127	0	0	0	0
+[INFO] - server searching... 27219
+Trace-_2_5	27219	129.336000	329.737000	0.012114	0	0	0	0
+[INFO] - server searching... 27327
+Trace-_2_5	27327	130.349000	330.893000	0.012109	0	0	0	0
+[INFO] - server searching... 27396
+Trace-_2_5	27396	129.849000	330.790000	0.012074	0	0	0	0
+[INFO] - server searching... 27453
+Trace-_2_5	27453	130.845000	332.125000	0.012098	0	0	0	0
+[INFO] - server searching... 27479
+Trace-_2_5	27479	130.450000	331.993000	0.012082	0	0	0	0
+[INFO] - server searching... 27500
+Trace-_2_5	27500	130.776000	332.590000	0.012094	0	0	0	0
+[INFO] - server searching... 27551
+Trace-_2_5	27551	130.993000	334.748000	0.012150	0	0	0	0
+[INFO] - server searching... 27667
+Trace-_2_5	27667	131.525000	334.977000	0.012107	0	0	0	0
+[INFO] - server searching... 27682
+Trace-_2_5	27682	131.244000	334.863000	0.012097	0	0	0	0
+[INFO] - server searching... 27752
+Trace-_2_5	27752	132.268000	337.912000	0.012176	0	0	0	0
+[INFO] - server searching... 27788
+Trace-_2_5	27788	131.853000	335.328000	0.012067	0	0	0	0
+[INFO] - server searching... 27866
+Trace-_2_5	27866	132.806000	338.194000	0.012136	0	0	0	0
+[INFO] - server searching... 28079
+Trace-_2_5	28079	133.638000	339.524000	0.012092	0	0	0	0
+[INFO] - server searching... 28089
+Trace-_2_5	28089	133.686000	340.949000	0.012138	0	0	0	0
+[INFO] - server searching... 28333
+Trace-_2_5	28333	134.407000	343.457000	0.012122	0	0	0	0
+[INFO] - server searching... 28384
+Trace-_2_5	28384	133.874000	342.180000	0.012055	0	0	0	0
+[INFO] - server searching... 28549
+Trace-_2_5	28549	135.576000	344.348000	0.012062	0	0	0	0
+[INFO] - server searching... 28572
+Trace-_2_5	28572	135.971000	345.831000	0.012104	0	0	0	0
+[INFO] - server searching... 28619
+Trace-_2_5	28619	137.105000	347.219000	0.012132	0	0	0	0
+[INFO] - server searching... 28620
+Trace-_2_5	28620	135.678000	345.241000	0.012063	0	0	0	0
+[INFO] - server searching... 28864
+Trace-_2_5	28864	139.961000	352.225000	0.012203	0	0	0	0
+[INFO] - server searching... 28933
+Trace-_2_5	28933	137.885000	351.817000	0.012160	0	0	0	0
+[INFO] - server searching... 29048
+Trace-_2_5	29048	140.253000	354.561000	0.012206	0	0	0	0
+[INFO] - server searching... 29189
+Trace-_2_5	29189	139.202000	354.674000	0.012151	0	0	0	0
+[INFO] - server searching... 29346
+Trace-_2_5	29346	140.113000	354.902000	0.012094	0	0	0	0
+[INFO] - server searching... 29411
+Trace-_2_5	29411	142.919000	359.387000	0.012219	0	0	0	0
+[INFO] - server searching... 29497
+Trace-_2_5	29497	141.343000	357.264000	0.012112	0	0	0	0
+[INFO] - server searching... 29641
+Trace-_2_5	29641	141.987000	359.153000	0.012117	0	0	0	0
+[INFO] - server searching... 29698
+Trace-_2_5	29698	143.936000	362.510000	0.012207	0	0	0	0
+[INFO] - server searching... 29705
+Trace-_2_5	29705	144.035000	361.520000	0.012170	0	0	0	0
+[INFO] - server searching... 29748
+Trace-_2_5	29748	144.970000	364.770000	0.012262	0	0	0	0
+[INFO] - server searching... 29852
+Trace-_2_5	29852	142.762000	363.009000	0.012160	0	0	0	0
+[INFO] - server searching... 29853
+Trace-_2_5	29853	137.903000	349.282000	0.011700	0	0	0	0
+[INFO] - server searching... 29872
+Trace-_2_5	29872	138.526000	351.499000	0.011767	0	0	0	0
+[INFO] - server searching... 29879
+Trace-_2_5	29879	140.523000	355.555000	0.011900	0	0	0	0
+[INFO] - server searching... 30045
+Trace-_2_5	30045	144.911000	366.301000	0.012192	0	0	0	0
+[INFO] - server searching... 30070
+Trace-_2_5	30070	144.343000	365.187000	0.012145	0	0	0	0
+[INFO] - server searching... 30082
+Trace-_2_5	30082	146.317000	369.796000	0.012293	0	0	0	0
+[INFO] - server searching... 30096
+Trace-_2_5	30096	144.577000	366.541000	0.012179	0	0	0	0
+[INFO] - server searching... 30122
+Trace-_2_5	30122	144.800000	367.970000	0.012216	0	0	0	0
+[INFO] - server searching... 30208
+Trace-_2_5	30208	144.850000	367.541000	0.012167	0	0	0	0
+[INFO] - server searching... 30443
+Trace-_2_5	30443	149.975000	376.840000	0.012379	0	0	0	0
+[INFO] - server searching... 30539
+Trace-_2_5	30539	146.728000	370.677000	0.012138	0	0	0	0
+[INFO] - server searching... 30617
+Trace-_2_5	30617	146.072000	370.744000	0.012109	0	0	0	0
+[INFO] - server searching... 30727
+Trace-_2_5	30727	147.620000	375.709000	0.012227	0	0	0	0
+[INFO] - server searching... 30755
+Trace-_2_5	30755	146.498000	379.492000	0.012339	0	0	0	0
+[INFO] - server searching... 30824
+Trace-_2_5	30824	149.379000	379.703000	0.012318	0	0	0	0
+[INFO] - server searching... 30871
+Trace-_2_5	30871	147.750000	375.677000	0.012169	0	0	0	0
+[INFO] - server searching... 30933
+Trace-_2_5	30933	147.401000	376.135000	0.012160	0	0	0	0
+[INFO] - server searching... 30951
+Trace-_2_5	30951	149.107000	379.403000	0.012258	0	0	0	0
+[INFO] - server searching... 30978
+Trace-_2_5	30978	148.307000	378.302000	0.012212	0	0	0	0
+[INFO] - server searching... 30988
+Trace-_2_5	30988	149.112000	379.700000	0.012253	0	0	0	0
+[INFO] - server searching... 31042
+Trace-_2_5	31042	147.846000	378.018000	0.012178	0	0	0	0
+[INFO] - server searching... 31071
+Trace-_2_5	31071	149.938000	380.382000	0.012242	0	0	0	0
+[INFO] - server searching... 31093
+Trace-_2_5	31093	149.001000	379.012000	0.012190	0	0	0	0
+[INFO] - server searching... 31286
+Trace-_2_5	31286	151.504000	384.154000	0.012279	0	0	0	0
+[INFO] - server searching... 31302
+Trace-_2_5	31302	149.667000	381.208000	0.012178	0	0	0	0
+[INFO] - server searching... 31415
+Trace-_2_5	31415	149.731000	382.123000	0.012164	0	0	0	0
+[INFO] - server searching... 31426
+Trace-_2_5	31426	150.052000	382.556000	0.012173	0	0	0	0
+[INFO] - server searching... 31595
+Trace-_2_5	31595	151.981000	385.437000	0.012199	0	0	0	0
+[INFO] - server searching... 31765
+Trace-_2_5	31765	152.953000	387.115000	0.012187	0	0	0	0
+[INFO] - server searching... 32197
+Trace-_2_5	32197	158.158000	397.676000	0.012351	0	0	0	0
+[INFO] - server searching... 32356
+Trace-_2_5	32356	160.278000	401.106000	0.012397	0	0	0	0
+[INFO] - server searching... 32403
+Trace-_2_5	32403	158.116000	397.534000	0.012268	0	0	0	0
+[INFO] - server searching... 32413
+Trace-_2_5	32413	158.096000	398.044000	0.012280	0	0	0	0
+[INFO] - server searching... 32455
+Trace-_2_5	32455	159.619000	402.447000	0.012400	0	0	0	0
+[INFO] - server searching... 32500
+Trace-_2_5	32500	159.026000	400.108000	0.012311	0	0	0	0
+[INFO] - server searching... 32628
+Trace-_2_5	32628	159.343000	400.328000	0.012269	0	0	0	0
+[INFO] - server searching... 32650
+Trace-_2_5	32650	159.616000	401.706000	0.012303	0	0	0	0
+[INFO] - server searching... 33085
+Trace-_2_5	33085	163.886000	409.160000	0.012367	0	0	0	0
+[INFO] - server searching... 33107
+Trace-_2_5	33107	163.144000	407.760000	0.012316	0	0	0	0
+[INFO] - server searching... 33118
+Trace-_2_5	33118	165.372000	412.017000	0.012441	0	0	0	0
+[INFO] - server searching... 34042
+Trace-_2_5	34042	168.759000	421.708000	0.012388	0	0	0	0
+[INFO] - server searching... 34247
+Trace-_2_5	34247	170.117000	425.337000	0.012420	0	0	0	0
+[INFO] - server searching... 34253
+Trace-_2_5	34253	170.938000	424.351000	0.012389	0	0	0	0
+[INFO] - server searching... 34265
+Trace-_2_5	34265	169.503000	422.099000	0.012319	0	0	0	0
+[INFO] - server searching... 34296
+Trace-_2_5	34296	169.228000	423.705000	0.012354	0	0	0	0
+[INFO] - server searching... 34353
+Trace-_2_5	34353	168.484000	415.754000	0.012102	0	0	0	0
+[INFO] - server searching... 34567
+Trace-_2_5	34567	171.182000	427.554000	0.012369	0	0	0	0
+[INFO] - server searching... 34694
+Trace-_2_5	34694	174.474000	431.735000	0.012444	0	0	0	0
+[INFO] - server searching... 34767
+Trace-_2_5	34767	172.718000	429.532000	0.012355	0	0	0	0
+[INFO] - server searching... 34868
+Trace-_2_5	34868	173.444000	430.155000	0.012337	0	0	0	0
+[INFO] - server searching... 35000
+Trace-_2_5	35000	177.177000	437.547000	0.012501	0	0	0	0
+[INFO] - server searching... 35242
+Trace-_2_5	35242	175.504000	435.955000	0.012370	0	0	0	0
+[INFO] - server searching... 35255
+Trace-_2_5	35255	176.689000	436.925000	0.012393	0	0	0	0
+[INFO] - server searching... 35327
+Trace-_2_5	35327	179.234000	442.093000	0.012514	0	0	0	0
+[INFO] - server searching... 35340
+Trace-_2_5	35340	176.182000	436.757000	0.012359	0	0	0	0
+[INFO] - server searching... 35344
+Trace-_2_5	35344	176.216000	438.941000	0.012419	0	0	0	0
+[INFO] - server searching... 35360
+Trace-_2_5	35360	175.999000	437.287000	0.012367	0	0	0	0
+[INFO] - server searching... 35449
+Trace-_2_5	35449	176.587000	437.386000	0.012338	0	0	0	0
+[INFO] - server searching... 35603
+Trace-_2_5	35603	177.898000	441.717000	0.012407	0	0	0	0
+[INFO] - server searching... 35615
+Trace-_2_5	35615	152.032000	376.423000	0.010569	0	0	0	0
+[INFO] - server searching... 36391
+Trace-_2_5	36391	184.031000	455.025000	0.012504	0	0	0	0
+[INFO] - server searching... 36431
+Trace-_2_5	36431	181.319000	450.239000	0.012359	0	0	0	0
+[INFO] - server searching... 36820
+Trace-_2_5	36820	185.075000	458.746000	0.012459	0	0	0	0
+[INFO] - server searching... 36981
+Trace-_2_5	36981	183.902000	455.749000	0.012324	0	0	0	0
+[INFO] - server searching... 37033
+Trace-_2_5	37033	181.776000	449.182000	0.012129	0	0	0	0
+[INFO] - server searching... 37072
+Trace-_2_5	37072	186.159000	459.890000	0.012405	0	0	0	0
+[INFO] - server searching... 37376
+Trace-_2_5	37376	188.657000	467.121000	0.012498	0	0	0	0
+[INFO] - server searching... 37384
+Trace-_2_5	37384	163.798000	401.811000	0.010748	0	0	0	0
+[INFO] - server searching... 37706
+Trace-_2_5	37706	188.465000	466.153000	0.012363	0	0	0	0
+[INFO] - server searching... 37767
+Trace-_2_5	37767	186.989000	461.027000	0.012207	0	0	0	0
+[INFO] - server searching... 37788
+Trace-_2_5	37788	176.536000	434.499000	0.011498	0	0	0	0
+[INFO] - server searching... 37800
+Trace-_2_5	37800	178.765000	443.441000	0.011731	0	0	0	0
+[INFO] - server searching... 38019
+Trace-_2_5	38019	191.728000	473.179000	0.012446	0	0	0	0
+[INFO] - server searching... 38157
+Trace-_2_5	38157	193.771000	476.131000	0.012478	0	0	0	0
+[INFO] - server searching... 38223
+Trace-_2_5	38223	191.753000	474.511000	0.012414	0	0	0	0
+[INFO] - server searching... 38356
+Trace-_2_5	38356	195.924000	480.336000	0.012523	0	0	0	0
+[INFO] - server searching... 38498
+Trace-_2_5	38498	195.199000	480.362000	0.012478	0	0	0	0
+[INFO] - server searching... 38587
+Trace-_2_5	38587	197.000000	482.935000	0.012515	0	0	0	0
+[INFO] - server searching... 38737
+Trace-_2_5	38737	195.921000	481.202000	0.012422	0	0	0	0
+[INFO] - server searching... 38963
+Trace-_2_5	38963	198.911000	486.356000	0.012483	0	0	0	0
+[INFO] - server searching... 39013
+Trace-_2_5	39013	195.026000	479.490000	0.012291	0	0	0	0
+[INFO] - server searching... 39097
+Trace-_2_5	39097	196.691000	481.193000	0.012308	0	0	0	0
+[INFO] - server searching... 39790
+Trace-_2_5	39790	204.216000	498.434000	0.012527	0	0	0	0
+[INFO] - server searching... 39810
+Trace-_2_5	39810	199.467000	489.656000	0.012300	0	0	0	0
+[INFO] - server searching... 39937
+Trace-_2_5	39937	204.341000	503.477000	0.012607	0	0	0	0
+[INFO] - server searching... 39951
+Trace-_2_5	39951	186.379000	458.644000	0.011480	0	0	0	0
+[INFO] - server searching... 39997
+Trace-_2_5	39997	198.884000	488.649000	0.012217	0	0	0	0
+[INFO] - server searching... 40052
+Trace-_2_5	40052	205.849000	502.872000	0.012555	0	0	0	0
+[INFO] - server searching... 40175
+Trace-_2_5	40175	206.735000	504.514000	0.012558	0	0	0	0
+[INFO] - server searching... 40273
+Trace-_2_5	40273	207.308000	507.434000	0.012600	0	0	0	0
+[INFO] - server searching... 40286
+Trace-_2_5	40286	204.454000	501.126000	0.012439	0	0	0	0
+[INFO] - server searching... 40375
+Trace-_2_5	40375	201.858000	496.306000	0.012292	0	0	0	0
+[INFO] - server searching... 40393
+Trace-_2_5	40393	195.907000	482.134000	0.011936	0	0	0	0
+[INFO] - server searching... 40468
+Trace-_2_5	40468	207.679000	507.286000	0.012535	0	0	0	0
+[INFO] - server searching... 40523
+Trace-_2_5	40523	205.354000	504.412000	0.012448	0	0	0	0
+[INFO] - server searching... 40563
+Trace-_2_5	40563	204.801000	503.158000	0.012404	0	0	0	0
+[INFO] - server searching... 40971
+Trace-_2_5	40971	206.047000	505.302000	0.012333	0	0	0	0
+[INFO] - server searching... 40996
+Trace-_2_5	40996	200.423000	491.383000	0.011986	0	0	0	0
+[INFO] - server searching... 40998
+Trace-_2_5	40998	196.861000	482.397000	0.011766	0	0	0	0
+[INFO] - server searching... 41446
+Trace-_2_5	41446	216.938000	525.271000	0.012674	0	0	0	0
+[INFO] - server searching... 41525
+Trace-_2_5	41525	213.866000	520.161000	0.012526	0	0	0	0
+[INFO] - server searching... 41748
+Trace-_2_5	41748	216.980000	526.027000	0.012600	0	0	0	0
+[INFO] - server searching... 41919
+Trace-_2_5	41919	204.196000	515.965000	0.012309	0	0	0	0
+[INFO] - server searching... 42063
+Trace-_2_5	42063	207.917000	519.580000	0.012352	0	0	0	0
+[INFO] - server searching... 42419
+Trace-_2_5	42419	208.232000	517.211000	0.012193	0	0	0	0
+[INFO] - server searching... 42458
+Trace-_2_5	42458	206.229000	514.205000	0.012111	0	0	0	0
+[INFO] - server searching... 42499
+Trace-_2_5	42499	199.338000	498.522000	0.011730	0	0	0	0
+[INFO] - server searching... 42623
+Trace-_2_5	42623	209.037000	522.185000	0.012251	0	0	0	0
+[INFO] - server searching... 42667
+Trace-_2_5	42667	211.417000	528.745000	0.012392	0	0	0	0
+[INFO] - server searching... 42722
+Trace-_2_5	42722	204.197000	509.651000	0.011929	0	0	0	0
+[INFO] - server searching... 42875
+Trace-_2_5	42875	209.984000	526.421000	0.012278	0	0	0	0
+[INFO] - server searching... 42899
+Trace-_2_5	42899	195.072000	487.495000	0.011364	0	0	0	0
+[INFO] - server searching... 42955
+Trace-_2_5	42955	192.652000	485.126000	0.011294	0	0	0	0
+[INFO] - server searching... 43018
+Trace-_2_5	43018	209.523000	520.514000	0.012100	0	0	0	0
+[INFO] - server searching... 43081
+Trace-_2_5	43081	207.261000	518.787000	0.012042	0	0	0	0
+[INFO] - server searching... 43312
+Trace-_2_5	43312	211.844000	537.453000	0.012409	0	0	0	0
+[INFO] - server searching... 43440
+Trace-_2_5	43440	213.742000	542.650000	0.012492	0	0	0	0
+[INFO] - server searching... 43475
+Trace-_2_5	43475	213.055000	534.292000	0.012290	0	0	0	0
+[INFO] - server searching... 43633
+Trace-_2_5	43633	212.669000	533.425000	0.012225	0	0	0	0
+[INFO] - server searching... 43638
+Trace-_2_5	43638	201.766000	504.822000	0.011568	0	0	0	0
+[INFO] - server searching... 43966
+Trace-_2_5	43966	218.344000	542.405000	0.012337	0	0	0	0
+[INFO] - server searching... 43986
+Trace-_2_5	43986	102.675000	257.620000	0.005857	0	0	0	0
+[INFO] - server searching... 44026
+Trace-_2_5	44026	223.423000	576.102000	0.013085	0	0	0	0
+[INFO] - server searching... 44215
+Trace-_2_5	44215	212.826000	532.077000	0.012034	0	0	0	0
+[INFO] - server searching... 44349
+Trace-_2_5	44349	217.423000	543.360000	0.012252	0	0	0	0
+[INFO] - server searching... 44573
+Trace-_2_5	44573	215.398000	539.238000	0.012098	0	0	0	0
+[INFO] - server searching... 44640
+Trace-_2_5	44640	193.061000	480.782000	0.010770	0	0	0	0
+[INFO] - server searching... 44798
+Trace-_2_5	44798	213.723000	538.769000	0.012027	0	0	0	0
+[INFO] - server searching... 44833
+Trace-_2_5	44833	140.284000	351.082000	0.007831	0	0	0	0
+[INFO] - server searching... 44882
+Trace-_2_5	44882	211.545000	534.164000	0.011902	0	0	0	0
+[INFO] - server searching... 45026
+Trace-_2_5	45026	207.316000	523.176000	0.011619	0	0	0	0
+[INFO] - server searching... 45207
+Trace-_2_5	45207	220.731000	555.643000	0.012291	0	0	0	0
+[INFO] - server searching... 45401
+Trace-_2_5	45401	215.114000	552.336000	0.012166	0	0	0	0
+[INFO] - server searching... 45526
+Trace-_2_5	45526	219.718000	554.351000	0.012177	0	0	0	0
+[INFO] - server searching... 45632
+Trace-_2_5	45632	222.684000	563.506000	0.012349	0	0	0	0
+[INFO] - server searching... 45694
+Trace-_2_5	45694	223.640000	560.762000	0.012272	0	0	0	0
+[INFO] - server searching... 45779
+Trace-_2_5	45779	222.098000	560.479000	0.012243	0	0	0	0
+[INFO] - server searching... 45868
+Trace-_2_5	45868	219.668000	549.611000	0.011982	0	0	0	0
+[INFO] - server searching... 45898
+Trace-_2_5	45898	201.865000	512.114000	0.011158	0	0	0	0
+[INFO] - server searching... 45955
+Trace-_2_5	45955	222.719000	561.563000	0.012220	0	0	0	0
+[INFO] - server searching... 46009
+Trace-_2_5	46009	222.482000	561.214000	0.012198	0	0	0	0
+[INFO] - server searching... 46111
+Trace-_2_5	46111	211.428000	531.002000	0.011516	0	0	0	0
+[INFO] - server searching... 46356
+Trace-_2_5	46356	219.309000	554.824000	0.011969	0	0	0	0
+[INFO] - server searching... 46443
+Trace-_2_5	46443	224.681000	566.640000	0.012201	0	0	0	0
+[INFO] - server searching... 46470
+Trace-_2_5	46470	213.806000	534.815000	0.011509	0	0	0	0
+[INFO] - server searching... 46623
+Trace-_2_5	46623	220.614000	556.720000	0.011941	0	0	0	0
+[INFO] - server searching... 47114
+Trace-_2_5	47114	230.521000	578.531000	0.012279	0	0	0	0
+[INFO] - server searching... 47175
+Trace-_2_5	47175	228.702000	575.539000	0.012200	0	0	0	0
+[INFO] - server searching... 47179
+Trace-_2_5	47179	213.887000	539.538000	0.011436	0	0	0	0
+[INFO] - server searching... 47273
+Trace-_2_5	47273	230.642000	581.132000	0.012293	0	0	0	0
+[INFO] - server searching... 47308
+Trace-_2_5	47308	226.356000	570.443000	0.012058	0	0	0	0
+[INFO] - server searching... 47394
+Trace-_2_5	47394	234.118000	584.922000	0.012342	0	0	0	0
+[INFO] - server searching... 47419
+Trace-_2_5	47419	229.874000	580.641000	0.012245	0	0	0	0
+[INFO] - server searching... 47433
+Trace-_2_5	47433	195.463000	493.125000	0.010396	0	0	0	0
+[INFO] - server searching... 47701
+Trace-_2_5	47701	233.252000	586.589000	0.012297	0	0	0	0
+[INFO] - server searching... 47893
+Trace-_2_5	47893	231.559000	583.992000	0.012194	0	0	0	0
+[INFO] - server searching... 47964
+Trace-_2_5	47964	233.775000	588.041000	0.012260	0	0	0	0
+[INFO] - server searching... 48479
+Trace-_2_5	48479	238.813000	597.021000	0.012315	0	0	0	0
+[INFO] - server searching... 48668
+Trace-_2_5	48668	231.986000	582.699000	0.011973	0	0	0	0
+[INFO] - server searching... 48684
+Trace-_2_5	48684	112.308000	283.636000	0.005826	0	0	0	0
+[INFO] - server searching... 48775
+Trace-_2_5	48775	237.951000	598.021000	0.012261	0	0	0	0
+[INFO] - server searching... 48794
+Trace-_2_5	48794	238.791000	599.872000	0.012294	0	0	0	0
+[INFO] - server searching... 48820
+Trace-_2_5	48820	113.085000	286.390000	0.005866	0	0	0	0
+[INFO] - server searching... 48925
+Trace-_2_5	48925	238.688000	599.550000	0.012254	0	0	0	0
+[INFO] - server searching... 49001
+Trace-_2_5	49001	238.529000	599.452000	0.012233	0	0	0	0
+[INFO] - server searching... 49079
+Trace-_2_5	49079	224.819000	566.902000	0.011551	0	0	0	0
+[INFO] - server searching... 49181
+Trace-_2_5	49181	243.785000	607.501000	0.012352	0	0	0	0
+[INFO] - server searching... 49304
+Trace-_2_5	49304	241.570000	616.484000	0.012504	0	0	0	0
+[INFO] - server searching... 49328
+Trace-_2_5	49328	221.155000	555.820000	0.011268	0	0	0	0
+[INFO] - server searching... 49336
+Trace-_2_5	49336	114.376000	288.217000	0.005842	0	0	0	0
+[INFO] - server searching... 49388
+Trace-_2_5	49388	242.077000	607.089000	0.012292	0	0	0	0
+[INFO] - server searching... 49499
+Trace-_2_5	49499	241.116000	605.805000	0.012239	0	0	0	0
+[INFO] - server searching... 49503
+Trace-_2_5	49503	236.036000	596.472000	0.012049	0	0	0	0
+[INFO] - server searching... 49504
+Trace-_2_5	49504	114.718000	288.758000	0.005833	0	0	0	0
+[INFO] - server searching... 49548
+Trace-_2_5	49548	241.271000	607.730000	0.012265	0	0	0	0
+[INFO] - server searching... 49587
+Trace-_2_5	49587	241.244000	606.707000	0.012235	0	0	0	0
+[INFO] - server searching... 49627
+Trace-_2_5	49627	232.332000	583.090000	0.011749	0	0	0	0
+[INFO] - server searching... 49758
+Trace-_2_5	49758	230.105000	574.977000	0.011555	0	0	0	0
+[INFO] - server searching... 49841
+Trace-_2_5	49841	242.296000	611.079000	0.012261	0	0	0	0
+[INFO] - server searching... 49844
+Trace-_2_5	49844	228.810000	575.679000	0.011550	0	0	0	0
+[INFO] - server searching... 49899
+Trace-_2_5	49899	227.520000	571.723000	0.011458	0	0	0	0
+[INFO] - server searching... 49996
+Trace-_2_5	49996	238.260000	595.193000	0.011905	0	0	0	0
+[INFO] - server searching... 50397
+Trace-_2_5	50397	245.939000	617.926000	0.012261	0	0	0	0
+[INFO] - server searching... 50475
+Trace-_2_5	50475	248.344000	620.536000	0.012294	0	0	0	0
+[INFO] - server searching... 50743
+Trace-_2_5	50743	251.215000	629.516000	0.012406	0	0	0	0
+[INFO] - server searching... 50773
+Trace-_2_5	50773	240.604000	604.776000	0.011911	0	0	0	0
+[INFO] - server searching... 50828
+Trace-_2_5	50828	246.214000	613.897000	0.012078	0	0	0	0
+[INFO] - server searching... 50893
+Trace-_2_5	50893	247.295000	622.070000	0.012223	0	0	0	0
+[INFO] - server searching... 50920
+Trace-_2_5	50920	225.716000	568.334000	0.011161	0	0	0	0
+[INFO] - server searching... 50971
+Trace-_2_5	50971	222.960000	559.356000	0.010974	0	0	0	0
+[INFO] - server searching... 50984
+Trace-_2_5	50984	119.017000	298.679000	0.005858	0	0	0	0
+[INFO] - server searching... 50988
+Trace-_2_5	50988	239.236000	600.752000	0.011782	0	0	0	0
+[INFO] - server searching... 51221
+Trace-_2_5	51221	251.303000	629.435000	0.012289	0	0	0	0
+[INFO] - server searching... 51340
+Trace-_2_5	51340	245.088000	609.923000	0.011880	0	0	0	0
+[INFO] - server searching... 51387
+Trace-_2_5	51387	243.247000	606.990000	0.011812	0	0	0	0
+[INFO] - server searching... 51512
+Trace-_2_5	51512	224.925000	562.220000	0.010914	0	0	0	0
+[INFO] - server searching... 51547
+Trace-_2_5	51547	169.247000	424.795000	0.008241	0	0	0	0
+[INFO] - server searching... 51550
+Trace-_2_5	51550	239.333000	598.484000	0.011610	0	0	0	0
+[INFO] - server searching... 51565
+Trace-_2_5	51565	233.192000	582.868000	0.011304	0	0	0	0
+[INFO] - server searching... 52123
+Trace-_2_5	52123	255.511000	639.554000	0.012270	0	0	0	0
+[INFO] - server searching... 52364
+Trace-_2_5	52364	253.167000	632.829000	0.012085	0	0	0	0
+[INFO] - server searching... 52511
+Trace-_2_5	52511	223.859000	570.576000	0.010866	0	0	0	0
+[INFO] - server searching... 52529
+Trace-_2_5	52529	120.059000	305.442000	0.005815	0	0	0	0
+[INFO] - server searching... 52672
+Trace-_2_5	52672	228.341000	576.556000	0.010946	0	0	0	0
+[INFO] - server searching... 52897
+Trace-_2_5	52897	229.386000	583.309000	0.011027	0	0	0	0
+[INFO] - server searching... 52997
+Trace-_2_5	52997	255.161000	645.470000	0.012179	0	0	0	0
+[INFO] - server searching... 53071
+Trace-_2_5	53071	237.604000	602.027000	0.011344	0	0	0	0
+[INFO] - server searching... 53159
+Trace-_2_5	53159	259.185000	651.136000	0.012249	0	0	0	0
+[INFO] - server searching... 53181
+Trace-_2_5	53181	224.310000	569.302000	0.010705	0	0	0	0
+[INFO] - server searching... 53232
+Trace-_2_5	53232	226.516000	571.911000	0.010744	0	0	0	0
+[INFO] - server searching... 53401
+Trace-_2_5	53401	256.289000	652.723000	0.012223	0	0	0	0
+[INFO] - server searching... 53472
+Trace-_2_5	53472	258.202000	652.829000	0.012209	0	0	0	0
+[INFO] - server searching... 53516
+Trace-_2_5	53516	248.813000	630.255000	0.011777	0	0	0	0
+[INFO] - server searching... 53647
+Trace-_2_5	53647	255.838000	648.298000	0.012085	0	0	0	0
+[INFO] - server searching... 53766
+Trace-_2_5	53766	257.270000	652.606000	0.012138	0	0	0	0
+[INFO] - server searching... 53820
+Trace-_2_5	53820	262.435000	660.615000	0.012275	0	0	0	0
+[INFO] - server searching... 53859
+Trace-_2_5	53859	258.071000	653.272000	0.012129	0	0	0	0
+[INFO] - server searching... 54407
+Trace-_2_5	54407	262.536000	664.797000	0.012219	0	0	0	0
+[INFO] - server searching... 54444
+Trace-_2_5	54444	240.590000	612.089000	0.011243	0	0	0	0
+[INFO] - server searching... 54540
+Trace-_2_5	54540	252.245000	637.732000	0.011693	0	0	0	0
+[INFO] - server searching... 54601
+Trace-_2_5	54601	262.200000	673.196000	0.012329	0	0	0	0
+[INFO] - server searching... 54623
+Trace-_2_5	54623	253.748000	639.227000	0.011703	0	0	0	0
+[INFO] - server searching... 54798
+Trace-_2_5	54798	266.774000	669.767000	0.012222	0	0	0	0
+[INFO] - server searching... 54835
+Trace-_2_5	54835	246.539000	626.888000	0.011432	0	0	0	0
+[INFO] - server searching... 54864
+Trace-_2_5	54864	263.833000	668.191000	0.012179	0	0	0	0
+[INFO] - server searching... 54918
+Trace-_2_5	54918	266.778000	673.161000	0.012258	0	0	0	0
+[INFO] - server searching... 54994
+Trace-_2_5	54994	245.106000	622.686000	0.011323	0	0	0	0
+[INFO] - server searching... 55073
+Trace-_2_5	55073	264.770000	669.622000	0.012159	0	0	0	0
+[INFO] - server searching... 55086
+Trace-_2_5	55086	250.333000	636.312000	0.011551	0	0	0	0
+[INFO] - server searching... 55388
+Trace-_2_5	55388	245.837000	617.559000	0.011150	0	0	0	0
+[INFO] - server searching... 55543
+Trace-_2_5	55543	269.650000	679.206000	0.012228	0	0	0	0
+[INFO] - server searching... 55625
+Trace-_2_5	55625	264.809000	666.645000	0.011985	0	0	0	0
+[INFO] - server searching... 55636
+Trace-_2_5	55636	128.332000	323.840000	0.005821	0	0	0	0
+[INFO] - server searching... 55688
+Trace-_2_5	55688	264.617000	672.670000	0.012079	0	0	0	0
+[INFO] - server searching... 55820
+Trace-_2_5	55820	260.555000	654.820000	0.011731	0	0	0	0
+[INFO] - server searching... 55842
+Trace-_2_5	55842	168.369000	428.779000	0.007678	0	0	0	0
+[INFO] - server searching... 55931
+Trace-_2_5	55931	266.956000	676.642000	0.012098	0	0	0	0
+[INFO] - server searching... 55977
+Trace-_2_5	55977	184.388000	469.081000	0.008380	0	0	0	0
+[INFO] - server searching... 56093
+Trace-_2_5	56093	266.482000	668.612000	0.011920	0	0	0	0
+[INFO] - server searching... 56268
+Trace-_2_5	56268	259.332000	656.633000	0.011670	0	0	0	0
+[INFO] - server searching... 56341
+Trace-_2_5	56341	262.044000	664.087000	0.011787	0	0	0	0
+[INFO] - server searching... 56394
+Trace-_2_5	56394	271.865000	687.415000	0.012190	0	0	0	0
+[INFO] - server searching... 56441
+Trace-_2_5	56441	270.591000	685.961000	0.012154	0	0	0	0
+[INFO] - server searching... 56459
+Trace-_2_5	56459	231.901000	587.524000	0.010406	0	0	0	0
+[INFO] - server searching... 56670
+Trace-_2_5	56670	245.694000	620.149000	0.010943	0	0	0	0
+[INFO] - server searching... 56746
+Trace-_2_5	56746	273.040000	689.601000	0.012152	0	0	0	0
+[INFO] - server searching... 56790
+Trace-_2_5	56790	277.727000	697.954000	0.012290	0	0	0	0
+[INFO] - server searching... 56823
+Trace-_2_5	56823	274.351000	692.840000	0.012193	0	0	0	0
+[INFO] - server searching... 56851
+Trace-_2_5	56851	266.865000	673.361000	0.011844	0	0	0	0
+[INFO] - server searching... 56854
+Trace-_2_5	56854	267.083000	677.388000	0.011915	0	0	0	0
+[INFO] - server searching... 56870
+Trace-_2_5	56870	130.727000	331.717000	0.005833	0	0	0	0
+[INFO] - server searching... 56933
+Trace-_2_5	56933	242.968000	615.042000	0.010803	0	0	0	0
+[INFO] - server searching... 56954
+Trace-_2_5	56954	170.124000	429.184000	0.007536	0	0	0	0
+[INFO] - server searching... 56955
+Trace-_2_5	56955	261.757000	660.406000	0.011595	0	0	0	0
+[INFO] - server searching... 56995
+Trace-_2_5	56995	256.862000	650.028000	0.011405	0	0	0	0
+[INFO] - server searching... 57031
+Trace-_2_5	57031	273.033000	692.080000	0.012135	0	0	0	0
+[INFO] - server searching... 57119
+Trace-_2_5	57119	246.032000	622.517000	0.010899	0	0	0	0
+[INFO] - server searching... 57731
+Trace-_2_5	57731	247.379000	623.670000	0.010803	0	0	0	0
+[INFO] - server searching... 57766
+Trace-_2_5	57766	199.895000	506.796000	0.008773	0	0	0	0
+[INFO] - server searching... 58084
+Trace-_2_5	58084	263.380000	665.794000	0.011463	0	0	0	0
+[INFO] - server searching... 58151
+Trace-_2_5	58151	267.240000	677.377000	0.011649	0	0	0	0
+[INFO] - server searching... 58176
+Trace-_2_5	58176	257.070000	646.776000	0.011118	0	0	0	0
+[INFO] - server searching... 58213
+Trace-_2_5	58213	221.840000	556.361000	0.009557	0	0	0	0
+[INFO] - server searching... 58247
+Trace-_2_5	58247	271.107000	684.118000	0.011745	0	0	0	0
+[INFO] - server searching... 58319
+Trace-_2_5	58319	269.340000	679.126000	0.011645	0	0	0	0
+[INFO] - server searching... 58649
+Trace-_2_5	58649	282.760000	716.985000	0.012225	0	0	0	0
+[INFO] - server searching... 58853
+Trace-_2_5	58853	282.688000	717.026000	0.012183	0	0	0	0
+[INFO] - server searching... 58871
+Trace-_2_5	58871	261.323000	661.080000	0.011229	0	0	0	0
+[INFO] - server searching... 58874
+Trace-_2_5	58874	246.094000	625.394000	0.010623	0	0	0	0
+[INFO] - server searching... 58955
+Trace-_2_5	58955	269.549000	687.115000	0.011655	0	0	0	0
+[INFO] - server searching... 58965
+Trace-_2_5	58965	260.420000	652.774000	0.011071	0	0	0	0
+[INFO] - server searching... 59063
+Trace-_2_5	59063	284.498000	722.362000	0.012230	0	0	0	0
+[INFO] - server searching... 59230
+Trace-_2_5	59230	249.325000	631.436000	0.010661	0	0	0	0
+[INFO] - server searching... 59259
+Trace-_2_5	59259	210.760000	534.102000	0.009013	0	0	0	0
+[INFO] - server searching... 59513
+Trace-_2_5	59513	271.737000	686.361000	0.011533	0	0	0	0
+[INFO] - server searching... 59713
+Trace-_2_5	59713	266.755000	675.300000	0.011309	0	0	0	0
+[INFO] - server searching... 59781
+Trace-_2_5	59781	293.423000	740.571000	0.012388	0	0	0	0
+[INFO] - server searching... 59800
+Trace-_2_5	59800	258.866000	657.303000	0.010992	0	0	0	0
+[INFO] - server searching... 59923
+Trace-_2_5	59923	280.404000	707.530000	0.011807	0	0	0	0
+[INFO] - server searching... 60019
+Trace-_2_5	60019	259.842000	655.867000	0.010928	0	0	0	0
+[INFO] - server searching... 60055
+Trace-_2_5	60055	238.869000	605.262000	0.010078	0	0	0	0
+[INFO] - server searching... 60057
+Trace-_2_5	60057	137.704000	348.826000	0.005808	0	0	0	0
+[INFO] - server searching... 60068
+Trace-_2_5	60068	274.594000	693.496000	0.011545	0	0	0	0
+[INFO] - server searching... 60221
+Trace-_2_5	60221	293.078000	730.546000	0.012131	0	0	0	0
+[INFO] - server searching... 60250
+Trace-_2_5	60250	160.185000	407.220000	0.006759	0	0	0	0
+[INFO] - server searching... 60305
+Trace-_2_5	60305	276.068000	696.829000	0.011555	0	0	0	0
+[INFO] - server searching... 60319
+Trace-_2_5	60319	259.929000	653.063000	0.010827	0	0	0	0
+[INFO] - server searching... 60347
+Trace-_2_5	60347	193.068000	488.434000	0.008094	0	0	0	0
+[INFO] - server searching... 60430
+Trace-_2_5	60430	278.398000	704.062000	0.011651	0	0	0	0
+[INFO] - server searching... 60498
+Trace-_2_5	60498	269.277000	684.662000	0.011317	0	0	0	0
+[INFO] - server searching... 60565
+Trace-_2_5	60565	288.993000	737.971000	0.012185	0	0	0	0
+[INFO] - server searching... 60689
+Trace-_2_5	60689	291.618000	739.719000	0.012189	0	0	0	0
+[INFO] - server searching... 60782
+Trace-_2_5	60782	290.803000	739.695000	0.012170	0	0	0	0
+[INFO] - server searching... 60809
+Trace-_2_5	60809	267.931000	681.157000	0.011202	0	0	0	0
+[INFO] - server searching... 60914
+Trace-_2_5	60914	279.074000	705.725000	0.011586	0	0	0	0
+[INFO] - server searching... 60997
+Trace-_2_5	60997	281.602000	710.666000	0.011651	0	0	0	0
+[INFO] - server searching... 61091
+Trace-_2_5	61091	292.594000	743.957000	0.012178	0	0	0	0
+[INFO] - server searching... 61108
+Trace-_2_5	61108	259.180000	656.329000	0.010740	0	0	0	0
+[INFO] - server searching... 61114
+Trace-_2_5	61114	245.183000	622.174000	0.010181	0	0	0	0
+[INFO] - server searching... 61208
+Trace-_2_5	61208	282.342000	719.362000	0.011753	0	0	0	0
+[INFO] - server searching... 61302
+Trace-_2_5	61302	246.864000	627.532000	0.010237	0	0	0	0
+[INFO] - server searching... 61336
+Trace-_2_5	61336	232.065000	591.076000	0.009637	0	0	0	0
+[INFO] - server searching... 61423
+Trace-_2_5	61423	286.597000	725.366000	0.011809	0	0	0	0
+[INFO] - server searching... 61556
+Trace-_2_5	61556	299.501000	754.241000	0.012253	0	0	0	0
+[INFO] - server searching... 61809
+Trace-_2_5	61809	283.622000	714.166000	0.011554	0	0	0	0
+[INFO] - server searching... 61844
+Trace-_2_5	61844	286.419000	726.846000	0.011753	0	0	0	0
+[INFO] - server searching... 61879
+Trace-_2_5	61879	277.486000	707.352000	0.011431	0	0	0	0
+[INFO] - server searching... 61967
+Trace-_2_5	61967	270.507000	689.155000	0.011121	0	0	0	0
+[INFO] - server searching... 62116
+Trace-_2_5	62116	277.754000	707.797000	0.011395	0	0	0	0
+[INFO] - server searching... 62121
+Trace-_2_5	62121	265.492000	675.254000	0.010870	0	0	0	0
+[INFO] - server searching... 62346
+Trace-_2_5	62346	254.219000	643.672000	0.010324	0	0	0	0
+[INFO] - server searching... 62430
+Trace-_2_5	62430	297.520000	766.416000	0.012276	0	0	0	0
+[INFO] - server searching... 62489
+Trace-_2_5	62489	265.959000	679.289000	0.010871	0	0	0	0
+[INFO] - server searching... 62519
+Trace-_2_5	62519	216.765000	553.435000	0.008852	0	0	0	0
+[INFO] - server searching... 62571
+Trace-_2_5	62571	285.728000	731.785000	0.011695	0	0	0	0
+[INFO] - server searching... 62633
+Trace-_2_5	62633	244.277000	625.219000	0.009982	0	0	0	0
+[INFO] - server searching... 62801
+Trace-_2_5	62801	299.476000	766.424000	0.012204	0	0	0	0
+[INFO] - server searching... 62817
+Trace-_2_5	62817	257.183000	657.333000	0.010464	0	0	0	0
+[INFO] - server searching... 62924
+Trace-_2_5	62924	251.481000	637.134000	0.010125	0	0	0	0
+[INFO] - server searching... 63077
+Trace-_2_5	63077	301.178000	772.275000	0.012243	0	0	0	0
+[INFO] - server searching... 63180
+Trace-_2_5	63180	289.803000	743.945000	0.011775	0	0	0	0
+[INFO] - server searching... 63285
+Trace-_2_5	63285	293.870000	753.140000	0.011901	0	0	0	0
+[INFO] - server searching... 63521
+Trace-_2_5	63521	275.882000	703.661000	0.011078	0	0	0	0
+[INFO] - server searching... 63522
+Trace-_2_5	63522	144.774000	369.545000	0.005818	0	0	0	0
+[INFO] - server searching... 63680
+Trace-_2_5	63680	251.925000	640.728000	0.010062	0	0	0	0
+[INFO] - server searching... 63752
+Trace-_2_5	63752	310.547000	786.204000	0.012332	0	0	0	0
+[INFO] - server searching... 63977
+Trace-_2_5	63977	271.740000	692.619000	0.010826	0	0	0	0
+[INFO] - server searching... 64107
+Trace-_2_5	64107	261.915000	662.113000	0.010328	0	0	0	0
+[INFO] - server searching... 64209
+Trace-_2_5	64209	292.225000	742.428000	0.011563	0	0	0	0
+[INFO] - server searching... 64414
+Trace-_2_5	64414	274.270000	696.508000	0.010813	0	0	0	0
+[INFO] - server searching... 64538
+Trace-_2_5	64538	276.284000	698.809000	0.010828	0	0	0	0
+[INFO] - server searching... 64862
+Trace-_2_5	64862	314.953000	797.689000	0.012298	0	0	0	0
+[INFO] - server searching... 64880
+Trace-_2_5	64880	248.961000	633.451000	0.009763	0	0	0	0
+[INFO] - server searching... 65149
+Trace-_2_5	65149	259.443000	657.120000	0.010086	0	0	0	0
+[INFO] - server searching... 65244
+Trace-_2_5	65244	293.231000	743.604000	0.011397	0	0	0	0
+[INFO] - server searching... 65272
+Trace-_2_5	65272	230.243000	586.629000	0.008987	0	0	0	0
+[INFO] - server searching... 65308
+Trace-_2_5	65308	154.478000	391.441000	0.005994	0	0	0	0
+[INFO] - server searching... 65328
+Trace-_2_5	65328	196.344000	500.653000	0.007664	0	0	0	0
+[INFO] - server searching... 65385
+Trace-_2_5	65385	317.990000	806.451000	0.012334	0	0	0	0
+[INFO] - server searching... 65409
+Trace-_2_5	65409	283.528000	721.831000	0.011036	0	0	0	0
+[INFO] - server searching... 65425
+Trace-_2_5	65425	302.432000	770.439000	0.011776	0	0	0	0
+[INFO] - server searching... 65678
+Trace-_2_5	65678	265.890000	670.349000	0.010207	0	0	0	0
+[INFO] - server searching... 65910
+Trace-_2_5	65910	317.279000	805.776000	0.012225	0	0	0	0
+[INFO] - server searching... 66211
+Trace-_2_5	66211	278.705000	706.522000	0.010671	0	0	0	0
+[INFO] - server searching... 66216
+Trace-_2_5	66216	176.423000	452.384000	0.006832	0	0	0	0
+[INFO] - server searching... 66345
+Trace-_2_5	66345	258.547000	662.121000	0.009980	0	0	0	0
+[INFO] - server searching... 66428
+Trace-_2_5	66428	315.751000	803.073000	0.012089	0	0	0	0
+[INFO] - server searching... 66443
+Trace-_2_5	66443	191.293000	486.875000	0.007328	0	0	0	0
+[INFO] - server searching... 66571
+Trace-_2_5	66571	310.164000	787.246000	0.011826	0	0	0	0
+[INFO] - server searching... 66633
+Trace-_2_5	66633	303.506000	765.716000	0.011492	0	0	0	0
+[INFO] - server searching... 66641
+Trace-_2_5	66641	181.790000	466.698000	0.007003	0	0	0	0
+[INFO] - server searching... 66681
+Trace-_2_5	66681	265.891000	673.352000	0.010098	0	0	0	0
+[INFO] - server searching... 66709
+Trace-_2_5	66709	245.059000	623.303000	0.009344	0	0	0	0
+[INFO] - server searching... 66712
+Trace-_2_5	66712	268.479000	682.846000	0.010236	0	0	0	0
+[INFO] - server searching... 67037
+Trace-_2_5	67037	301.789000	762.076000	0.011368	0	0	0	0
+[INFO] - server searching... 67163
+Trace-_2_5	67163	257.569000	655.870000	0.009765	0	0	0	0
+[INFO] - server searching... 67199
+Trace-_2_5	67199	248.831000	634.214000	0.009438	0	0	0	0
+[INFO] - server searching... 67276
+Trace-_2_5	67276	295.253000	751.940000	0.011177	0	0	0	0
+[INFO] - server searching... 67345
+Trace-_2_5	67345	304.224000	774.801000	0.011505	0	0	0	0
+[INFO] - server searching... 67386
+Trace-_2_5	67386	257.998000	658.106000	0.009766	0	0	0	0
+[INFO] - server searching... 67534
+Trace-_2_5	67534	259.432000	658.978000	0.009758	0	0	0	0
+[INFO] - server searching... 67681
+Trace-_2_5	67681	328.984000	833.487000	0.012315	0	0	0	0
+[INFO] - server searching... 68037
+Trace-_2_5	68037	157.189000	399.306000	0.005869	0	0	0	0
+[INFO] - server searching... 68065
+Trace-_2_5	68065	259.983000	663.100000	0.009742	0	0	0	0
+[INFO] - server searching... 68242
+Trace-_2_5	68242	327.852000	833.466000	0.012213	0	0	0	0
+[INFO] - server searching... 68284
+Trace-_2_5	68284	250.390000	637.365000	0.009334	0	0	0	0
+[INFO] - server searching... 68286
+Trace-_2_5	68286	264.694000	673.016000	0.009856	0	0	0	0
+[INFO] - server searching... 68328
+Trace-_2_5	68328	300.849000	766.269000	0.011215	0	0	0	0
+[INFO] - server searching... 68329
+Trace-_2_5	68329	242.321000	614.355000	0.008991	0	0	0	0
+[INFO] - server searching... 68334
+Trace-_2_5	68334	281.197000	716.777000	0.010489	0	0	0	0
+[INFO] - server searching... 68422
+Trace-_2_5	68422	275.153000	699.446000	0.010223	0	0	0	0
+[INFO] - server searching... 68461
+Trace-_2_5	68461	261.863000	663.291000	0.009689	0	0	0	0
+[INFO] - server searching... 68516
+Trace-_2_5	68516	260.270000	662.848000	0.009674	0	0	0	0
+[INFO] - server searching... 68606
+Trace-_2_5	68606	313.745000	792.795000	0.011556	0	0	0	0
+[INFO] - server searching... 68678
+Trace-_2_5	68678	309.438000	788.537000	0.011482	0	0	0	0
+[INFO] - server searching... 68740
+Trace-_2_5	68740	309.559000	786.737000	0.011445	0	0	0	0
+[INFO] - server searching... 68813
+Trace-_2_5	68813	337.500000	852.164000	0.012384	0	0	0	0
+[INFO] - server searching... 68918
+Trace-_2_5	68918	331.941000	844.217000	0.012250	0	0	0	0
+[INFO] - server searching... 68985
+Trace-_2_5	68985	260.151000	663.263000	0.009615	0	0	0	0
+[INFO] - server searching... 69073
+Trace-_2_5	69073	311.180000	790.178000	0.011440	0	0	0	0
+[INFO] - server searching... 69316
+Trace-_2_5	69316	332.323000	849.387000	0.012254	0	0	0	0
+[INFO] - server searching... 69345
+Trace-_2_5	69345	313.134000	798.797000	0.011519	0	0	0	0
+[INFO] - server searching... 69381
+Trace-_2_5	69381	253.747000	646.040000	0.009311	0	0	0	0
+[INFO] - server searching... 69386
+Trace-_2_5	69386	268.291000	682.759000	0.009840	0	0	0	0
+[INFO] - server searching... 69399
+Trace-_2_5	69399	250.863000	635.439000	0.009156	0	0	0	0
+[INFO] - server searching... 69629
+Trace-_2_5	69629	273.791000	692.478000	0.009945	0	0	0	0
+[INFO] - server searching... 69704
+Trace-_2_5	69704	322.073000	822.039000	0.011793	0	0	0	0
+[INFO] - server searching... 69723
+Trace-_2_5	69723	211.781000	540.321000	0.007750	0	0	0	0
+[INFO] - server searching... 70173
+Trace-_2_5	70173	340.796000	863.508000	0.012305	0	0	0	0
+[INFO] - server searching... 70290
+Trace-_2_5	70290	324.063000	826.544000	0.011759	0	0	0	0
+[INFO] - server searching... 70599
+Trace-_2_5	70599	314.677000	793.377000	0.011238	0	0	0	0
+[INFO] - server searching... 70600
+Trace-_2_5	70600	244.161000	621.742000	0.008807	0	0	0	0
+[INFO] - server searching... 70623
+Trace-_2_5	70623	227.829000	580.917000	0.008226	0	0	0	0
+[INFO] - server searching... 70758
+Trace-_2_5	70758	329.912000	835.750000	0.011811	0	0	0	0
+[INFO] - server searching... 70774
+Trace-_2_5	70774	221.875000	565.468000	0.007990	0	0	0	0
+[INFO] - server searching... 70818
+Trace-_2_5	70818	340.596000	867.299000	0.012247	0	0	0	0
+[INFO] - server searching... 70835
+Trace-_2_5	70835	306.815000	778.891000	0.010996	0	0	0	0
+[INFO] - server searching... 70929
+Trace-_2_5	70929	335.039000	845.287000	0.011917	0	0	0	0
+[INFO] - server searching... 71057
+Trace-_2_5	71057	314.346000	791.437000	0.011138	0	0	0	0
+[INFO] - server searching... 71119
+Trace-_2_5	71119	312.917000	795.265000	0.011182	0	0	0	0
+[INFO] - server searching... 71130
+Trace-_2_5	71130	262.966000	664.745000	0.009345	0	0	0	0
+[INFO] - server searching... 71150
+Trace-_2_5	71150	252.380000	640.728000	0.009005	0	0	0	0
+[INFO] - server searching... 71169
+Trace-_2_5	71169	332.693000	842.544000	0.011839	0	0	0	0
+[INFO] - server searching... 71287
+Trace-_2_5	71287	314.805000	796.774000	0.011177	0	0	0	0
+[INFO] - server searching... 71333
+Trace-_2_5	71333	268.205000	680.993000	0.009547	0	0	0	0
+[INFO] - server searching... 71344
+Trace-_2_5	71344	173.152000	440.686000	0.006177	0	0	0	0
+[INFO] - server searching... 71362
+Trace-_2_5	71362	272.842000	692.697000	0.009707	0	0	0	0
+[INFO] - server searching... 71378
+Trace-_2_5	71378	224.489000	564.689000	0.007911	0	0	0	0
+[INFO] - server searching... 71427
+Trace-_2_5	71427	342.223000	866.735000	0.012135	0	0	0	0
+[INFO] - server searching... 71503
+Trace-_2_5	71503	334.312000	844.862000	0.011816	0	0	0	0
+[INFO] - server searching... 71603
+Trace-_2_5	71603	348.115000	883.274000	0.012336	0	0	0	0
+[INFO] - server searching... 71827
+Trace-_2_5	71827	291.327000	735.650000	0.010242	0	0	0	0
+[INFO] - server searching... 71838
+Trace-_2_5	71838	176.348000	446.837000	0.006220	0	0	0	0
+[INFO] - server searching... 72112
+Trace-_2_5	72112	271.407000	688.296000	0.009545	0	0	0	0
+[INFO] - server searching... 72161
+Trace-_2_5	72161	341.030000	859.649000	0.011913	0	0	0	0
+[INFO] - server searching... 72221
+Trace-_2_5	72221	295.896000	749.993000	0.010385	0	0	0	0
+[INFO] - server searching... 72358
+Trace-_2_5	72358	278.541000	703.558000	0.009723	0	0	0	0
+[INFO] - server searching... 72409
+Trace-_2_5	72409	324.830000	824.077000	0.011381	0	0	0	0
+[INFO] - server searching... 72470
+Trace-_2_5	72470	308.171000	777.941000	0.010735	0	0	0	0
+[INFO] - server searching... 72535
+Trace-_2_5	72535	335.926000	850.039000	0.011719	0	0	0	0
+[INFO] - server searching... 72695
+Trace-_2_5	72695	276.933000	698.034000	0.009602	0	0	0	0
+[INFO] - server searching... 72721
+Trace-_2_5	72721	274.969000	691.880000	0.009514	0	0	0	0
+[INFO] - server searching... 72771
+Trace-_2_5	72771	272.254000	689.596000	0.009476	0	0	0	0
+[INFO] - server searching... 72986
+Trace-_2_5	72986	333.875000	841.749000	0.011533	0	0	0	0
+[INFO] - server searching... 72994
+Trace-_2_5	72994	321.911000	813.456000	0.011144	0	0	0	0
+[INFO] - server searching... 73066
+Trace-_2_5	73066	308.350000	780.348000	0.010680	0	0	0	0
+[INFO] - server searching... 73096
+Trace-_2_5	73096	273.413000	692.474000	0.009473	0	0	0	0
+[INFO] - server searching... 73156
+Trace-_2_5	73156	272.381000	690.121000	0.009434	0	0	0	0
+[INFO] - server searching... 73476
+Trace-_2_5	73476	340.181000	852.536000	0.011603	0	0	0	0
+[INFO] - server searching... 73508
+Trace-_2_5	73508	272.320000	687.843000	0.009357	0	0	0	0
+[INFO] - server searching... 73666
+Trace-_2_5	73666	331.232000	837.082000	0.011363	0	0	0	0
+[INFO] - server searching... 73702
+Trace-_2_5	73702	173.824000	438.761000	0.005953	0	0	0	0
+[INFO] - server searching... 73958
+Trace-_2_5	73958	174.878000	444.199000	0.006006	0	0	0	0
+[INFO] - server searching... 74238
+Trace-_2_5	74238	287.558000	724.504000	0.009759	0	0	0	0
+[INFO] - server searching... 74313
+Trace-_2_5	74313	335.188000	841.783000	0.011328	0	0	0	0
+[INFO] - server searching... 74404
+Trace-_2_5	74404	338.615000	859.579000	0.011553	0	0	0	0
+[INFO] - server searching... 74411
+Trace-_2_5	74411	180.737000	454.279000	0.006105	0	0	0	0
+[INFO] - server searching... 74538
+Trace-_2_5	74538	290.855000	732.947000	0.009833	0	0	0	0
+[INFO] - server searching... 74737
+Trace-_2_5	74737	284.283000	721.949000	0.009660	0	0	0	0
+[INFO] - server searching... 74808
+Trace-_2_5	74808	343.875000	869.684000	0.011626	0	0	0	0
+[INFO] - server searching... 74855
+Trace-_2_5	74855	277.450000	702.370000	0.009383	0	0	0	0
+[INFO] - server searching... 75430
+Trace-_2_5	75430	342.225000	864.879000	0.011466	0	0	0	0
+[INFO] - server searching... 75615
+Trace-_2_5	75615	324.757000	814.879000	0.010777	0	0	0	0
+[INFO] - server searching... 76093
+Trace-_2_5	76093	359.443000	904.348000	0.011885	0	0	0	0
+[INFO] - server searching... 76108
+Trace-_2_5	76108	182.918000	462.324000	0.006075	0	0	0	0
+[INFO] - server searching... 76299
+Trace-_2_5	76299	314.952000	789.177000	0.010343	0	0	0	0
+[INFO] - server searching... 76342
+Trace-_2_5	76342	336.484000	847.951000	0.011107	0	0	0	0
+[INFO] - server searching... 76383
+Trace-_2_5	76383	346.492000	876.105000	0.011470	0	0	0	0
+[INFO] - server searching... 76748
+Trace-_2_5	76748	316.494000	810.173000	0.010556	0	0	0	0
+[INFO] - server searching... 76750
+Trace-_2_5	76750	178.717000	451.700000	0.005885	0	0	0	0
+[INFO] - server searching... 76819
+Trace-_2_5	76819	354.578000	894.991000	0.011651	0	0	0	0
+[INFO] - server searching... 77078
+Trace-_2_5	77078	344.544000	867.405000	0.011254	0	0	0	0
+[INFO] - server searching... 77298
+Trace-_2_5	77298	284.965000	716.450000	0.009269	0	0	0	0
+[INFO] - server searching... 77366
+Trace-_2_5	77366	344.344000	866.405000	0.011199	0	0	0	0
+[INFO] - server searching... 77632
+Trace-_2_5	77632	327.599000	823.006000	0.010601	0	0	0	0
+[INFO] - server searching... 77648
+Trace-_2_5	77648	273.808000	691.330000	0.008903	0	0	0	0
+[INFO] - server searching... 77728
+Trace-_2_5	77728	343.172000	863.148000	0.011105	0	0	0	0
+[INFO] - server searching... 77733
+Trace-_2_5	77733	289.769000	725.210000	0.009329	0	0	0	0
+[INFO] - server searching... 77771
+Trace-_2_5	77771	356.743000	893.667000	0.011491	0	0	0	0
+[INFO] - server searching... 77838
+Trace-_2_5	77838	312.448000	782.274000	0.010050	0	0	0	0
+[INFO] - server searching... 77891
+Trace-_2_5	77891	369.864000	932.691000	0.011974	0	0	0	0
+[INFO] - server searching... 77933
+Trace-_2_5	77933	286.934000	723.468000	0.009283	0	0	0	0
+[INFO] - server searching... 78077
+Trace-_2_5	78077	293.283000	733.496000	0.009395	0	0	0	0
+[INFO] - server searching... 78242
+Trace-_2_5	78242	323.641000	812.569000	0.010385	0	0	0	0
+[INFO] - server searching... 78467
+Trace-_2_5	78467	373.440000	932.985000	0.011890	0	0	0	0
+[INFO] - server searching... 78751
+Trace-_2_5	78751	321.282000	810.943000	0.010298	0	0	0	0
+[INFO] - server searching... 79006
+Trace-_2_5	79006	341.192000	856.166000	0.010837	0	0	0	0
+[INFO] - server searching... 79026
+Trace-_2_5	79026	288.370000	727.837000	0.009210	0	0	0	0
+[INFO] - server searching... 79139
+Trace-_2_5	79139	339.241000	850.614000	0.010748	0	0	0	0
+[INFO] - server searching... 79153
+Trace-_2_5	79153	288.331000	726.334000	0.009176	0	0	0	0
+[INFO] - server searching... 79360
+Trace-_2_5	79360	328.830000	821.567000	0.010352	0	0	0	0
+[INFO] - server searching... 79416
+Trace-_2_5	79416	371.003000	929.349000	0.011702	0	0	0	0
+[INFO] - server searching... 79425
+Trace-_2_5	79425	192.947000	484.625000	0.006102	0	0	0	0
+[INFO] - server searching... 79489
+Trace-_2_5	79489	372.561000	939.329000	0.011817	0	0	0	0
+[INFO] - server searching... 79521
+Trace-_2_5	79521	289.385000	728.835000	0.009165	0	0	0	0
+[INFO] - server searching... 79569
+Trace-_2_5	79569	290.617000	732.477000	0.009206	0	0	0	0
+[INFO] - server searching... 79591
+Trace-_2_5	79591	289.033000	730.014000	0.009172	0	0	0	0
+[INFO] - server searching... 79827
+Trace-_2_5	79827	368.030000	918.249000	0.011503	0	0	0	0
+[INFO] - server searching... 79841
+Trace-_2_5	79841	354.600000	888.175000	0.011124	0	0	0	0
+[INFO] - server searching... 79956
+Trace-_2_5	79956	336.088000	848.650000	0.010614	0	0	0	0
+[INFO] - server searching... 80018
+Trace-_2_5	80018	375.779000	943.776000	0.011795	0	0	0	0
+[INFO] - server searching... 80025
+Trace-_2_5	80025	193.681000	487.008000	0.006086	0	0	0	0
+[INFO] - server searching... 80150
+Trace-_2_5	80150	311.063000	776.907000	0.009693	0	0	0	0
+[INFO] - server searching... 80328
+Trace-_2_5	80328	319.281000	801.008000	0.009972	0	0	0	0
+[INFO] - server searching... 80551
+Trace-_2_5	80551	368.656000	922.304000	0.011450	0	0	0	0
+[INFO] - server searching... 80774
+Trace-_2_5	80774	296.429000	742.710000	0.009195	0	0	0	0
+[INFO] - server searching... 80907
+Trace-_2_5	80907	380.288000	951.344000	0.011758	0	0	0	0
+[INFO] - server searching... 81030
+Trace-_2_5	81030	329.058000	821.243000	0.010135	0	0	0	0
+[INFO] - server searching... 81068
+Trace-_2_5	81068	295.178000	742.744000	0.009162	0	0	0	0
+[INFO] - server searching... 81145
+Trace-_2_5	81145	339.309000	852.244000	0.010503	0	0	0	0
+[INFO] - server searching... 81319
+Trace-_2_5	81319	351.767000	875.342000	0.010764	0	0	0	0
+[INFO] - server searching... 81377
+Trace-_2_5	81377	369.142000	924.852000	0.011365	0	0	0	0
+[INFO] - server searching... 81387
+Trace-_2_5	81387	281.862000	706.843000	0.008685	0	0	0	0
+[INFO] - server searching... 81663
+Trace-_2_5	81663	378.210000	946.371000	0.011589	0	0	0	0
+[INFO] - server searching... 81716
+Trace-_2_5	81716	297.478000	743.371000	0.009097	0	0	0	0
+[INFO] - server searching... 81770
+Trace-_2_5	81770	371.711000	930.146000	0.011375	0	0	0	0
+[INFO] - server searching... 81787
+Trace-_2_5	81787	349.569000	876.985000	0.010723	0	0	0	0
+[INFO] - server searching... 81892
+Trace-_2_5	81892	347.816000	863.001000	0.010538	0	0	0	0
+[INFO] - server searching... 81956
+Trace-_2_5	81956	373.846000	953.498000	0.011634	0	0	0	0
+[INFO] - server searching... 81976
+Trace-_2_5	81976	280.879000	704.825000	0.008598	0	0	0	0
+[INFO] - server searching... 82035
+Trace-_2_5	82035	322.845000	808.573000	0.009856	0	0	0	0
+[INFO] - server searching... 82117
+Trace-_2_5	82117	357.106000	888.122000	0.010815	0	0	0	0
+[INFO] - server searching... 82182
+Trace-_2_5	82182	379.781000	949.321000	0.011551	0	0	0	0
+[INFO] - server searching... 82562
+Trace-_2_5	82562	308.939000	767.879000	0.009301	0	0	0	0
+[INFO] - server searching... 82713
+Trace-_2_5	82713	356.734000	895.429000	0.010826	0	0	0	0
+[INFO] - server searching... 82819
+Trace-_2_5	82819	342.514000	858.722000	0.010369	0	0	0	0
+[INFO] - server searching... 82829
+Trace-_2_5	82829	297.422000	750.463000	0.009060	0	0	0	0
+[INFO] - server searching... 82984
+Trace-_2_5	82984	376.150000	946.003000	0.011400	0	0	0	0
+[INFO] - server searching... 83112
+Trace-_2_5	83112	302.338000	755.839000	0.009094	0	0	0	0
+[INFO] - server searching... 83236
+Trace-_2_5	83236	317.761000	790.927000	0.009502	0	0	0	0
+[INFO] - server searching... 83282
+Trace-_2_5	83282	381.443000	956.640000	0.011487	0	0	0	0
+[INFO] - server searching... 83470
+Trace-_2_5	83470	355.713000	890.624000	0.010670	0	0	0	0
+[INFO] - server searching... 83481
+Trace-_2_5	83481	300.228000	757.708000	0.009076	0	0	0	0
+[INFO] - server searching... 83499
+Trace-_2_5	83499	207.819000	521.367000	0.006244	0	0	0	0
+[INFO] - server searching... 83582
+Trace-_2_5	83582	333.142000	836.649000	0.010010	0	0	0	0
+[INFO] - server searching... 83933
+Trace-_2_5	83933	321.493000	819.613000	0.009765	0	0	0	0
+[INFO] - server searching... 84081
+Trace-_2_5	84081	365.797000	911.796000	0.010844	0	0	0	0
+[INFO] - server searching... 84182
+Trace-_2_5	84182	344.674000	865.077000	0.010276	0	0	0	0
+[INFO] - server searching... 84301
+Trace-_2_5	84301	301.538000	760.102000	0.009017	0	0	0	0
+[INFO] - server searching... 84328
+Trace-_2_5	84328	304.039000	760.320000	0.009016	0	0	0	0
+[INFO] - server searching... 84490
+Trace-_2_5	84490	359.631000	905.161000	0.010713	0	0	0	0
+[INFO] - server searching... 84507
+Trace-_2_5	84507	301.904000	759.258000	0.008985	0	0	0	0
+[INFO] - server searching... 84606
+Trace-_2_5	84606	360.990000	897.310000	0.010606	0	0	0	0
+[INFO] - server searching... 84620
+Trace-_2_5	84620	214.005000	536.662000	0.006342	0	0	0	0
+[INFO] - server searching... 84684
+Trace-_2_5	84684	342.397000	860.427000	0.010160	0	0	0	0
+[INFO] - server searching... 84847
+Trace-_2_5	84847	362.916000	907.715000	0.010698	0	0	0	0
+[INFO] - server searching... 84891
+Trace-_2_5	84891	305.737000	765.089000	0.009013	0	0	0	0
+[INFO] - server searching... 85289
+Trace-_2_5	85289	361.601000	904.524000	0.010605	0	0	0	0
+[INFO] - server searching... 85641
+Trace-_2_5	85641	326.619000	813.651000	0.009501	0	0	0	0
+[INFO] - server searching... 85646
+Trace-_2_5	85646	202.250000	506.077000	0.005909	0	0	0	0
+[INFO] - server searching... 86028
+Trace-_2_5	86028	364.013000	918.045000	0.010671	0	0	0	0
+[INFO] - server searching... 86036
+Trace-_2_5	86036	217.069000	544.362000	0.006327	0	0	0	0
+[INFO] - server searching... 86270
+Trace-_2_5	86270	349.950000	884.871000	0.010257	0	0	0	0
+[INFO] - server searching... 86403
+Trace-_2_5	86403	394.739000	985.493000	0.011406	0	0	0	0
+[INFO] - server searching... 86410
+Trace-_2_5	86410	203.985000	510.088000	0.005903	0	0	0	0
+[INFO] - server searching... 86532
+Trace-_2_5	86532	392.324000	980.887000	0.011336	0	0	0	0
+[INFO] - server searching... 86562
+Trace-_2_5	86562	307.996000	774.019000	0.008942	0	0	0	0
+[INFO] - server searching... 86588
+Trace-_2_5	86588	305.504000	768.776000	0.008879	0	0	0	0
+[INFO] - server searching... 86607
+Trace-_2_5	86607	289.834000	725.115000	0.008372	0	0	0	0
+[INFO] - server searching... 86619
+Trace-_2_5	86619	365.425000	915.780000	0.010573	0	0	0	0
+[INFO] - server searching... 86732
+Trace-_2_5	86732	359.370000	900.085000	0.010378	0	0	0	0
+[INFO] - server searching... 87044
+Trace-_2_5	87044	386.293000	965.456000	0.011092	0	0	0	0
+[INFO] - server searching... 87099
+Trace-_2_5	87099	312.025000	778.197000	0.008935	0	0	0	0
+[INFO] - server searching... 87330
+Trace-_2_5	87330	364.705000	911.680000	0.010439	0	0	0	0
+[INFO] - server searching... 87413
+Trace-_2_5	87413	361.122000	901.331000	0.010311	0	0	0	0
+[INFO] - server searching... 87445
+Trace-_2_5	87445	311.331000	778.711000	0.008905	0	0	0	0
+[INFO] - server searching... 87498
+Trace-_2_5	87498	389.701000	981.508000	0.011217	0	0	0	0
+[INFO] - server searching... 87577
+Trace-_2_5	87577	395.792000	987.324000	0.011274	0	0	0	0
+[INFO] - server searching... 87692
+Trace-_2_5	87692	334.848000	835.535000	0.009528	0	0	0	0
+[INFO] - server searching... 87750
+Trace-_2_5	87750	393.634000	985.798000	0.011234	0	0	0	0
+[INFO] - server searching... 87946
+Trace-_2_5	87946	339.046000	842.025000	0.009574	0	0	0	0
+[INFO] - server searching... 88001
+Trace-_2_5	88001	381.239000	955.729000	0.010860	0	0	0	0
+[INFO] - server searching... 88096
+Trace-_2_5	88096	367.846000	917.223000	0.010412	0	0	0	0
+[INFO] - server searching... 88104
+Trace-_2_5	88104	312.082000	782.894000	0.008886	0	0	0	0
+[INFO] - server searching... 88313
+Trace-_2_5	88313	331.627000	826.209000	0.009355	0	0	0	0
+[INFO] - server searching... 88318
+Trace-_2_5	88318	209.297000	523.295000	0.005925	0	0	0	0
+[INFO] - server searching... 88396
+Trace-_2_5	88396	334.336000	834.750000	0.009443	0	0	0	0
+[INFO] - server searching... 88418
+Trace-_2_5	88418	313.905000	784.283000	0.008870	0	0	0	0
+[INFO] - server searching... 88569
+Trace-_2_5	88569	376.561000	942.559000	0.010642	0	0	0	0
+[INFO] - server searching... 88628
+Trace-_2_5	88628	394.591000	988.804000	0.011157	0	0	0	0
+[INFO] - server searching... 88722
+Trace-_2_5	88722	369.895000	923.076000	0.010404	0	0	0	0
+[INFO] - server searching... 88737
+Trace-_2_5	88737	317.412000	790.990000	0.008914	0	0	0	0
+[INFO] - server searching... 88761
+Trace-_2_5	88761	312.517000	784.404000	0.008837	0	0	0	0
+[INFO] - server searching... 88803
+Trace-_2_5	88803	316.819000	790.990000	0.008907	0	0	0	0
+[INFO] - server searching... 88848
+Trace-_2_5	88848	395.821000	991.032000	0.011154	0	0	0	0
+[INFO] - server searching... 88969
+Trace-_2_5	88969	353.304000	881.954000	0.009913	0	0	0	0
+[INFO] - server searching... 89009
+Trace-_2_5	89009	390.890000	976.685000	0.010973	0	0	0	0
+[INFO] - server searching... 89119
+Trace-_2_5	89119	372.275000	929.038000	0.010425	0	0	0	0
+[INFO] - server searching... 89227
+Trace-_2_5	89227	340.788000	847.002000	0.009493	0	0	0	0
+[INFO] - server searching... 89488
+Trace-_2_5	89488	333.824000	831.782000	0.009295	0	0	0	0
+[INFO] - server searching... 89808
+Trace-_2_5	89808	362.488000	901.012000	0.010033	0	0	0	0
+[INFO] - server searching... 89923
+Trace-_2_5	89923	317.815000	796.276000	0.008855	0	0	0	0
+[INFO] - server searching... 90180
+Trace-_2_5	90180	339.116000	848.508000	0.009409	0	0	0	0
+[INFO] - server searching... 90539
+Trace-_2_5	90539	400.935000	1001.543000	0.011062	0	0	0	0
+[INFO] - server searching... 90565
+Trace-_2_5	90565	316.526000	795.618000	0.008785	0	0	0	0
+[INFO] - server searching... 90635
+Trace-_2_5	90635	398.256000	998.369000	0.011015	0	0	0	0
+[INFO] - server searching... 90673
+Trace-_2_5	90673	319.536000	800.123000	0.008824	0	0	0	0
+[INFO] - server searching... 90756
+Trace-_2_5	90756	374.114000	933.827000	0.010289	0	0	0	0
+[INFO] - server searching... 90998
+Trace-_2_5	90998	380.547000	949.098000	0.010430	0	0	0	0
+[INFO] - server searching... 91015
+Trace-_2_5	91015	316.815000	796.547000	0.008752	0	0	0	0
+[INFO] - server searching... 91201
+Trace-_2_5	91201	345.003000	862.011000	0.009452	0	0	0	0
+[INFO] - server searching... 91290
+Trace-_2_5	91290	361.521000	902.513000	0.009886	0	0	0	0
+[INFO] - server searching... 91338
+Trace-_2_5	91338	396.644000	996.306000	0.010908	0	0	0	0
+[INFO] - server searching... 91542
+Trace-_2_5	91542	335.638000	838.169000	0.009156	0	0	0	0
+[INFO] - server searching... 91552
+Trace-_2_5	91552	320.750000	801.401000	0.008754	0	0	0	0
+[INFO] - server searching... 91587
+Trace-_2_5	91587	324.592000	807.388000	0.008816	0	0	0	0
+[INFO] - server searching... 91621
+Trace-_2_5	91621	402.357000	1006.809000	0.010989	0	0	0	0
+[INFO] - server searching... 91656
+Trace-_2_5	91656	322.196000	806.399000	0.008798	0	0	0	0
+[INFO] - server searching... 91701
+Trace-_2_5	91701	398.299000	996.640000	0.010868	0	0	0	0
+[INFO] - server searching... 91835
+Trace-_2_5	91835	349.155000	874.102000	0.009518	0	0	0	0
+[INFO] - server searching... 91932
+Trace-_2_5	91932	339.978000	847.044000	0.009214	0	0	0	0
+[INFO] - server searching... 91961
+Trace-_2_5	91961	405.699000	1014.863000	0.011036	0	0	0	0
+[INFO] - server searching... 92081
+Trace-_2_5	92081	360.078000	894.315000	0.009712	0	0	0	0
+[INFO] - server searching... 92219
+Trace-_2_5	92219	407.255000	1015.914000	0.011016	0	0	0	0
+[INFO] - server searching... 92327
+Trace-_2_5	92327	352.009000	878.979000	0.009520	0	0	0	0
+[INFO] - server searching... 92451
+Trace-_2_5	92451	406.976000	1015.473000	0.010984	0	0	0	0
+[INFO] - server searching... 92582
+Trace-_2_5	92582	327.000000	815.885000	0.008813	0	0	0	0
+[INFO] - server searching... 92746
+Trace-_2_5	92746	356.133000	886.396000	0.009557	0	0	0	0
+[INFO] - server searching... 93016
+Trace-_2_5	93016	334.426000	830.867000	0.008933	0	0	0	0
+[INFO] - server searching... 93072
+Trace-_2_5	93072	381.039000	950.136000	0.010209	0	0	0	0
+[INFO] - server searching... 93252
+Trace-_2_5	93252	356.524000	904.035000	0.009695	0	0	0	0
+[INFO] - server searching... 93327
+Trace-_2_5	93327	375.912000	938.881000	0.010060	0	0	0	0
+[INFO] - server searching... 93383
+Trace-_2_5	93383	403.362000	1006.932000	0.010783	0	0	0	0
+[INFO] - server searching... 93437
+Trace-_2_5	93437	403.507000	1007.995000	0.010788	0	0	0	0
+[INFO] - server searching... 93455
+Trace-_2_5	93455	327.596000	821.721000	0.008793	0	0	0	0
+[INFO] - server searching... 93602
+Trace-_2_5	93602	404.961000	1011.017000	0.010801	0	0	0	0
+[INFO] - server searching... 93684
+Trace-_2_5	93684	406.235000	1013.961000	0.010823	0	0	0	0
+[INFO] - server searching... 93806
+Trace-_2_5	93806	349.236000	868.914000	0.009263	0	0	0	0
+[INFO] - server searching... 93822
+Trace-_2_5	93822	326.572000	819.589000	0.008736	0	0	0	0
+[INFO] - server searching... 94049
+Trace-_2_5	94049	386.550000	980.820000	0.010429	0	0	0	0
+[INFO] - server searching... 94161
+Trace-_2_5	94161	333.162000	829.557000	0.008810	0	0	0	0
+[INFO] - server searching... 94185
+Trace-_2_5	94185	405.555000	1013.208000	0.010758	0	0	0	0
+[INFO] - server searching... 94386
+Trace-_2_5	94386	367.990000	919.226000	0.009739	0	0	0	0
+[INFO] - server searching... 94409
+Trace-_2_5	94409	329.518000	821.163000	0.008698	0	0	0	0
+[INFO] - server searching... 94691
+Trace-_2_5	94691	413.884000	1032.338000	0.010902	0	0	0	0
+[INFO] - server searching... 94778
+Trace-_2_5	94778	328.887000	821.640000	0.008669	0	0	0	0
+[INFO] - server searching... 94921
+Trace-_2_5	94921	333.964000	828.234000	0.008726	0	0	0	0
+[INFO] - server searching... 94974
+Trace-_2_5	94974	393.869000	985.694000	0.010379	0	0	0	0
+[INFO] - server searching... 95191
+Trace-_2_5	95191	413.632000	1032.487000	0.010846	0	0	0	0
+[INFO] - server searching... 95294
+Trace-_2_5	95294	372.592000	925.037000	0.009707	0	0	0	0
+[INFO] - server searching... 95325
+Trace-_2_5	95325	333.761000	827.445000	0.008680	0	0	0	0
+[INFO] - server searching... 95348
+Trace-_2_5	95348	411.743000	1023.310000	0.010732	0	0	0	0
+[INFO] - server searching... 95437
+Trace-_2_5	95437	406.876000	1012.181000	0.010606	0	0	0	0
+[INFO] - server searching... 95601
+Trace-_2_5	95601	380.462000	947.189000	0.009908	0	0	0	0
+[INFO] - server searching... 95602
+Trace-_2_5	95602	226.920000	566.949000	0.005930	0	0	0	0
+[INFO] - server searching... 95897
+Trace-_2_5	95897	394.524000	983.212000	0.010253	0	0	0	0
+[INFO] - server searching... 95910
+Trace-_2_5	95910	250.170000	622.839000	0.006494	0	0	0	0
+[INFO] - server searching... 96078
+Trace-_2_5	96078	416.732000	1039.238000	0.010817	0	0	0	0
+[INFO] - server searching... 96094
+Trace-_2_5	96094	335.823000	836.792000	0.008708	0	0	0	0
+[INFO] - server searching... 96213
+Trace-_2_5	96213	351.943000	873.454000	0.009078	0	0	0	0
+[INFO] - server searching... 96227
+Trace-_2_5	96227	480.201000	1233.289000	0.012816	0	0	0	0
+[INFO] - server searching... 96457
+Trace-_2_5	96457	378.224000	967.149000	0.010027	0	0	0	0
+[INFO] - server searching... 96526
+Trace-_2_5	96526	418.009000	1043.750000	0.010813	0	0	0	0
+[INFO] - server searching... 96617
+Trace-_2_5	96617	384.601000	958.673000	0.009922	0	0	0	0
+[INFO] - server searching... 96680
+Trace-_2_5	96680	409.091000	1019.626000	0.010546	0	0	0	0
+[INFO] - server searching... 96988
+Trace-_2_5	96988	408.147000	1017.963000	0.010496	0	0	0	0
+[INFO] - server searching... 97056
+Trace-_2_5	97056	409.270000	1017.739000	0.010486	0	0	0	0
+[INFO] - server searching... 97118
+Trace-_2_5	97118	413.693000	1038.118000	0.010689	0	0	0	0
+[INFO] - server searching... 97175
+Trace-_2_5	97175	422.374000	1051.505000	0.010821	0	0	0	0
+[INFO] - server searching... 97217
+Trace-_2_5	97217	338.405000	841.189000	0.008653	0	0	0	0
+[INFO] - server searching... 97237
+Trace-_2_5	97237	341.539000	849.271000	0.008734	0	0	0	0
+[INFO] - server searching... 97296
+Trace-_2_5	97296	384.373000	957.861000	0.009845	0	0	0	0
+[INFO] - server searching... 97432
+Trace-_2_5	97432	408.695000	1018.122000	0.010450	0	0	0	0
+[INFO] - server searching... 97581
+Trace-_2_5	97581	407.483000	1014.077000	0.010392	0	0	0	0
+[INFO] - server searching... 97603
+Trace-_2_5	97603	337.683000	843.630000	0.008643	0	0	0	0
+[INFO] - server searching... 97608
+Trace-_2_5	97608	233.860000	579.989000	0.005942	0	0	0	0
+[INFO] - server searching... 97739
+Trace-_2_5	97739	394.164000	980.138000	0.010028	0	0	0	0
+[INFO] - server searching... 97947
+Trace-_2_5	97947	421.885000	1048.706000	0.010707	0	0	0	0
+[INFO] - server searching... 97972
+Trace-_2_5	97972	338.698000	843.098000	0.008605	0	0	0	0
+[INFO] - server searching... 98152
+Trace-_2_5	98152	364.079000	904.206000	0.009212	0	0	0	0
+[INFO] - server searching... 98202
+Trace-_2_5	98202	406.891000	1017.457000	0.010361	0	0	0	0
+[INFO] - server searching... 98632
+Trace-_2_5	98632	358.953000	897.312000	0.009098	0	0	0	0
+[INFO] - server searching... 98940
+Trace-_2_5	98940	399.758000	996.790000	0.010075	0	0	0	0
+[INFO] - server searching... 99159
+Trace-_2_5	99159	414.907000	1039.027000	0.010478	0	0	0	0
+[INFO] - server searching... 99202
+Trace-_2_5	99202	419.332000	1059.279000	0.010678	0	0	0	0
+[INFO] - server searching... 99293
+Trace-_2_5	99293	398.973000	996.263000	0.010034	0	0	0	0
+[INFO] - server searching... 99499
+Trace-_2_5	99499	422.020000	1046.462000	0.010517	0	0	0	0
+[INFO] - server searching... 99604
+Trace-_2_5	99604	381.835000	954.016000	0.009578	0	0	0	0
+[INFO] - server searching... 99608
+Trace-_2_5	99608	238.079000	591.870000	0.005942	0	0	0	0
+[INFO] - server searching... 99639
+Trace-_2_5	99639	406.133000	1009.964000	0.010136	0	0	0	0
+[INFO] - server searching... 99811
+Trace-_2_5	99811	370.977000	924.970000	0.009267	0	0	0	0
+[INFO] - server searching... 99894
+Trace-_2_5	99894	373.310000	932.293000	0.009333	0	0	0	0
+[INFO] - server searching... 99914
+Trace-_2_5	99914	344.843000	856.334000	0.008571	0	0	0	0
+[INFO] - server searching... 99951
+Trace-_2_5	99951	422.586000	1049.381000	0.010499	0	0	0	0
+[INFO] - server searching... 1127
+Trace-_1_5	1127	5.879000	14.298000	0.012687	0	0	0	0
+[INFO] - server searching... 3726
+Trace-_1_5	3726	20.287000	47.645000	0.012787	0	0	0	0
+[INFO] - server searching... 6195
+Trace-_1_5	6195	34.292000	80.245000	0.012953	0	0	0	0
+[INFO] - server searching... 6408
+Trace-_1_5	6408	31.871000	79.272000	0.012371	0	0	0	0
+[INFO] - server searching... 6861
+Trace-_1_5	6861	34.724000	85.412000	0.012449	0	0	0	0
+[INFO] - server searching... 7510
+Trace-_1_5	7510	36.979000	92.340000	0.012296	0	0	0	0
+[INFO] - server searching... 9044
+Trace-_1_5	9044	46.670000	113.250000	0.012522	0	0	0	0
+[INFO] - server searching... 10448
+Trace-_1_5	10448	55.161000	132.362000	0.012669	0	0	0	0
+[INFO] - server searching... 10652
+Trace-_1_5	10652	52.504000	130.823000	0.012282	0	0	0	0
+[INFO] - server searching... 11514
+Trace-_1_5	11514	56.998000	141.632000	0.012301	0	0	0	0
+[INFO] - server searching... 11703
+Trace-_1_5	11703	58.050000	143.997000	0.012304	0	0	0	0
+[INFO] - server searching... 11863
+Trace-_1_5	11863	59.206000	146.757000	0.012371	0	0	0	0
+[INFO] - server searching... 12543
+Trace-_1_5	12543	66.712000	159.089000	0.012683	0	0	0	0
+[INFO] - server searching... 14849
+Trace-_1_5	14849	75.172000	185.469000	0.012490	0	0	0	0
+[INFO] - server searching... 15563
+Trace-_1_5	15563	82.657000	198.336000	0.012744	0	0	0	0
+[INFO] - server searching... 16878
+Trace-_1_5	16878	93.831000	219.446000	0.013002	0	0	0	0
+[INFO] - server searching... 18676
+Trace-_1_5	18676	100.505000	238.789000	0.012786	0	0	0	0
+[INFO] - server searching... 18772
+Trace-_1_5	18772	95.324000	234.033000	0.012467	0	0	0	0
+[INFO] - server searching... 19053
+Trace-_1_5	19053	101.672000	242.966000	0.012752	0	0	0	0
+[INFO] - server searching... 19689
+Trace-_1_5	19689	98.061000	242.800000	0.012332	0	0	0	0
+[INFO] - server searching... 20672
+Trace-_1_5	20672	107.175000	259.340000	0.012545	0	0	0	0
+[INFO] - server searching... 20987
+Trace-_1_5	20987	111.219000	266.208000	0.012684	0	0	0	0
+[INFO] - server searching... 22149
+Trace-_1_5	22149	117.460000	281.861000	0.012726	0	0	0	0
+[INFO] - server searching... 22792
+Trace-_1_5	22792	115.381000	282.691000	0.012403	0	0	0	0
+[INFO] - server searching... 23776
+Trace-_1_5	23776	125.824000	301.949000	0.012700	0	0	0	0
+[INFO] - server searching... 24167
+Trace-_1_5	24167	120.688000	298.551000	0.012354	0	0	0	0
+[INFO] - server searching... 24188
+Trace-_1_5	24188	124.410000	306.201000	0.012659	0	0	0	0
+[INFO] - server searching... 24695
+Trace-_1_5	24695	124.133000	305.745000	0.012381	0	0	0	0
+[INFO] - server searching... 27103
+Trace-_1_5	27103	142.649000	345.232000	0.012738	0	0	0	0
+[INFO] - server searching... 27537
+Trace-_1_5	27537	139.545000	341.997000	0.012420	0	0	0	0
+[INFO] - server searching... 28287
+Trace-_1_5	28287	143.197000	350.731000	0.012399	0	0	0	0
+[INFO] - server searching... 29221
+Trace-_1_5	29221	155.529000	373.865000	0.012794	0	0	0	0
+[INFO] - server searching... 29258
+Trace-_1_5	29258	148.462000	364.473000	0.012457	0	0	0	0
+[INFO] - server searching... 30351
+Trace-_1_5	30351	156.345000	381.214000	0.012560	0	0	0	0
+[INFO] - server searching... 30461
+Trace-_1_5	30461	154.407000	378.931000	0.012440	0	0	0	0
+[INFO] - server searching... 31184
+Trace-_1_5	31184	161.678000	393.671000	0.012624	0	0	0	0
+[INFO] - server searching... 33848
+Trace-_1_5	33848	178.324000	430.493000	0.012718	0	0	0	0
+[INFO] - server searching... 38074
+Trace-_1_5	38074	201.523000	482.706000	0.012678	0	0	0	0
+[INFO] - server searching... 38427
+Trace-_1_5	38427	198.134000	484.343000	0.012604	0	0	0	0
+[INFO] - server searching... 39977
+Trace-_1_5	39977	211.742000	508.478000	0.012719	0	0	0	0
+[INFO] - server searching... 40613
+Trace-_1_5	40613	215.104000	515.812000	0.012701	0	0	0	0
+[INFO] - server searching... 41447
+Trace-_1_5	41447	214.938000	523.536000	0.012631	0	0	0	0
+[INFO] - server searching... 41768
+Trace-_1_5	41768	213.926000	521.532000	0.012486	0	0	0	0
+[INFO] - server searching... 42369
+Trace-_1_5	42369	217.599000	530.864000	0.012530	0	0	0	0
+[INFO] - server searching... 42580
+Trace-_1_5	42580	218.920000	534.224000	0.012546	0	0	0	0
+[INFO] - server searching... 43637
+Trace-_1_5	43637	231.841000	555.462000	0.012729	0	0	0	0
+[INFO] - server searching... 43706
+Trace-_1_5	43706	220.823000	538.177000	0.012314	0	0	0	0
+[INFO] - server searching... 46535
+Trace-_1_5	46535	246.249000	589.937000	0.012677	0	0	0	0
+[INFO] - server searching... 47628
+Trace-_1_5	47628	249.815000	604.880000	0.012700	0	0	0	0
+[INFO] - server searching... 48585
+Trace-_1_5	48585	256.446000	616.024000	0.012679	0	0	0	0
+[INFO] - server searching... 49038
+Trace-_1_5	49038	244.264000	589.983000	0.012031	0	0	0	0
+[INFO] - server searching... 49622
+Trace-_1_5	49622	249.144000	604.811000	0.012188	0	0	0	0
+[INFO] - server searching... 49684
+Trace-_1_5	49684	147.125000	352.845000	0.007102	0	0	0	0
+[INFO] - server searching... 52109
+Trace-_1_5	52109	274.842000	660.060000	0.012667	0	0	0	0
+[INFO] - server searching... 52992
+Trace-_1_5	52992	278.367000	671.236000	0.012667	0	0	0	0
+[INFO] - server searching... 53703
+Trace-_1_5	53703	283.565000	680.556000	0.012673	0	0	0	0
+[INFO] - server searching... 53746
+Trace-_1_5	53746	258.368000	625.649000	0.011641	0	0	0	0
+[INFO] - server searching... 55712
+Trace-_1_5	55712	252.005000	607.886000	0.010911	0	0	0	0
+[INFO] - server searching... 55760
+Trace-_1_5	55760	182.434000	440.480000	0.007900	0	0	0	0
+[INFO] - server searching... 56346
+Trace-_1_5	56346	296.872000	713.207000	0.012658	0	0	0	0
+[INFO] - server searching... 60569
+Trace-_1_5	60569	316.707000	765.802000	0.012643	0	0	0	0
+[INFO] - server searching... 61799
+Trace-_1_5	61799	288.924000	695.635000	0.011256	0	0	0	0
+[INFO] - server searching... 62839
+Trace-_1_5	62839	288.157000	700.133000	0.011142	0	0	0	0
+[INFO] - server searching... 62911
+Trace-_1_5	62911	265.383000	645.656000	0.010263	0	0	0	0
+[INFO] - server searching... 63387
+Trace-_1_5	63387	311.956000	756.473000	0.011934	0	0	0	0
+[INFO] - server searching... 63788
+Trace-_1_5	63788	335.705000	814.091000	0.012762	0	0	0	0
+[INFO] - server searching... 64849
+Trace-_1_5	64849	315.764000	763.215000	0.011769	0	0	0	0
+[INFO] - server searching... 66372
+Trace-_1_5	66372	292.147000	706.404000	0.010643	0	0	0	0
+[INFO] - server searching... 66997
+Trace-_1_5	66997	366.697000	872.242000	0.013019	0	0	0	0
+[INFO] - server searching... 67996
+Trace-_1_5	67996	349.078000	844.160000	0.012415	0	0	0	0
+[INFO] - server searching... 68082
+Trace-_1_5	68082	279.978000	677.695000	0.009954	0	0	0	0
+[INFO] - server searching... 68550
+Trace-_1_5	68550	281.070000	681.662000	0.009944	0	0	0	0
+[INFO] - server searching... 68869
+Trace-_1_5	68869	341.762000	829.730000	0.012048	0	0	0	0
+[INFO] - server searching... 69802
+Trace-_1_5	69802	342.327000	829.078000	0.011878	0	0	0	0
+[INFO] - server searching... 70263
+Trace-_1_5	70263	313.119000	758.344000	0.010793	0	0	0	0
+[INFO] - server searching... 70329
+Trace-_1_5	70329	285.405000	693.705000	0.009864	0	0	0	0
+[INFO] - server searching... 71009
+Trace-_1_5	71009	350.737000	845.776000	0.011911	0	0	0	0
+[INFO] - server searching... 71065
+Trace-_1_5	71065	273.945000	666.235000	0.009375	0	0	0	0
+[INFO] - server searching... 72152
+Trace-_1_5	72152	305.803000	739.989000	0.010256	0	0	0	0
+[INFO] - server searching... 78726
+Trace-_1_5	78726	320.007000	768.456000	0.009761	0	0	0	0
+[INFO] - server searching... 80465
+Trace-_1_5	80465	367.748000	881.446000	0.010954	0	0	0	0
+[INFO] - server searching... 81457
+Trace-_1_5	81457	360.462000	865.022000	0.010619	0	0	0	0
+[INFO] - server searching... 82537
+Trace-_1_5	82537	403.988000	971.255000	0.011768	0	0	0	0
+[INFO] - server searching... 83113
+Trace-_1_5	83113	333.510000	801.745000	0.009646	0	0	0	0
+[INFO] - server searching... 83964
+Trace-_1_5	83964	330.978000	798.314000	0.009508	0	0	0	0
+[INFO] - server searching... 83986
+Trace-_1_5	83986	327.830000	782.389000	0.009316	0	0	0	0
+[INFO] - server searching... 85805
+Trace-_1_5	85805	346.414000	833.268000	0.009711	0	0	0	0
+[INFO] - server searching... 89677
+Trace-_1_5	89677	431.963000	1014.979000	0.011318	0	0	0	0
+[INFO] - server searching... 90432
+Trace-_1_5	90432	363.983000	854.315000	0.009447	0	0	0	0
+[INFO] - server searching... 90517
+Trace-_1_5	90517	425.807000	1019.391000	0.011262	0	0	0	0
+[INFO] - server searching... 92412
+Trace-_1_5	92412	415.906000	993.957000	0.010756	0	0	0	0
+[INFO] - server searching... 92837
+Trace-_1_5	92837	427.849000	1025.201000	0.011043	0	0	0	0
+[INFO] - server searching... 93168
+Trace-_1_5	93168	422.867000	1013.648000	0.010880	0	0	0	0
+[INFO] - server searching... 94658
+Trace-_1_5	94658	369.420000	895.434000	0.009460	0	0	0	0
+[INFO] - server searching... 94719
+Trace-_1_5	94719	435.711000	1041.649000	0.010997	0	0	0	0
+[INFO] - server searching... 95164
+Trace-_1_5	95164	438.530000	1047.765000	0.011010	0	0	0	0
+[INFO] - server searching... 95327
+Trace-_1_5	95327	436.866000	1046.824000	0.010981	0	0	0	0
+[INFO] - server searching... 99170
+Trace-_1_5	99170	404.400000	955.224000	0.009632	0	0	0	0
+[INFO] - server searching... 99353
+Trace-_1_5	99353	378.642000	901.292000	0.009072	0	0	0	0
+[INFO] - server searching... 99622
+Trace-_1_5	99622	426.595000	1015.987000	0.010198	0	0	0	0
+[INFO] - server searching... 99672
+Trace-_1_5	99672	367.593000	888.612000	0.008915	0	0	0	0
+[INFO] - server searching... 99851
+Trace-_1_5	99851	387.363000	918.143000	0.009195	0	0	0	0
+[INFO] - server searching... 627
+Trace-_0_5	627	3.533000	8.260000	0.013174	0	0	0	0
+[INFO] - server searching... 735
+Trace-_0_5	735	3.830000	9.225000	0.012551	0	0	0	0
+[INFO] - server searching... 20104
+Trace-_0_5	20104	113.240000	261.387000	0.013002	0	0	0	0
+[INFO] - server searching... 32004
+Trace-_0_5	32004	178.756000	417.619000	0.013049	0	0	0	0
+[INFO] - server searching... 33366
+Trace-_0_5	33366	183.705000	431.414000	0.012930	0	0	0	0
+[INFO] - server searching... 34807
+Trace-_0_5	34807	196.452000	458.473000	0.013172	0	0	0	0
+[INFO] - server searching... 35265
+Trace-_0_5	35265	207.894000	470.283000	0.013336	0	0	0	0
+[INFO] - server searching... 36892
+Trace-_0_5	36892	213.485000	489.424000	0.013266	0	0	0	0
+[INFO] - server searching... 46225
+Trace-_0_5	46225	254.806000	597.352000	0.012923	0	0	0	0
+[INFO] - server searching... 56995
+Trace-_0_5	56995	303.205000	714.545000	0.012537	0	0	0	0
+[INFO] - server searching... 58120
+Trace-_0_5	58120	293.003000	685.100000	0.011788	0	0	0	0
+[INFO] - server searching... 66707
+Trace-_0_5	66707	344.941000	802.166000	0.012025	0	0	0	0
+[INFO] - server searching... 68728
+Trace-_0_5	68728	332.257000	749.880000	0.010911	0	0	0	0
+[INFO] - server searching... 71954
+Trace-_0_5	71954	393.998000	913.183000	0.012691	0	0	0	0
+[INFO] - server searching... 92306
+Trace-_0_5	92306	403.272000	922.702000	0.009996	0	0	0	0
