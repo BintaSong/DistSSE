@@ -193,9 +193,9 @@ std::string Util::hex2str(const std::string& input)
 void Util::set_db_common_options(rocksdb::Options& options) {
 
             options.statistics = rocksdb::CreateDBStatistics();
-			// use direct I/O
-			options.use_direct_reads = true;
-			// options.use_direct_io_for_flush_and_compaction = true;
+		// use direct I/O
+		options.use_direct_reads = true;
+		options.use_direct_io_for_flush_and_compaction = true;
     		options.create_if_missing = true;
 
 }
