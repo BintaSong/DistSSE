@@ -179,8 +179,10 @@ namespace DistSSE{
 
 		                
 		        (*entries_counter)++;
-		  
-		            
+		  		if (((*entries_counter) % 1000) == 0) {
+                    logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
+                }
+
 		        writer->Write( client->gen_update_request("1", kw_10_1, ind, 0) );
 		        writer->Write( client->gen_update_request("1", kw_10_2, ind, 0));
 		        writer->Write( client->gen_update_request("1", kw_10_3, ind, 0));
