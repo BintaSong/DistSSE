@@ -230,7 +230,7 @@ void Util::set_db_common_options(rocksdb::Options& options) {
 
 			// table_options.no_block_cache = true;
 			options.table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
- /*           
+            
            options.compression = rocksdb::kNoCompression;
             options.bottommost_compression = rocksdb::kDisableCompressionOption;
             
@@ -256,7 +256,6 @@ void Util::set_db_common_options(rocksdb::Options& options) {
             options.hard_pending_compaction_bytes_limit = 137438953472;
             options.target_file_size_base=201327616;
             options.write_buffer_size= 1073741824;
-*/
     		options.create_if_missing = true;
 
 }
