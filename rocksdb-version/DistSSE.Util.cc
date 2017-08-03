@@ -192,6 +192,8 @@ std::string Util::hex2str(const std::string& input)
 
 void Util::set_db_common_options(rocksdb::Options& options) {
 
+			options.statistics = rocksdb::CreateDBStatistics();
+
 		    rocksdb::CuckooTableOptions cuckoo_options;
             cuckoo_options.identity_as_first_hash = false;
             cuckoo_options.hash_table_ratio = 0.9;
@@ -209,8 +211,27 @@ void Util::set_db_common_options(rocksdb::Options& options) {
 			options.table_factory.reset(rocksdb::NewCuckooTableFactory(cuckoo_options));
             
             //options.memtable_factory.reset(new rocksdb::VectorRepFactory());
-            
-            options.compression = rocksdb::kNoCompression;
+
+			// set block cache = 2M
+			std::shared_ptr<rocksdb::Cache> cache = rocksdb::NewLRUCache(2*1024*1024*1024LL);
+			rocksdb::BlockBasedTableOptions table_options;
+			table_options.block_cache = cache;
+
+			// set compressed block cache = 4M
+			std::shared_ptr<rocksdb::Cache> compressed_cache = rocksdb::NewLRUCache(1*1024*1024*1024LL);
+			table_options.block_cache_compressed = compressed_cache;
+			// options.table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
+
+			// use direct I/O
+			// options.use_direct_reads = true;
+			// options.use_direct_io_for_flush_and_compaction = true;
+
+
+
+			// table_options.no_block_cache = true;
+			options.table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
+  /*          
+           options.compression = rocksdb::kNoCompression;
             options.bottommost_compression = rocksdb::kDisableCompressionOption;
             
             options.compaction_style = rocksdb::kCompactionStyleLevel;
@@ -219,13 +240,13 @@ void Util::set_db_common_options(rocksdb::Options& options) {
             
             // options.max_grandparent_overlap_factor = 10;
             
-            // options.delayed_write_rate = 8388608; //TODO ATTENTION, not set it if you need merge operation !!!
+            // options.delayed_write_rate = 8388608; // TODO ATTENTION, not set it if you need merge operation !!!
 
 
             options.max_background_compactions = 20;
             
             options.disableDataSync = true;
-            options.allow_mmap_reads = true; // TODO 载入内存
+            options.allow_mmap_reads = false; // TODO 载入内存
             options.new_table_reader_for_compaction_inputs = true;
             
             options.max_bytes_for_level_base = 4294967296;
@@ -234,8 +255,9 @@ void Util::set_db_common_options(rocksdb::Options& options) {
             options.level0_slowdown_writes_trigger = 16;
             options.hard_pending_compaction_bytes_limit = 137438953472;
             options.target_file_size_base=201327616;
-            options.write_buffer_size=1073741824;
+            options.write_buffer_size= 1073741824;
     		options.create_if_missing = true;
+*/
 }
 
 }// namespace DistSSE

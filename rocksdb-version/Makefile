@@ -48,7 +48,7 @@ all: system-check rpc_client rpc_server
 rpc_client: DistSSE.pb.o DistSSE.grpc.pb.o rpc_client.o DistSSE.Util.o logger.o
 	$(CXX) $^ $(LDFLAGS) -o $@
 
-rpc_server: DistSSE.string_append_operator.o DistSSE.pb.o DistSSE.grpc.pb.o rpc_server.o DistSSE.Util.o logger.o 
+rpc_server: DistSSE.pb.o DistSSE.grpc.pb.o rpc_server.o DistSSE.Util.o logger.o 
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 .PRECIOUS: %.grpc.pb.cc
