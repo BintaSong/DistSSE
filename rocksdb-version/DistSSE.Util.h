@@ -40,7 +40,7 @@
 
 #include <thread>
 
-//#include "DistSSE.string_append_operator.h"
+#include "DistSSE.string_append_operator.h"
 
 
 #define MAX_W_LEN 16

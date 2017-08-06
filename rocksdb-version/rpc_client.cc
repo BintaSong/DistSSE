@@ -27,6 +27,7 @@ int main(int argc, char** argv) {
 	// double search_rate;
 	// sscanf(argv[5],"%lf", &search_rate);
 	// std::cout << search_rate <<std::endl;
+	//gen_db(client, N_entry, 4);
 	generate_trace(&client, N_entry);
 	
   	std::cout <<"update done." <<std::endl;
@@ -38,8 +39,8 @@ int main(int argc, char** argv) {
 	// client.gen_search_token(w, kw, tw, uc);
 	// client.search(kw, tw, uc);
 	
-	client.increase_search_time(w);
-	client.set_update_time(w, 0);
+	//client.increase_search_time(w);
+	//client.set_update_time(w, 0);
 	
 	std::cout << "search done: "<< std::endl;
 	

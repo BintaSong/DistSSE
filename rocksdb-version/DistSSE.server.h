@@ -59,7 +59,9 @@ public:
 
 		rocksdb::Status s3 = rocksdb::DB::Open(simple_options, cache_path, &cache_db);
 
-		assert(s1.ok());
+		if(!s1.ok()) {
+			std::cerr<< "open ssdb error:"<<s1.ToString() <<std::endl;	
+		}
 		// assert(s2.ok());
 		assert(s3.ok());
 
