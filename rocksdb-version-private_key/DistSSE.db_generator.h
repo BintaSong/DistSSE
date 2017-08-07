@@ -287,7 +287,7 @@ namespace DistSSE{
 						double r = rand_0_to_1();
 						bool is_search = sample(r, search_rate[i]);
 
-						if(is_search) {
+						if(is_search && k > 50000) {
 
 							/*for(int i = 3; i < 6; i++) {
 								for(int j = 0; j < 3; j++) {
@@ -297,9 +297,11 @@ namespace DistSSE{
 
 							//client->search("Group-10^"+ std::to_string(j) +"_0_0");
 							std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
-							client->search(keyword);
-							search_time++ ;
-							search_log(keyword, k);
+							for(int r = 0; r < 3; r++){
+								client->search(keyword);
+								search_time++ ;
+								search_log(keyword, k);
+							}
 						}
 
 					}// for k
