@@ -9,36 +9,31 @@ int main(int argc, char** argv) {
   // Instantiate the client and channel isn't authenticated
 	DistSSE::Client client(grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()), std::string(argv[1]));
 	
-	if (argc < 5) {
+	if (argc < 6) {
 		std::cerr<<"argc error"<<std::endl;	
 		exit(-1);
 	}
 
 	size_t N_entry = atoi(argv[2]);
-	// int dsize = atoi(argv[3]);
-	
-	std::cout << "update begin..." <<std::endl;
 
-  	// client.test_upload(wsize, dsize);
-	//std::atomic_int total(0);
-	//unsigned int n_threads = atoi(argv[4]);
-	//gen_db(client, N_entry, 4);
-	generate_trace(&client, N_entry);
-	
-  	std::cout <<"update done." <<std::endl;
-	
 	std::string w = std::string(argv[3]);
-	//std::string st = "ffff", tw;
-	//size_t uc;
+
+	int is_trace = atoi(argv[4]);
 	
-	//client.gen_search_token(w, tw, st, uc);
-	// std::cout <<"In rpc-client==>  " << "st:" << st << ", tw: " << tw <<", uc:"<< uc <<std::endl;
+	int threads_num = atoi(argv[5]);
+	
+
+std::cout << "update begin..." <<std::endl;
+
+	if(is_trace == 1) generate_trace(&client, N_entry);
+	else gen_db(client, N_entry, threads_num);
+		
+std::cout <<"update done." <<std::endl;
+
 	client.search(w);
 	
-	std::cout << "search done: "<< std::endl;
+std::cout << "search done: "<< std::endl;
 	
-	// client.verify_st();
-
 	return 0;
 }
 
