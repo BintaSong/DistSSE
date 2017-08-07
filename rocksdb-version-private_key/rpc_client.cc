@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
 	
 	//client.gen_search_token(w, tw, st, uc);
 	// std::cout <<"In rpc-client==>  " << "st:" << st << ", tw: " << tw <<", uc:"<< uc <<std::endl;
-	//client.search(w);
+	client.search(w);
 	
 	std::cout << "search done: "<< std::endl;
 	

@@ -192,11 +192,23 @@ std::string Util::hex2str(const std::string& input)
 
 void Util::set_db_common_options(rocksdb::Options& options) {
 
- //           options.statistics = rocksdb::CreateDBStatistics();
+        options.statistics = rocksdb::CreateDBStatistics();
+
+			// set block cache = 2M
+			std::shared_ptr<rocksdb::Cache> cache = rocksdb::NewLRUCache(0LL);
+			rocksdb::BlockBasedTableOptions table_options;
+			table_options.block_cache = cache;
+
+			// set compressed block cache = 4M
+			std::shared_ptr<rocksdb::Cache> compressed_cache = rocksdb::NewLRUCache(0LL);
+			table_options.block_cache_compressed = compressed_cache;
+			table_options.no_block_cache = true;
+			options.table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
+
 		// use direct I/O
-//		options.use_direct_reads = true;
-//		options.use_direct_io_for_flush_and_compaction = true;
-    		options.create_if_missing = true;
+		options.use_direct_reads = true;
+		options.use_direct_io_for_flush_and_compaction = true;
+    	options.create_if_missing = true;
 
 }
 

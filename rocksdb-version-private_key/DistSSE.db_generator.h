@@ -179,9 +179,9 @@ namespace DistSSE{
 
 		                
 		        (*entries_counter)++;
-	//	  		if (((*entries_counter) % 1000) == 0) {
-         //           logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
-          //      }
+		  		if (((*entries_counter) % 1000) == 0) {
+                    logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
+                }
 
 		        writer->Write( client->gen_update_request("1", kw_10_1, ind, 0) );
 		        writer->Write( client->gen_update_request("1", kw_10_2, ind, 0));
@@ -205,7 +205,7 @@ namespace DistSSE{
 		    }
 
 
-			void gen_db(Client& client, size_t N_entries, unsigned int n_threads)
+			void gen_db (Client& client, size_t N_entries, unsigned int n_threads)
 		    {
 		        std::atomic_size_t entries_counter(0);
 
@@ -288,7 +288,13 @@ namespace DistSSE{
 						bool is_search = sample(r, search_rate[i]);
 
 						if(is_search) {
-							// 执行搜索
+
+							/*for(int i = 3; i < 6; i++) {
+								for(int j = 0; j < 3; j++) {
+									client->search("Group-10^" + std::to_string(i) + "_0_" + std::to_string(j) );
+								}							
+							}*/
+
 							//client->search("Group-10^"+ std::to_string(j) +"_0_0");
 							std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
 							client->search(keyword);

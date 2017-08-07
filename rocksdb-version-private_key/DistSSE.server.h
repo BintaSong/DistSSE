@@ -174,7 +174,7 @@ public:
 
 		for(size_t i = 1; i <= uc; i++) {
 			repeat = 0;
-
+//logger::log(logger::INFO) << "fuck-------------- "<< i << value <<std::endl;
 			l = Util::H1(tw + _st);
 				gettimeofday(&t3, NULL);
 
@@ -185,6 +185,8 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 			assert(e != "");
 
 			value = Util::Xor( e, Util::H2(tw + _st) );
+
+//logger::log(logger::INFO) << "value: "<< value <<std::endl;
 			// logger::log(logger::INFO) << "value: "<< value <<std::endl;
 			//ID.insert( value );
 
@@ -193,6 +195,7 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
             parse(value, op, ind, _st); // At present, |st| = |key|, so we just store st too prevent envole P^-1(st_i)
 
 			/*if(op == "1")*/ result_set.insert(ind); // TODO
+//logger::log(logger::INFO) << "hi-------------- "<< value <<std::endl;
 			//else result_set->erase(ind);
 			
 			// remove or add 
@@ -216,21 +219,19 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0;
 		
 		new_miss = options.statistics->getTickerCount(0);
-		new_hit = options.statistics->getTickerCount(1);		
+		new_hit = options.statistics->getTickerCount(1);
 		 
 		search_log(tw, search_time, get_time, uc, new_miss, new_miss - old_miss, new_hit, new_hit - old_hit);
 		
 		old_miss = new_miss;
 		old_hit = new_hit;
 		
-		// std::cout<< options.statistics->ToString() << std::endl;
+		std::cout<< options.statistics->ToString() << std::endl;
 		
 		std::string ID_string = "";
 		for (std::unordered_set<std::string>::iterator it=ID.begin(); it!=ID.end(); ++it){
     		ID_string += Util::str2hex(*it) + "|";
 		}
-		// no cache at present
-		// store(cache_db, tw, ID_string); 
 	}
 
 // server RPC
@@ -254,7 +255,7 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 		search(tw, st, uc, ID);
 		// gettimeofday(&t2, NULL);
 
-  		// logger::log(logger::INFO) <<"ID.size():"<< ID.size() <<" ,search time: "<< ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0/ID.size()<<" ms" <<std::endl;
+  		//logger::log(logger::INFO) <<"ID.size():"<< ID.size() <<" ,search time: "<< ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0/ID.size()<<" ms" <<std::endl;
 		// TODO 读取之后需要解锁
 
 		SearchReply reply;
@@ -264,7 +265,7 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 			writer->Write(reply);
 		}
 
-		// logger::log(logger::INFO) << "search done." <<std::endl;
+		logger::log(logger::INFO) << "search done." <<std::endl;
 
 	    return Status::OK;
   	}
