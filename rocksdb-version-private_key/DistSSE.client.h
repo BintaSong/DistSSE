@@ -107,7 +107,8 @@ public:
 	
 
 	int store(const std::string k, const std::string v){
-		rocksdb::Status s = cs_db->Put(rocksdb::WriteOptions(), k, v);
+		rocksdb::Status s = cs_db->Delete(rocksdb::WriteOptions(), k);
+		s = cs_db->Put(rocksdb::WriteOptions(), k, v);
 		if (s.ok())	return 0;
 		else return -1;
 	}

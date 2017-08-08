@@ -287,7 +287,7 @@ namespace DistSSE{
 						double r = rand_0_to_1();
 						bool is_search = sample(r, search_rate[i]);
 
-						if(is_search && k > 50000) {
+						if(is_search) {
 
 							/*for(int i = 3; i < 6; i++) {
 								for(int j = 0; j < 3; j++) {
