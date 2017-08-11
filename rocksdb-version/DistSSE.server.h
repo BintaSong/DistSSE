@@ -35,7 +35,7 @@ private:
 	static rocksdb::DB* cache_db;
     int MAX_THREADS;
 
-	//static std::mutex ssdb_write_mtx;
+	static std::mutex result_mtx;
 	//static std::mutex cache_write_mtx;
 
 public:
@@ -163,8 +163,8 @@ public:
 		std::string keyword = Util::dec_token(k_s, AES128_KEY_LEN, iv_s, kw);
 			
 		std::string word = keyword == "" ? "cached" : keyword;	
-		
-		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(search_time) + "\t" + std::to_string(search_time/result_size) << std::endl;
+		double per_entry_time = result_size == 0 ? search_time : (search_time/result_size);
+		std::cout <<  word + "\t" + std::to_string(result_size)+ "\t" + std::to_string(search_time) + "\t" + std::to_string(per_entry_time) << std::endl;
 	}
 
 	static void parse (std::string str, std::string& op, std::string& ind) {
@@ -191,11 +191,15 @@ public:
 
 			parse(value, op, ind);
 			
+			{
+				std::lock_guard<std::mutex> lock(result_mtx);
 			// logger::log(logger::INFO) << "value: " << value <<std::endl;
 			/*if(op == "1")*/ result_set->insert(value); // TODO
+						
 			// else result_set->erase(ind);
 			// if (i % 1000 == 0) logger::log(logger::INFO) << "Thread ID: " << threadID << ", searched: " << i << "\n" <<std::flush;
-			
+ 			}
+
 			//  int s = delete_entry(ss_db, l);	
 			//  assert(s == 0);
 		}
@@ -235,13 +239,11 @@ public:
 		}
 	}
 
-	static void merge( std::set<std::string>* searchResult, int counter, std::set<std::string> &merge_result, std::string& merge_string){
-		for (int i = 0; i < counter; i++) {
-			for (auto& t : searchResult[i]) {
-				merge_result.insert(t);
+	static void merge( std::set<std::string>& searchResult,  std::string& merge_string){
+	
+			for (auto& t : searchResult) {
 				merge_string += Util::str2hex(t) + "|";
 			}
-		}
 	}
 
 	void search(std::string kw, std::string tw, int uc, std::set<std::string>& ID){
@@ -281,28 +283,28 @@ public:
 					
 					int step = uc / thread_num + 1;
 					
-					std::set<std::string> result_set[MAX_THREADS]; // result ID lists for storage nodes
+					//std::set<std::string> result_set;//[MAX_THREADS]; // result ID lists for storage nodes
 
 					std::vector<std::thread> threads;
 				
 					for (int i = 0; i < thread_num; i++) {
 						int left = i * step, right = min((i + 1) * step, uc);
-						if(left < right) threads.push_back( std::thread(search_task, i,  kw, left, right, &(result_set[i])) );
+						if(left < right) threads.push_back( std::thread(search_task, i,  kw, left, right, &ID));
 					}
 
 					// join theads
 					for (auto& t : threads) {
 						t.join();
 					}
-
-					merge(result_set, MAX_THREADS, ID, merge_string);
+					gettimeofday(&t2, NULL);
+					merge(ID, merge_string);
 				}
 
 				// merge to cache can be done by a seperate thread backgroud, the result can be returned before.
 				// so we don't count the time...
 			}
 			
-			gettimeofday(&t2, NULL);		
+			//gettimeofday(&t2, NULL);		
 
 			if (merge_string != "") {
 				int s = merge(cache_db, tw, merge_string);
@@ -420,13 +422,13 @@ rocksdb::DB* DistSSE::DistSSEServiceImpl::ss_db;
 // rocksdb::DB* DistSSE::DistSSEServiceImpl::ss_db_read;
 rocksdb::DB* DistSSE::DistSSEServiceImpl::cache_db;
 
-//std::mutex DistSSE::DistSSEServiceImpl::ssdb_write_mtx;
+std::mutex DistSSE::DistSSEServiceImpl::result_mtx;
 //std::mutex DistSSE::DistSSEServiceImpl::cache_write_mtx;
 
 void RunServer(std::string db_path, std::string cache_path, int concurrent) {
 
 
-  std::string server_address("211.87.235.87:50051");
+  std::string server_address("0.0.0.0:50051");
   DistSSE::DistSSEServiceImpl service(db_path, cache_path, concurrent);
   
   ServerBuilder builder;

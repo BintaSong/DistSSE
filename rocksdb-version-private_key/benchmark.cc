@@ -21,8 +21,8 @@ int main(int argc, char** argv) {
 
 
 	std::cout << "benchmark begin!"<< std::endl;
-	for(int i = 0; i < threads_num; i++)
-		for(int j =0; j < 6; j++) 
+	for(int j = 0; j < threads_num; j++)
+		for(int i =1; i < 6; i++) 
 			for(int k = 0; k < max; k++) {
 				w = prefix + std::to_string(i) + "_" + std::to_string(j) + "_" + std::to_string(k);
 				client.search(w);

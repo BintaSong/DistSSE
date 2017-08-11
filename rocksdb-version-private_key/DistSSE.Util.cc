@@ -193,7 +193,7 @@ std::string Util::hex2str(const std::string& input)
 void Util::set_db_common_options(rocksdb::Options& options) {
 
 		options.create_if_missing = true;
-        options.statistics = rocksdb::CreateDBStatistics();
+ //       options.statistics = rocksdb::CreateDBStatistics();
 
 			rocksdb::CuckooTableOptions cuckoo_options;
             cuckoo_options.identity_as_first_hash = false;

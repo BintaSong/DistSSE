@@ -50,7 +50,7 @@ namespace DistSSE{
 
 			ExecuteStatus exec_status;
 	
-			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("211.87.235.87:50051", grpc::InsecureChannelCredentials()) ) );
+			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()) ) );
 
 			std::unique_ptr<ClientWriterInterface<UpdateRequestMessage>> writer(stub_->batch_update(&context, &exec_status));
 		
@@ -179,7 +179,10 @@ namespace DistSSE{
 
 		                
 		        (*entries_counter)++;
-		  
+			if (((*entries_counter) % 10) == 0) {
+                	    logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
+                	}
+	  
 		            
 		        writer->Write( client->gen_update_request("1", kw_10_1, ind, 0) );
 		        writer->Write( client->gen_update_request("1", kw_10_2, ind, 0));
@@ -232,7 +235,36 @@ namespace DistSSE{
 		        // client->end_update_session();
 		    }
 
+		 void gen_db_nrpc(size_t N_entries, unsigned int n_threads)
+                    {
+                        std::atomic_size_t entries_counter(0);
 
+                        // client->start_update_session();
+
+                        // unsigned int n_threads = std::thread::hardware_concurrency();
+                        std::vector<std::thread> threads;
+                        // std::mutex rpc_mutex;
+
+                                struct timeval t1, t2;
+
+                                gettimeofday(&t1, NULL);
+
+                        for (unsigned int i = 0; i < n_threads; i++) {
+                            threads.push_back(std::thread(generation_job_nrpc, i, N_entries, n_threads, &entries_counter));
+                        }
+
+                        for (unsigned int i = 0; i < n_threads; i++) {
+                            threads[i].join();
+                        }
+
+                                gettimeofday(&t2, NULL);
+
+                                logger::log(logger::INFO) <<"total update time: "<<((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec -t1.tv_usec) /1000.0<<" ms" <<std::endl;
+
+                        // client->end_update_session();
+                    }
+	
+	
 		static void generate_trace(Client* client, size_t N_entries) {
 			// randomly generate a large db
 			// gen_db(*client, N_entries, 4);
@@ -248,7 +280,7 @@ namespace DistSSE{
 			UpdateRequestMessage request;
 			ClientContext context;
 			ExecuteStatus exec_status;
-			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("211.87.235.87:50051", grpc::InsecureChannelCredentials()) ) );
+			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()) ) );
 			std::unique_ptr<ClientWriterInterface<UpdateRequestMessage>> writer(stub_->batch_update(&context, &exec_status));
 
 			// generate some trash data to certain large...
