@@ -18,16 +18,17 @@ int main(int argc, char** argv) {
 
 	std::string w = std::string(argv[3]);
 
-	int is_trace = atoi(argv[4]);
+	int flag = atoi(argv[4]);
 	
 	int threads_num = atoi(argv[5]);
 	
 
 std::cout << "update begin..." <<std::endl;
 
-	if(is_trace == 1) generate_trace(&client, N_entry);
-	else gen_db(client, N_entry, threads_num);
-		
+	if (flag == 1) DistSSE::generate_trace(&client, N_entry);
+	else if (flag == 2) DistSSE::gen_db(client, N_entry, threads_num);
+	else DistSSE::gen_rdb("rdb-"+std::to_string(N_entry), N_entry);
+
 std::cout <<"update done." <<std::endl;
 
 	client.search(w);

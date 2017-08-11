@@ -234,36 +234,6 @@ namespace DistSSE{
 
 		        // client->end_update_session();
 		    }
-
-		 void gen_db_nrpc(size_t N_entries, unsigned int n_threads)
-                    {
-                        std::atomic_size_t entries_counter(0);
-
-                        // client->start_update_session();
-
-                        // unsigned int n_threads = std::thread::hardware_concurrency();
-                        std::vector<std::thread> threads;
-                        // std::mutex rpc_mutex;
-
-                                struct timeval t1, t2;
-
-                                gettimeofday(&t1, NULL);
-
-                        for (unsigned int i = 0; i < n_threads; i++) {
-                            threads.push_back(std::thread(generation_job_nrpc, i, N_entries, n_threads, &entries_counter));
-                        }
-
-                        for (unsigned int i = 0; i < n_threads; i++) {
-                            threads[i].join();
-                        }
-
-                                gettimeofday(&t2, NULL);
-
-                                logger::log(logger::INFO) <<"total update time: "<<((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec -t1.tv_usec) /1000.0<<" ms" <<std::endl;
-
-                        // client->end_update_session();
-                    }
-	
 	
 		static void generate_trace(Client* client, size_t N_entries) {
 			// randomly generate a large db
@@ -340,5 +310,39 @@ namespace DistSSE{
 			assert(s.ok());
 		}// generate_trace
 
+
+		static void gen_rdb(std::string db_path, size_t N_entries)
+         {
+			
+			rocksdb::DB* ss_db;
+
+			rocksdb::Options options;
+    		options.create_if_missing = true;
+	    	Util::set_db_common_options(options);
+
+			rocksdb::Status s = rocksdb::DB::Open(options, db_path, &ss_db);
+
+			if(!s.ok()) {
+				std::cerr<< "In gen_rdb_nrpc(), open db error: "<< s.ToString() <<std::endl;	
+			}
+
+			int c = 0;
+
+			AutoSeededRandomPool prng;
+			int ind_len = AES::BLOCKSIZE / 2; // AES::BLOCKSIZE = 16
+			byte tmp[ind_len];
+
+
+         	for(int i = 0; i < N_entries; i++) {
+				prng.GenerateBlock(tmp, sizeof(tmp));
+				std::string key = (std::string((const char*)tmp, ind_len));
+				prng.GenerateBlock(tmp, sizeof(tmp));
+				std::string value = (std::string((const char*)tmp, ind_len));
+				s = ss_db->Put(rocksdb::WriteOptions(), key, value);
+				c++;
+				if ( c % 100000 == 0 ) logger::log(logger::INFO) << "RDB generation: " << ": " << c << " entries generated\r" << std::flush;
+			}
+
+         }// gen_rdb
 
 }//namespace DistSSE
