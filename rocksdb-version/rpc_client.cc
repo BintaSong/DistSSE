@@ -27,7 +27,7 @@ std::cout << "update begin..." <<std::endl;
 
 	if (flag == 1) DistSSE::generate_trace(&client, N_entry);
 	else if (flag == 2) DistSSE::gen_db(client, N_entry, threads_num);
-	else DistSSE::gen_rdb("rdb-"+std::to_string(N_entry), N_entry);
+	else DistSSE::gen_rdb("../../back/rdb-"+std::to_string(N_entry), N_entry);
 
 std::cout <<"update done." <<std::endl;
 

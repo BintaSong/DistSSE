@@ -43,7 +43,10 @@ PROTOS_PATH = .
 
 vpath %.proto $(PROTOS_PATH)
 
-all: system-check rpc_client rpc_server benchmark
+all: system-check rpc_client rpc_server benchmark random_db
+
+random_db : random_db.o DistSSE.pb.o DistSSE.grpc.pb.o DistSSE.Util.o logger.o
+	$(CXX) $^ $(LDFLAGS) -o $@
 
 benchmark : benchmark.o DistSSE.pb.o DistSSE.grpc.pb.o DistSSE.Util.o logger.o
 	$(CXX) $^ $(LDFLAGS) -o $@
