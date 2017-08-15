@@ -101,7 +101,7 @@ public:
 			s = db->Get(rocksdb::ReadOptions(), l, &tmp);
 		}
 
-		if (!s.ok())	std::cerr << "in get() " << s.ToString()<<", tmp: "<< tmp << std::endl;
+		//if (!s.ok())	std::cerr << "in get() " << s.ToString()<<", tmp: "<< tmp << std::endl;
 		
  	 return tmp;
 	}
@@ -272,14 +272,14 @@ public:
 			
 			if(kw != "") {
 
-				if (uc < 1000) {
+				/*if (uc < 1000) {
 
 					search_single( kw, 0, uc, ID, merge_string );
 					// std::cout<< "ID.size(): " << ID.size() <<std::endl;
 	
-				}else {
+				}else*/ {
 					
-					int thread_num = min( uc / 1000, MAX_THREADS);
+					int thread_num = MAX_THREADS;//min( uc / 1000, MAX_THREADS);
 					
 					int step = uc / thread_num + 1;
 					

@@ -255,7 +255,7 @@ namespace DistSSE{
 
 			// generate some trash data to certain large...
 			double search_rate[4] = {0.0001, 0.001, 0.01};
-			int dely_time[4] = {10, 20, 40};
+			int dely_time[4] = {40, 60, 80};
 			std::string l, e;
 
 			bool not_repeat_search = true;
