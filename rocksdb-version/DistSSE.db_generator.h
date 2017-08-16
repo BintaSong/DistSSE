@@ -5,6 +5,8 @@
 
 namespace DistSSE{
 
+		static std::mutex print_mtx;
+
 		static bool sample(double value, double rate) {
 			double _value = value;			
 			_value -= rate;
@@ -180,8 +182,11 @@ namespace DistSSE{
 		                
 		        (*entries_counter)++;
 			if (((*entries_counter) % 10) == 0) {
-                	    logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
-                	}
+						{
+							std::lock_guard<std::mutex> lock(print_mtx);
+                	    	logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
+						}                	
+				}
 	  
 		            
 		        writer->Write( client->gen_update_request("1", kw_10_1, ind, 0) );

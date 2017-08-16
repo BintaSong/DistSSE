@@ -14,9 +14,11 @@
 
 #include "logger.h"
 
+#include "thread_pool.h"
 
-#define min(x ,y) ( x < y ? x : y)
-#define max(x, y) (x < y ? y : x)
+
+#define min(x ,y) ( (x) < (y) ? (x) : (y) )
+#define max(x, y) ( (x) < (y) ? (y) : (x) )
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -104,6 +106,17 @@ public:
 		//if (!s.ok())	std::cerr << "in get() " << s.ToString()<<", tmp: "<< tmp << std::endl;
 		
  	 return tmp;
+	}
+
+	static bool get(rocksdb::DB* &db, const std::string l, std::string& e){
+		rocksdb::Status s;
+	
+		{
+			//std::lock_guard<std::mutex> lock(ssdb_write_mtx);
+			s = db->Get(rocksdb::ReadOptions(), l, &e);
+		}
+		
+		return s.ok(); 
 	}
 
 	static int merge(rocksdb::DB* &db, const std::string l, const std::string append_str) {
@@ -246,6 +259,66 @@ public:
 			}
 	}
 
+	void search_parallel (std::string kw, std::string tw, int uc, std::set<std::string>& result){
+		// std::set<std::string> result;
+		std::string cache_string, result_string;
+
+		ThreadPool fetch_pool(1);
+		ThreadPool decrypt_pool(1);
+		
+		auto read_cache_job = [&tw, &result] ( std::string* cache_str) {
+			*cache_str = get(cache_db, tw);
+			// Util::split(cache_str, '|', result);
+		};
+
+		auto decrypt_job = [&result_string, &result] (const std::string st_c_, const std::string e) {
+			std::string value = Util::Xor( e, Util::H2(st_c_) );
+			std::string op, ind;			
+			parse(value, op, ind);
+			result.insert(ind);
+			result_string += Util::str2hex(ind) + "|";
+		};
+	
+		auto lookup_job = [&decrypt_job, &decrypt_pool]( const std::string st_c_, const std::string u){
+			std::string e;
+			bool found = get(ss_db, u, e);
+			if(found) {
+				decrypt_pool.enqueue(decrypt_job, st_c_, e);
+			}else{
+				logger::log(logger::ERROR) << "We were supposed to find something!" << std::endl;
+			}
+		};
+
+		auto derive_job = [&kw, &tw, &lookup_job, &fetch_pool]( const int begin, const int max, const int step) {
+			for(int i = 0; i < max; i += step) {
+				std::string st_c_ = kw + std::to_string(i);
+				std::string u = Util::H1(st_c_);
+				fetch_pool.enqueue(lookup_job, st_c_, u);
+			}
+		};
+		
+		std::vector<std::thread> threads;
+    
+    	unsigned n_threads = MAX_THREADS - 3;
+		
+		threads.push_back( std::thread(read_cache_job, &cache_string) );
+
+		for( int i = 1; i <= n_threads; i++) { // counter begin from 1 !
+			threads.push_back( std::thread(derive_job, i, uc, n_threads) );	
+		}
+
+		for( int i = 1; i <= n_threads; i++) { // counter begin from 1 !
+			threads[i].join();
+		}
+		
+		fetch_pool.join();
+		decrypt_pool.join();
+
+ 		merge(cache_db, tw, cache_string + result_string);
+
+		// return result;
+	}
+
 	void search(std::string kw, std::string tw, int uc, std::set<std::string>& ID){
 	
 		std::vector<std::string> op_ind;
@@ -299,7 +372,6 @@ public:
 					gettimeofday(&t2, NULL);
 					merge(ID, merge_string);
 				}
-
 				// merge to cache can be done by a seperate thread backgroud, the result can be returned before.
 				// so we don't count the time...
 			}
@@ -338,13 +410,17 @@ public:
 		
 		std::set<std::string> ID;
 
-		// logger::log(logger::INFO) << "searching... " <<std::endl;
+		logger::log(logger::INFO) << "searching... " <<std::endl;
 
-		// gettimeofday(&t1, NULL);
+		gettimeofday(&t1, NULL);
 		search(kw, tw, uc, ID);
-		// gettimeofday(&t2, NULL);
+		gettimeofday(&t2, NULL);
+		
+		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
 
-  		// logger::log(logger::INFO) <<"ID.size():"<< ID.size() <<" ,search time: "<< ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0/ID.size()<<" ms" <<std::endl;
+		search_log(kw, search_time, ID.size());
+  		
+// logger::log(logger::INFO) <<"ID.size():"<< ID.size() <<" ,search time: "<< ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0/ID.size()<<" ms" <<std::endl;
 		// TODO 读取之后需要解锁
 
 		SearchReply reply;
@@ -363,7 +439,7 @@ public:
 	Status update(ServerContext* context, const UpdateRequestMessage* request, ExecuteStatus* response) {
 		std::string l = request->l();
 		std::string e = request->e();
-		std::cout<<"in update(), counter:  "<<request->counter()<<std::endl;
+		std::cout<<"in update(), counter:  "<< request->counter() <<std::endl;
 		// TODO 更新数据库之前要加锁
 
 		int status = store(ss_db, l, e);
@@ -387,7 +463,7 @@ public:
 		while (reader->Read(&request)) {
 			l = request.l();
 			e = request.e();
-			// std::cout<<"in update(), counter:  "<<request.counter()<<std::endl;
+			std::cout<<"in update(), counter:  "<<request.counter()<<std::endl;
 			store(ss_db, l, e);
 		  //  assert(status == 0);
 		}
