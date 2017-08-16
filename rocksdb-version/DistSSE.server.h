@@ -365,7 +365,7 @@ public:
 	
 
 		auto fetch_job = [&kw, &tw, &decrypt_job, &decrypt_pool]( const int begin, const int max, const int step) {
-			struct timeval l, r;
+			//struct timeval l, r;
 
 
 			for(int i = begin; i <= max; i += step) {
@@ -376,13 +376,13 @@ public:
 				std::string e;
 				static struct timeval l, r;
 
-			gettimeofday(&l, NULL);
+			//gettimeofday(&l, NULL);
 
 				bool found = get(ss_db, u, e);
 
-			gettimeofday(&r, NULL);
+			//gettimeofday(&r, NULL);
 
-			t3 += ((r.tv_sec - l.tv_sec) * 1000000.0 + r.tv_usec - l.tv_usec) / 1000.0 ;
+			//t3 += ((r.tv_sec - l.tv_sec) * 1000000.0 + r.tv_usec - l.tv_usec) / 1000.0 ;
 
 				//gettimeofday(&r, NULL);
 				//time  +=  ((r.tv_sec - l.tv_sec) * 1000000.0 + r.tv_usec - l.tv_usec) / 1000.0;
@@ -397,7 +397,7 @@ public:
 		
 		std::vector<std::thread> threads;
     
-		unsigned n_threads = 1; //MAX_THREADS - decrypt_threads;
+		unsigned n_threads = MAX_THREADS - decrypt_threads;
 
 		threads.push_back( std::thread(read_cache_job) );
 
@@ -416,7 +416,7 @@ public:
 
 		// double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
 
-		search_log(kw, t3, result.size());
+		//search_log(kw, t3, result.size());
 
  		merge(cache_db, tw, cache_string + result_string);
 		// return result;
@@ -516,7 +516,7 @@ public:
 		logger::log(logger::INFO) << "searching... " <<std::endl;
 
 		gettimeofday(&t1, NULL);
-		search(kw, tw, uc, ID);
+		search_parallel(kw, tw, uc, 1, ID);
 		gettimeofday(&t2, NULL);
 		
 		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
