@@ -263,25 +263,33 @@ public:
 		// std::set<std::string> result;
 		std::string cache_string, result_string;
 
-		ThreadPool fetch_pool(1);
+		ThreadPool fetch_pool(2);
 		ThreadPool decrypt_pool(1);
-		
+		static struct timeval l, r;
+		static double time ;		
+	
 		auto read_cache_job = [&tw, &result, &cache_string] ( ) {
 			cache_string = get(cache_db, tw);
 			// Util::split(cache_str, '|', result);
 		};
 
 		auto decrypt_job = [&result_string, &result] (const std::string st_c_, const std::string e) {
+			//gettimeofday(&l, NULL);
 			std::string value = Util::Xor( e, Util::H2(st_c_) );
 			std::string op, ind;			
 			parse(value, op, ind);
 			result.insert(ind);
 			result_string += Util::str2hex(ind) + "|";
+			//gettimeofday(&r, NULL);
+			//time  +=  ((r.tv_sec - l.tv_sec) * 1000000.0 + r.tv_usec - l.tv_usec) / 1000.0;
 		};
 	
 		auto lookup_job = [&decrypt_job, &decrypt_pool]( const std::string st_c_, const std::string u){
 			std::string e;
+			gettimeofday(&l, NULL);
 			bool found = get(ss_db, u, e);
+			gettimeofday(&r, NULL);
+			time  +=  ((r.tv_sec - l.tv_sec) * 1000000.0 + r.tv_usec - l.tv_usec) / 1000.0;
 			if(found) {
 				decrypt_pool.enqueue(decrypt_job, st_c_, e);
 			}else{
@@ -321,13 +329,12 @@ public:
 		decrypt_pool.join();
 
 		gettimeofday(&t2, NULL);
-		search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
+		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
 
-		search_log(kw, search_time, ID.size());
+		search_log(kw, time, result.size());
 
 
  		merge(cache_db, tw, cache_string + result_string);
-
 		// return result;
 	}
 
