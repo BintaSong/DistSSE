@@ -346,8 +346,8 @@ public:
 
 		ThreadPool decrypt_pool(decrypt_threads);
 
-		static struct timeval l, r;
-		static double time;		
+	//static struct timeval l, r;	static struct timeval l, r;
+		static double time = 0.0;		
 	
 		auto read_cache_job = [&tw, &result, &cache_string] ( ) {
 			cache_string = get(cache_db, tw);
@@ -378,11 +378,11 @@ public:
 				std::string st_c_ = kw + std::to_string(i);
 				std::string u = Util::H1(st_c_);
 				std::string e;
-
-				gettimeofday(&l, NULL);
+				static struct timeval l, r;
+				//gettimeofday(&l, NULL);
 				bool found = get(ss_db, u, e);
-				gettimeofday(&r, NULL);
-				time  +=  ((r.tv_sec - l.tv_sec) * 1000000.0 + r.tv_usec - l.tv_usec) / 1000.0;
+				//gettimeofday(&r, NULL);
+				//time  +=  ((r.tv_sec - l.tv_sec) * 1000000.0 + r.tv_usec - l.tv_usec) / 1000.0;
 				if(found) {
 					decrypt_pool.enqueue(decrypt_job, st_c_, e);
 				}else{
@@ -517,7 +517,7 @@ public:
 		logger::log(logger::INFO) << "searching... " <<std::endl;
 
 		gettimeofday(&t1, NULL);
-		search_parallel(kw, tw, uc, 2, ID);
+		search_parallel(kw, tw, uc, 1, ID);
 		gettimeofday(&t2, NULL);
 		
 		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
