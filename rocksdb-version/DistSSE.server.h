@@ -266,8 +266,8 @@ public:
 		ThreadPool fetch_pool(1);
 		ThreadPool decrypt_pool(1);
 		
-		auto read_cache_job = [&tw, &result] ( std::string* cache_str) {
-			*cache_str = get(cache_db, tw);
+		auto read_cache_job = [&tw, &result, &cache_string] ( ) {
+			cache_string = get(cache_db, tw);
 			// Util::split(cache_str, '|', result);
 		};
 
@@ -290,7 +290,7 @@ public:
 		};
 
 		auto derive_job = [&kw, &tw, &lookup_job, &fetch_pool]( const int begin, const int max, const int step) {
-			for(int i = 0; i < max; i += step) {
+			for(int i = begin; i <= max; i += step) {
 				std::string st_c_ = kw + std::to_string(i);
 				std::string u = Util::H1(st_c_);
 				fetch_pool.enqueue(lookup_job, st_c_, u);
@@ -299,15 +299,15 @@ public:
 		
 		std::vector<std::thread> threads;
     
-    	unsigned n_threads = MAX_THREADS - 3;
+    		unsigned n_threads = MAX_THREADS - 3;
 		
-		threads.push_back( std::thread(read_cache_job, &cache_string) );
+		threads.push_back( std::thread(read_cache_job) );
 
 		for( int i = 1; i <= n_threads; i++) { // counter begin from 1 !
 			threads.push_back( std::thread(derive_job, i, uc, n_threads) );	
 		}
 
-		for( int i = 1; i <= n_threads; i++) { // counter begin from 1 !
+		for( int i = 0; i <= n_threads; i++) { // counter begin from 1 !
 			threads[i].join();
 		}
 		
@@ -413,7 +413,7 @@ public:
 		logger::log(logger::INFO) << "searching... " <<std::endl;
 
 		gettimeofday(&t1, NULL);
-		search(kw, tw, uc, ID);
+		search_parallel(kw, tw, uc, ID);
 		gettimeofday(&t2, NULL);
 		
 		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
@@ -463,7 +463,7 @@ public:
 		while (reader->Read(&request)) {
 			l = request.l();
 			e = request.e();
-			std::cout<<"in update(), counter:  "<<request.counter()<<std::endl;
+			//std::cout<<"in update(), counter:  "<<request.counter()<<std::endl;
 			store(ss_db, l, e);
 		  //  assert(status == 0);
 		}
