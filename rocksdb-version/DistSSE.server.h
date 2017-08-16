@@ -338,6 +338,91 @@ public:
 		// return result;
 	}
 
+	void search_parallel (std::string kw, std::string tw, int uc, int decrypt_threads, std::set<std::string>& result){
+		// std::set<std::string> result;
+		std::string cache_string, result_string;
+
+		std::mutex res_mutex;
+
+		ThreadPool decrypt_pool(decrypt_threads);
+
+		static struct timeval l, r;
+		static double time;		
+	
+		auto read_cache_job = [&tw, &result, &cache_string] ( ) {
+			cache_string = get(cache_db, tw);
+			// Util::split(cache_str, '|', result);
+		};
+
+		auto decrypt_job = [&result_string, &result, &res_mutex, &decrypt_threads] (const std::string st_c_, const std::string e) {
+			//gettimeofday(&l, NULL);
+			std::string value = Util::Xor( e, Util::H2(st_c_) );
+			std::string op, ind;			
+			parse(value, op, ind);
+
+			if(decrypt_threads > 1) {
+				res_mutex.lock();		
+			}
+			
+			result.insert(ind);
+			result_string += Util::str2hex(ind) + "|";
+
+			if(decrypt_threads > 1) {
+				res_mutex.unlock();		
+			}
+		};
+	
+
+		auto fetch_job = [&kw, &tw, &decrypt_job, &decrypt_pool]( const int begin, const int max, const int step) {
+			for(int i = begin; i <= max; i += step) {
+				std::string st_c_ = kw + std::to_string(i);
+				std::string u = Util::H1(st_c_);
+				std::string e;
+
+				gettimeofday(&l, NULL);
+				bool found = get(ss_db, u, e);
+				gettimeofday(&r, NULL);
+				time  +=  ((r.tv_sec - l.tv_sec) * 1000000.0 + r.tv_usec - l.tv_usec) / 1000.0;
+				if(found) {
+					decrypt_pool.enqueue(decrypt_job, st_c_, e);
+				}else{
+					logger::log(logger::ERROR) << "We were supposed to find something!" << std::endl;
+				}
+			}
+		};
+		
+		std::vector<std::thread> threads;
+    
+		unsigned n_threads = MAX_THREADS - decrypt_threads;
+		
+
+		struct timeval t1, t2;
+
+		gettimeofday(&t1, NULL);
+
+		threads.push_back( std::thread(read_cache_job) );
+
+		for( int i = 1; i <= n_threads; i++) { // counter begin from 1 !
+			threads.push_back( std::thread(fetch_job, i, uc, n_threads) );	
+		}
+
+		for( int i = 0; i <= n_threads; i++) { // counter begin from 1 !
+			threads[i].join();
+		}
+		
+
+		decrypt_pool.join();
+
+		gettimeofday(&t2, NULL);
+		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
+
+		search_log(kw, time, result.size());
+
+
+ 		merge(cache_db, tw, cache_string + result_string);
+		// return result;
+	}
+
 	void search(std::string kw, std::string tw, int uc, std::set<std::string>& ID){
 	
 		std::vector<std::string> op_ind;
@@ -432,7 +517,7 @@ public:
 		logger::log(logger::INFO) << "searching... " <<std::endl;
 
 		gettimeofday(&t1, NULL);
-		search_parallel(kw, tw, uc, ID);
+		search_parallel(kw, tw, uc, 2, ID);
 		gettimeofday(&t2, NULL);
 		
 		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
