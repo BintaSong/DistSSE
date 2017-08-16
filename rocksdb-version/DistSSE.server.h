@@ -289,6 +289,7 @@ public:
 			}
 		};
 
+
 		auto derive_job = [&kw, &tw, &lookup_job, &fetch_pool]( const int begin, const int max, const int step) {
 			for(int i = begin; i <= max; i += step) {
 				std::string st_c_ = kw + std::to_string(i);
@@ -299,8 +300,13 @@ public:
 		
 		std::vector<std::thread> threads;
     
-    		unsigned n_threads = MAX_THREADS - 3;
+		unsigned n_threads = MAX_THREADS - 3;
 		
+
+		struct timeval t1, t2;
+
+		gettimeofday(&t1, NULL);
+
 		threads.push_back( std::thread(read_cache_job) );
 
 		for( int i = 1; i <= n_threads; i++) { // counter begin from 1 !
@@ -313,6 +319,12 @@ public:
 		
 		fetch_pool.join();
 		decrypt_pool.join();
+
+		gettimeofday(&t2, NULL);
+		search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
+
+		search_log(kw, search_time, ID.size());
+
 
  		merge(cache_db, tw, cache_string + result_string);
 
