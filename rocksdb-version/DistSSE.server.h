@@ -346,7 +346,7 @@ public:
 
 		ThreadPool decrypt_pool(decrypt_threads);
 
-	//static struct timeval l, r;	static struct timeval l, r;
+		//static struct timeval l, r;	static struct timeval l, r;
 		static double time = 0.0;		
 	
 		auto read_cache_job = [&tw, &result, &cache_string] ( ) {
@@ -608,7 +608,7 @@ std::mutex DistSSE::DistSSEServiceImpl::result_mtx;
 void RunServer(std::string db_path, std::string cache_path, int concurrent) {
 
 
-  std::string server_address("0.0.0.0:50051");
+  std::string server_address("127.0.0.1:50051");
   DistSSE::DistSSEServiceImpl service(db_path, cache_path, concurrent);
   
   ServerBuilder builder;
