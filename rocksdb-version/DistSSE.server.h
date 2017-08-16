@@ -369,15 +369,23 @@ public:
 		auto fetch_job = [&kw, &tw, &decrypt_job, &decrypt_pool]( const int begin, const int max, const int step) {
 			struct timeval l, r;
 
-			gettimeofday(&l, NULL);
 
 			for(int i = begin; i <= max; i += step) {
+
+
 				std::string st_c_ = kw + std::to_string(i);
 				std::string u = Util::H1(st_c_);
 				std::string e;
 				static struct timeval l, r;
-				//gettimeofday(&l, NULL);
+
+			gettimeofday(&l, NULL);
+
 				bool found = get(ss_db, u, e);
+
+			gettimeofday(&r, NULL);
+
+			t3 += ((r.tv_sec - l.tv_sec) * 1000000.0 + r.tv_usec - l.tv_usec) / 1000.0 ;
+
 				//gettimeofday(&r, NULL);
 				//time  +=  ((r.tv_sec - l.tv_sec) * 1000000.0 + r.tv_usec - l.tv_usec) / 1000.0;
 				if(found) {
@@ -387,9 +395,6 @@ public:
 				}
 			}
 
-			gettimeofday(&r, NULL);
-
-			t3 += ((r.tv_sec - l.tv_sec) * 1000000.0 + r.tv_usec - l.tv_usec) / 1000.0 ;
 		};
 		
 		std::vector<std::thread> threads;
