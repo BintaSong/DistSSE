@@ -266,11 +266,9 @@ public:
 		ThreadPool fetch_pool(2);
 		ThreadPool decrypt_pool(1);
 		static struct timeval l, r;
-		static double time ;		
 	
-		auto read_cache_job = [&tw, &result, &cache_string] ( ) {
+		auto read_cache_job = [&tw, &result, &cache_string] () {
 			cache_string = get(cache_db, tw);
-			// Util::split(cache_str, '|', result);
 		};
 
 		auto decrypt_job = [&result_string, &result] (const std::string st_c_, const std::string e) {
@@ -329,6 +327,7 @@ public:
 		decrypt_pool.join();
 
 		gettimeofday(&t2, NULL);
+
 		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
 
 		search_log(kw, time, result.size());
@@ -338,16 +337,19 @@ public:
 		// return result;
 	}
 
-	void search_parallel (std::string kw, std::string tw, int uc, int decrypt_threads, std::set<std::string>& result){
+	void search_parallel(std::string kw, std::string tw, int uc, int decrypt_threads, std::set<std::string>& result){
 		// std::set<std::string> result;
 		std::string cache_string, result_string;
 
 		std::mutex res_mutex;
+		std::mutex t_mutex;
 
 		ThreadPool decrypt_pool(decrypt_threads);
 
 		//static struct timeval l, r;	static struct timeval l, r;
-		static double time = 0.0;		
+		static double time = 0.0;
+
+		static double t1 = 0.0, t2 = 0.0, t3 = 0.0;	
 	
 		auto read_cache_job = [&tw, &result, &cache_string] ( ) {
 			cache_string = get(cache_db, tw);
@@ -373,7 +375,11 @@ public:
 		};
 	
 
-		auto fetch_job = [&kw, &tw, &decrypt_job, &decrypt_pool]( const int begin, const int max, const int step) {
+		auto fetch_job = [&kw, &tw, &decrypt_job, &decrypt_pool, &t3]( const int begin, const int max, const int step) {
+			struct timeval l, r;
+
+			gettimeofday(&l, NULL);
+
 			for(int i = begin; i <= max; i += step) {
 				std::string st_c_ = kw + std::to_string(i);
 				std::string u = Util::H1(st_c_);
@@ -389,16 +395,15 @@ public:
 					logger::log(logger::ERROR) << "We were supposed to find something!" << std::endl;
 				}
 			}
+
+			gettimeofday(&r, NULL);
+
+			t3 += ((r.tv_sec - l.tv_sec) * 1000000.0 + r.tv_usec - l.tv_usec) / 1000.0 ;
 		};
 		
 		std::vector<std::thread> threads;
     
-		unsigned n_threads = MAX_THREADS - decrypt_threads;
-		
-
-		struct timeval t1, t2;
-
-		gettimeofday(&t1, NULL);
+		unsigned n_threads = 1; //MAX_THREADS - decrypt_threads;
 
 		threads.push_back( std::thread(read_cache_job) );
 
@@ -413,11 +418,11 @@ public:
 
 		decrypt_pool.join();
 
-		gettimeofday(&t2, NULL);
-		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
+		// gettimeofday(&t2, NULL);
 
-		search_log(kw, time, result.size());
+		// double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
 
+		search_log(kw, t3, result.size());
 
  		merge(cache_db, tw, cache_string + result_string);
 		// return result;

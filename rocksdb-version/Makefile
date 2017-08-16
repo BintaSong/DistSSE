@@ -69,7 +69,7 @@ clean:
 	rm -f *.o *.pb.cc *.pb.h #DistSSE_client DistSSE_server 
 
 exe:
-	rm rpc_client rpc_server benchmark #DistSSE_client DistSSE_server 
+	rm rpc_client rpc_server benchmark random_db #DistSSE_client DistSSE_server 
 
 # The following is to test your system and ensure a smoother experience.
 # They are by no means necessary to actually compile a grpc-enabled software.
