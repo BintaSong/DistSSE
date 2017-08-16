@@ -322,8 +322,6 @@ public:
 		fetch_pool.join();
 		decrypt_pool.join();
 
-
-
  		merge(cache_db, tw, cache_string + result_string);
 		// return result;
 	}
@@ -518,7 +516,7 @@ public:
 		logger::log(logger::INFO) << "searching... " <<std::endl;
 
 		gettimeofday(&t1, NULL);
-		search_parallel(kw, tw, uc, 1, ID);
+		search(kw, tw, uc, ID);
 		gettimeofday(&t2, NULL);
 		
 		double search_time =  ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) / 1000.0 ;
