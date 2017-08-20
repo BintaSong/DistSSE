@@ -250,8 +250,8 @@ namespace DistSSE{
 			UpdateRequestMessage request;
 			ClientContext context;
 			ExecuteStatus exec_status;
-			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()) ) );
-			std::unique_ptr<ClientWriterInterface<UpdateRequestMessage>> writer(stub_->batch_update(&context, &exec_status));
+			//std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()) ) );
+			//std::unique_ptr<ClientWriterInterface<UpdateRequestMessage>> writer(stub_->batch_update(&context, &exec_status));
 
 			// generate some trash data to certain large...
 			double search_rate[4] = {0.0001, 0.001, 0.01};
@@ -277,10 +277,11 @@ namespace DistSSE{
 
 		 				entries_counter++;
 
-						bool success = writer->Write( client->gen_update_request("1", keyword, ind, k) );
-						assert(success);
+						//bool success = writer->Write( client->gen_update_request("1", keyword, ind, k) );
+						s = client->update(client->gen_update_request("1", keyword, ind, k)); 
+						assert(s.ok());
 
-						if (k % 10 == 0) std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
+						//if (k % 10 == 0) std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
 
 						
 						// search or not ??
@@ -296,7 +297,7 @@ namespace DistSSE{
 							}*/
 
 							//client->search("Group-10^"+ std::to_string(j) +"_0_0");
-							std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
+							//std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
 							for(int r = 0; r < 3; r++){
 								client->search(keyword);
 								search_time++ ;
@@ -314,8 +315,8 @@ namespace DistSSE{
 			logger::log(logger::INFO) << "search time: "<<search_time << std::endl ;			
 
 			// now tell server we have finished
-			writer->WritesDone();
-	    	s = writer->Finish();
+			//writer->WritesDone();
+	    	//s = writer->Finish();
 			assert(s.ok());
 		}// generate_trace
 

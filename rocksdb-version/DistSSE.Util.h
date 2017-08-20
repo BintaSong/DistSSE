@@ -22,6 +22,10 @@
 #include <vector>
 #include <stdexcept>
 #include <csignal>
+#include <unordered_set>
+#include <unistd.h>
+
+
 
 #include <sys/time.h>
 
@@ -91,7 +95,7 @@ public:
 
 	static void split(const std::string &s, char delim, std::vector<std::string> &elems) ;
 
-	static void split(const std::string &s, char delim, std::set<std::string> &ID);
+	static void split(const std::string &s, char delim, std::unordered_set<std::string> &ID);
 
 	static std::string dec_token(const void* key, int key_len, const void* iv, std::string enc_token);
 

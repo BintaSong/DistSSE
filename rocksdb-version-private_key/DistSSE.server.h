@@ -166,7 +166,7 @@ public:
 		std::unordered_set<std::string> delete_set;
 	    _st = st;
 		
-		logger::log(logger::INFO) << "server searching... "<< uc <<std::endl;
+		//logger::log(logger::INFO) << "server searching... "<< uc <<std::endl;
 		// logger::log(logger::INFO) <<"In gen_search_token==>  " << "st:" << st << ", tw: " << tw << ", uc: "<< uc <<std::endl;
 		
 		int repeat;
@@ -268,7 +268,7 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 			writer->Write(reply);
 		}
 
-		logger::log(logger::INFO) << "search done." <<std::endl;
+		//logger::log(logger::INFO) << "search done." <<std::endl;
 
 	    return Status::OK;
   	}
@@ -279,11 +279,11 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 		std::string e = request->e();
 		//std::cout<<"ut: "<<ut<< " # " <<"enc_value: "<<enc_value<<std::endl;
 		// TODO 更新数据库之前要加锁
-		logger::log(logger::INFO) <<"in update"<<std::endl;
+		//logger::log(logger::INFO) <<"in update"<<std::endl;
 		int status = store(ss_db, l, e);
 		// TODO 更新之后需要解锁
 		//logger::log(logger::INFO) << "*" << std::endl;
-		logger::log(logger::INFO) << "UPDATE fuck" << std::endl;
+		//logger::log(logger::INFO) << "UPDATE fuck" << std::endl;
 		if(status != 0) {
 			response->set_status(false);
 			return Status::CANCELLED;

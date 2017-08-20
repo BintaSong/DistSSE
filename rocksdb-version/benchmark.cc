@@ -26,6 +26,7 @@ int main(int argc, char** argv) {
 			for(int k = 0; k < max; k++) {
 				w = prefix + std::to_string(i) + "_" + std::to_string(j) + "_" + std::to_string(k);
 				client.search(w);
+				usleep(150);
 			}
 	
 std::cout << "search done."<< std::endl;

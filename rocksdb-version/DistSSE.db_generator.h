@@ -181,7 +181,7 @@ namespace DistSSE{
 
 		                
 		        (*entries_counter)++;
-			if (((*entries_counter) % 10) == 0) {
+			if (((*entries_counter) % 10000) == 0) {
 						{
 							std::lock_guard<std::mutex> lock(print_mtx);
                 	    	logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
@@ -255,12 +255,12 @@ namespace DistSSE{
 			UpdateRequestMessage request;
 			ClientContext context;
 			ExecuteStatus exec_status;
-			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("127.0.0.1:50051", grpc::InsecureChannelCredentials()) ) );
-			std::unique_ptr<ClientWriterInterface<UpdateRequestMessage>> writer(stub_->batch_update(&context, &exec_status));
+			// std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("127.0.0.1:50051", grpc::InsecureChannelCredentials()) ) );
+			// std::unique_ptr<ClientWriterInterface<UpdateRequestMessage>> writer(stub_->batch_update(&context, &exec_status));
 
 			// generate some trash data to certain large...
 			double search_rate[4] = {0.0001, 0.001, 0.01};
-			int dely_time[4] = {40, 60, 80};
+			int delay_time[4] = {0, 0, 0};
 			std::string l, e;
 
 			bool not_repeat_search = true;
@@ -282,10 +282,11 @@ namespace DistSSE{
 
 		 				entries_counter++;
 
-						bool success = writer->Write( client->gen_update_request("1", keyword, ind, k) );
-						assert(success);
+						// bool success = writer->Write( client->gen_update_request("1", keyword, ind, k) );
+						s = client->update( client->gen_update_request("1", keyword, ind, k));
+						assert(s.ok());
 
-						if (k % 10 == 0) std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
+						//if (k % 10 == 0) std::this_thread::sleep_for(std::chrono::milliseconds(delay_time[i]));
 
 						
 						// search or not ??
@@ -294,7 +295,7 @@ namespace DistSSE{
 
 						if(is_search) {
 							// 执行搜索
-							std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
+							//std::this_thread::sleep_for(std::chrono::milliseconds(delay_time[i]));
 							client->search(keyword);
 							search_time++ ;
 							search_log(keyword, k);
@@ -310,8 +311,8 @@ namespace DistSSE{
 			logger::log(logger::INFO) << "search time: "<<search_time << std::endl ;			
 
 			// now tell server we have finished
-			writer->WritesDone();
-	    	s = writer->Finish();
+			//writer->WritesDone();
+	    	//s = writer->Finish();
 			assert(s.ok());
 		}// generate_trace
 
