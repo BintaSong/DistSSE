@@ -249,8 +249,8 @@ void Util::set_db_common_options(rocksdb::Options& options) {
 		*/
 
 		// use direct I/O
-		// options.use_direct_reads = true;
-		// options.use_direct_io_for_flush_and_compaction = true;
+		 options.use_direct_reads = true;
+		 options.use_direct_io_for_flush_and_compaction = true;
 
 
 }
