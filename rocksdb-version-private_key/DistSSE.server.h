@@ -88,12 +88,12 @@ public:
 	static int store(rocksdb::DB* &db, const std::string l, const std::string e){
 		rocksdb::Status s; 		
 		rocksdb::WriteOptions write_option = rocksdb::WriteOptions();
-		write_option.sync = true;
+		//write_option.sync = true;
 		//write_option.disableWAL = false;
 		{
 			// std::lock_guard<std::mutex> lock(ssdb_write_mtx);		
 			s = db->Put(write_option, l, e);
-			db->SyncWAL();
+			//db->SyncWAL();
 		}
 		if (s.ok())	return 0;
 		else return -1;
@@ -338,7 +338,7 @@ rocksdb::DB* DistSSE::DistSSEServiceImpl::ss_db;
 // std::mutex DistSSE::DistSSEServiceImpl::ssdb_write_mtx;
 
 void RunServer(std::string db_path, std::string cache_path, int concurrent) {
-  std::string server_address("0.0.0.0:50051");
+  std::string server_address("127.0.0.1:50051");
   DistSSE::DistSSEServiceImpl service(db_path, cache_path, concurrent);
 
   ServerBuilder builder;

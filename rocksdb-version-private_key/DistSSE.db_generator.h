@@ -50,7 +50,7 @@ namespace DistSSE{
 
 			ExecuteStatus exec_status;
 	
-			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()) ) );
+			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("127.0.0.1:50051", grpc::InsecureChannelCredentials()) ) );
 
 			std::unique_ptr<ClientWriterInterface<UpdateRequestMessage>> writer(stub_->batch_update(&context, &exec_status));
 		
@@ -368,7 +368,7 @@ namespace DistSSE{
 
 			ExecuteStatus exec_status;
 	
-			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()) ) );
+			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("127.0.0.1:50051", grpc::InsecureChannelCredentials()) ) );
 
 			std::unique_ptr<ClientWriterInterface<UpdateRequestMessage>> writer(stub_->batch_update(&context, &exec_status));
 		
@@ -511,18 +511,19 @@ namespace DistSSE{
 		        writer->Write( client->gen_update_request("1", kw_60, ind, 0));
 
 
-				(*entries_counter)++;
-				if (((*entries_counter) % 100000) == 0) {
-                    logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r\n" << std::flush;
-                }
+			(*entries_counter)++;
+			if (((*entries_counter) % 10000) == 0) {
+                    logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
+                	}
 
-				/*if (((*entries_counter) % trace_step) == 0) { // ok, now let's do one trace update
+				if (((*entries_counter) % trace_step) == 0) { // ok, now let's do one trace update
                 	
 					std::string trace_keyword = TraceKeywordGroupBase + "_0_5";
 
 					counter_t_0++;
 					
 					Status s = client->update( client->gen_update_request("1", trace_keyword, ind, counter_t_0) ); 
+					logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;
 					assert(s.ok());
 					
 					double r = rand_0_to_1();
@@ -534,14 +535,15 @@ namespace DistSSE{
 								search_log(trace_keyword, counter_t_0);
 						}
 					}
-                }
+                		}
 				
-				if (((*entries_counter) % trace_step) == 33) { // ok, now let's do one trace update
+				if (((*entries_counter) % trace_step) == (trace_step/2) ) { // ok, now let's do onerace update
                 	
 					std::string trace_keyword = TraceKeywordGroupBase + "_1_5";
 					
 					counter_t_1++;
 					Status s = client->update( client->gen_update_request("1", trace_keyword, ind, counter_t_1) ); 
+					logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;	
 					assert(s.ok());
 
 					
@@ -554,14 +556,15 @@ namespace DistSSE{
 								search_log(trace_keyword, counter_t_1);
 						}
 					}
-                }
+                		}
 
-				if (((*entries_counter) % trace_step) == 67) { // ok, now let's do one trace update
+				if (((*entries_counter) % trace_step) == (trace_step - 1) ) { // ok, now let's do one trace update
                 	
 					std::string trace_keyword = TraceKeywordGroupBase + "_2_5";
 					
 					counter_t_2++;
 					Status s = client->update( client->gen_update_request("1", trace_keyword, ind, counter_t_2) ); 
+					logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;
 					assert(s.ok());
 
 					
@@ -574,7 +577,7 @@ namespace DistSSE{
 								search_log(trace_keyword, counter_t_2);
 						}
 					}
-                }*/
+                		}
 		    }
 		    
 			// now tell server we have finished
