@@ -363,7 +363,7 @@ public:
 		};
 
 		get(cache_db, tw, cache_string);
-		Util::split(cache_string, '|', cache_ID);	
+	//	Util::split(cache_string, '|', cache_ID);	
 		std::vector<std::thread> threads;
 
                 for( int i = 1; i <= fetch_threads; i++) { // counter begin from 1 !

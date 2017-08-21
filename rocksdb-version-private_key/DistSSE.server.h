@@ -87,9 +87,13 @@ public:
 
 	static int store(rocksdb::DB* &db, const std::string l, const std::string e){
 		rocksdb::Status s; 		
+		rocksdb::WriteOptions write_option = rocksdb::WriteOptions();
+		write_option.sync = true;
+		//write_option.disableWAL = false;
 		{
 			// std::lock_guard<std::mutex> lock(ssdb_write_mtx);		
-			s = db->Put(rocksdb::WriteOptions(), l, e);
+			s = db->Put(write_option, l, e);
+			db->SyncWAL();
 		}
 		if (s.ok())	return 0;
 		else return -1;
@@ -261,13 +265,13 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
   		//logger::log(logger::INFO) <<"ID.size():"<< ID.size() <<" ,search time: "<< ((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec - t1.tv_usec) /1000.0/ID.size()<<" ms" <<std::endl;
 		// TODO 读取之后需要解锁
 
-		SearchReply reply;
+	/*	SearchReply reply;
 		
 		for(int i = 0; i < ID.size(); i++){
 			reply.set_ind(std::to_string(i));
 			writer->Write(reply);
 		}
-
+	*/
 		//logger::log(logger::INFO) << "search done." <<std::endl;
 
 	    return Status::OK;

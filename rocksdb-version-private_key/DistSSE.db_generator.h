@@ -197,6 +197,7 @@ namespace DistSSE{
 			// now tell server we have finished
 			writer->WritesDone();
 	    	Status status = writer->Finish();
+		assert(status.ok());
 
 		    std::string log = "Random DB generation: thread " + std::to_string(thread_id) + " completed: (" + std::to_string(counter_10_1) + ", " 
 		                    + std::to_string(counter_10_2) + ", "+ std::to_string(counter_10_3) + ", "+ std::to_string(counter_10_4) + ", "
@@ -297,7 +298,7 @@ namespace DistSSE{
 							}*/
 
 							//client->search("Group-10^"+ std::to_string(j) +"_0_0");
-							//std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
+						//	std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
 							for(int r = 0; r < 3; r++){
 								client->search(keyword);
 								search_time++ ;

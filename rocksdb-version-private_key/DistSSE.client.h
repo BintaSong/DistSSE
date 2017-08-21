@@ -111,6 +111,7 @@ public:
 		s = cs_db->Put(rocksdb::WriteOptions(), k, v);
 		if (s.ok())	return 0;
 		else return -1;
+		assert(s.ok());
 	}
 
 	std::string get(const std::string k) {
@@ -406,7 +407,7 @@ public:
 		ExecuteStatus exec_status;
 		// 执行RPC
 		Status status = stub_->update(&context, update, &exec_status);
-		// if(status.ok()) increase_update_time(w);
+		assert (status.ok()); // increase_update_time(w);
 
 		return status;
 	}
@@ -425,7 +426,7 @@ public:
 
 		Status status = stub_->update(&context, update_request, &exec_status);
 		if(status.ok()) increase_update_time(w);// TODO
-
+		assert(status.ok());
 		return status;
 	}
 
