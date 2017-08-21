@@ -516,7 +516,7 @@ namespace DistSSE{
                     logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r\n" << std::flush;
                 }
 
-				if (((*entries_counter) % trace_step) == 0) { // ok, now let's do one trace update
+				/*if (((*entries_counter) % trace_step) == 0) { // ok, now let's do one trace update
                 	
 					std::string trace_keyword = TraceKeywordGroupBase + "_0_5";
 
@@ -574,7 +574,7 @@ namespace DistSSE{
 								search_log(trace_keyword, counter_t_2);
 						}
 					}
-                }
+                }*/
 		    }
 		    
 			// now tell server we have finished
