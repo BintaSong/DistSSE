@@ -387,9 +387,9 @@ namespace DistSSE{
 		        
 				// logger::log(logger::INFO) << "k_01: " << keyword_01 << std::endl;
 
-		        client->update( client->gen_update_request("1", keyword_01, ind, 0) );
-		        client->update( client->gen_update_request("1", keyword_1, ind, 0) );
-		        client->update( client->gen_update_request("1", keyword_10, ind, 0) );
+		        writer->Write( client->gen_update_request("1", keyword_01, ind, 0) );
+		        writer->Write( client->gen_update_request("1", keyword_1, ind, 0) );
+		        writer->Write( client->gen_update_request("1", keyword_10, ind, 0) );
 		            
 				
 
@@ -401,9 +401,9 @@ namespace DistSSE{
 		        keyword_1   = kKeyword1PercentBase     + "_" + ind_1    + "_2";
 		        keyword_10  = kKeyword10PercentBase    + "_" + ind_10   + "_2";
 		            
-		        client->update( client->gen_update_request("1", keyword_01, ind, 0) );
-		        client->update( client->gen_update_request("1", keyword_1, ind, 0) );
-		        client->update( client->gen_update_request("1", keyword_10, ind, 0) );
+		        writer->Write( client->gen_update_request("1", keyword_01, ind, 0) );
+		        writer->Write( client->gen_update_request("1", keyword_1, ind, 0) );
+		        writer->Write( client->gen_update_request("1", keyword_10, ind, 0) );
 
 		            
 		        if (counter_10_1 < max_10_counter) {
@@ -501,14 +501,14 @@ namespace DistSSE{
                     logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
                 }*/
 
-		        client->update( client->gen_update_request("1", kw_10_1, ind, 0) );
-		        client->update( client->gen_update_request("1", kw_10_2, ind, 0));
-		        client->update( client->gen_update_request("1", kw_10_3, ind, 0));
-		        client->update( client->gen_update_request("1", kw_10_4, ind, 0));
-		        client->update( client->gen_update_request("1", kw_10_5, ind, 0));
-		        client->update( client->gen_update_request("1", kw_20, ind, 0));
-		        client->update( client->gen_update_request("1", kw_30, ind, 0));
-		        client->update( client->gen_update_request("1", kw_60, ind, 0));
+		        writer->Write( client->gen_update_request("1", kw_10_1, ind, 0) );
+		        writer->Write( client->gen_update_request("1", kw_10_2, ind, 0));
+		        writer->Write( client->gen_update_request("1", kw_10_3, ind, 0));
+		        writer->Write( client->gen_update_request("1", kw_10_4, ind, 0));
+		        writer->Write( client->gen_update_request("1", kw_10_5, ind, 0));
+		        writer->Write( client->gen_update_request("1", kw_20, ind, 0));
+		        writer->Write( client->gen_update_request("1", kw_30, ind, 0));
+		        writer->Write( client->gen_update_request("1", kw_60, ind, 0));
 
 
 				(*entries_counter)++;
