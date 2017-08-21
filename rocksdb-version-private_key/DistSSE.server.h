@@ -277,22 +277,36 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 	    return Status::OK;
   	}
 	
+	void random_put(int num) {
+
+			AutoSeededRandomPool prng;
+			int ind_len = AES::BLOCKSIZE; // AES::BLOCKSIZE = 16
+			byte tmp[ind_len];
+
+
+         	for(int i = 0; i < num; i++) {
+				prng.GenerateBlock(tmp, sizeof(tmp));
+				std::string key = (std::string((const char*)tmp, ind_len));
+				std::string value = (std::string((const char*)tmp, ind_len / 2));
+				ss_db->Put(rocksdb::WriteOptions(), key, value);
+			}
+	}
 	// update()实现单次更新操作
 	Status update(ServerContext* context, const UpdateRequestMessage* request, ExecuteStatus* response) {
+		
 		std::string l = request->l();
 		std::string e = request->e();
-		//std::cout<<"ut: "<<ut<< " # " <<"enc_value: "<<enc_value<<std::endl;
-		// TODO 更新数据库之前要加锁
 		//logger::log(logger::INFO) <<"in update"<<std::endl;
 		int status = store(ss_db, l, e);
-		// TODO 更新之后需要解锁
-		//logger::log(logger::INFO) << "*" << std::endl;
-		//logger::log(logger::INFO) << "UPDATE fuck" << std::endl;
 		if(status != 0) {
 			response->set_status(false);
 			return Status::CANCELLED;
 		}
+		
+		// random_put();		
+
 		response->set_status(true);
+
 		return Status::OK;
 	}
 	
