@@ -519,11 +519,11 @@ namespace DistSSE{
 				if (((*entries_counter) % trace_step) == 0) { // ok, now let's do one trace update
                 	
 					std::string trace_keyword = TraceKeywordGroupBase + "_0_5";
-					
-					Status s = client->update( client->gen_update_request("1", trace_keyword, ind, k) ); 
-					assert(s.ok());
 
 					counter_t_0++;
+					
+					Status s = client->update( client->gen_update_request("1", trace_keyword, ind, counter_t_0) ); 
+					assert(s.ok());
 					
 					double r = rand_0_to_1();
 					bool is_search = sample(r, search_rate[0]); 
@@ -540,10 +540,10 @@ namespace DistSSE{
                 	
 					std::string trace_keyword = TraceKeywordGroupBase + "_1_5";
 					
-					Status s = client->update( client->gen_update_request("1", trace_keyword, ind, k) ); 
+					counter_t_1++;
+					Status s = client->update( client->gen_update_request("1", trace_keyword, ind, counter_t_1) ); 
 					assert(s.ok());
 
-					counter_t_1++;
 					
 					double r = rand_0_to_1();
 					bool is_search = sample(r, search_rate[1]);
@@ -560,10 +560,10 @@ namespace DistSSE{
                 	
 					std::string trace_keyword = TraceKeywordGroupBase + "_2_5";
 					
-					Status s = client->update( client->gen_update_request("1", trace_keyword, ind, k) ); 
+					counter_t_2++;
+					Status s = client->update( client->gen_update_request("1", trace_keyword, ind, counter_t_2) ); 
 					assert(s.ok());
 
-					counter_t_2++;
 					
 					double r = rand_0_to_1();
 					bool is_search = sample(r, search_rate[2]);
@@ -586,7 +586,7 @@ namespace DistSSE{
 		                    + std::to_string(counter_10_2) + ", "+ std::to_string(counter_10_3) + ", "+ std::to_string(counter_10_4) + ", "
 		                    + std::to_string(counter_10_5)  + ")";
 		    logger::log(logger::INFO) << log << std::endl;
-
+		}
 
 		void gen_db_with_trace ( Client& client, size_t N_entries, unsigned int n_threads )
 		{
