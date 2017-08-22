@@ -329,7 +329,7 @@ namespace DistSSE{
 			This function aims to generate database with certain size within trace simulation alongsize the generation
 		*/
 
-		static void gen_with_trace_job(Client* client, unsigned int thread_id, size_t N_entries, unsigned int step, std::atomic_size_t* entries_counter) {
+		static void gen_with_trace_job(Client* client, unsigned int thread_id, size_t N_entries, unsigned int step, std::mutex* mtx, std::atomic_size_t* entries_counter) {
 			const std::string kKeyword01PercentBase    = "0.1";
 		    const std::string kKeyword1PercentBase     = "1";
 		    const std::string kKeyword10PercentBase    = "10";
@@ -387,10 +387,11 @@ namespace DistSSE{
 		        
 				// logger::log(logger::INFO) << "k_01: " << keyword_01 << std::endl;
 
-		        writer->Write( client->gen_update_request("1", keyword_01, ind, 0) );
-		        writer->Write( client->gen_update_request("1", keyword_1, ind, 0) );
-		        writer->Write( client->gen_update_request("1", keyword_10, ind, 0) );
-		            
+				mtx.lock()
+				    writer->Write( client->gen_update_request("1", keyword_01, ind, 0) );
+				    writer->Write( client->gen_update_request("1", keyword_1, ind, 0) );
+				    writer->Write( client->gen_update_request("1", keyword_10, ind, 0) );
+				mtx.unlock()
 				
 
 		        ind_01 = std::string((const char*)tmp + 5, 3);
@@ -400,11 +401,12 @@ namespace DistSSE{
 		        keyword_01  = kKeyword01PercentBase    + "_" + ind_01   + "_2";
 		        keyword_1   = kKeyword1PercentBase     + "_" + ind_1    + "_2";
 		        keyword_10  = kKeyword10PercentBase    + "_" + ind_10   + "_2";
-		            
-		        writer->Write( client->gen_update_request("1", keyword_01, ind, 0) );
-		        writer->Write( client->gen_update_request("1", keyword_1, ind, 0) );
-		        writer->Write( client->gen_update_request("1", keyword_10, ind, 0) );
-
+		           
+				mtx.lock() 
+				    writer->Write( client->gen_update_request("1", keyword_01, ind, 0) );
+				    writer->Write( client->gen_update_request("1", keyword_1, ind, 0) );
+				    writer->Write( client->gen_update_request("1", keyword_10, ind, 0) );
+				mtx.unlock()
 		            
 		        if (counter_10_1 < max_10_counter) {
 		            kw_10_1 = kKeyword10GroupBase  + "1_" + id_string + "_" + std::to_string(counter_10_1);
@@ -500,16 +502,16 @@ namespace DistSSE{
 		  		if (((*entries_counter) % 1000) == 0) {
                     logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
                 }*/
-
-		        writer->Write( client->gen_update_request("1", kw_10_1, ind, 0) );
-		        writer->Write( client->gen_update_request("1", kw_10_2, ind, 0));
-		        writer->Write( client->gen_update_request("1", kw_10_3, ind, 0));
-		        writer->Write( client->gen_update_request("1", kw_10_4, ind, 0));
-		        writer->Write( client->gen_update_request("1", kw_10_5, ind, 0));
-		        writer->Write( client->gen_update_request("1", kw_20, ind, 0));
-		        writer->Write( client->gen_update_request("1", kw_30, ind, 0));
-		        writer->Write( client->gen_update_request("1", kw_60, ind, 0));
-
+				mtx->lock()
+				    writer->Write( client->gen_update_request("1", kw_10_1, ind, 0) );
+				    writer->Write( client->gen_update_request("1", kw_10_2, ind, 0));
+				    writer->Write( client->gen_update_request("1", kw_10_3, ind, 0));
+				    writer->Write( client->gen_update_request("1", kw_10_4, ind, 0));
+				    writer->Write( client->gen_update_request("1", kw_10_5, ind, 0));
+				    writer->Write( client->gen_update_request("1", kw_20, ind, 0));
+				    writer->Write( client->gen_update_request("1", kw_30, ind, 0));
+				    writer->Write( client->gen_update_request("1", kw_60, ind, 0));
+				mtx.unlock()
 
 			(*entries_counter)++;
 			if (((*entries_counter) % 10000) == 0) {
@@ -531,7 +533,9 @@ namespace DistSSE{
 
 					if(is_search) {
 						for(int r = 0; r < 3; r++) {
+								mtx.lock()
 								client->search( trace_keyword );
+								mtx.unlock()
 								search_log(trace_keyword, counter_t_0);
 						}
 					}
@@ -552,7 +556,9 @@ namespace DistSSE{
 
 					if(is_search) {
 						for(int r = 0; r < 3; r++) {
+								mtx.lock()
 								client->search( trace_keyword );
+								mtx.unlock()
 								search_log(trace_keyword, counter_t_1);
 						}
 					}
@@ -573,7 +579,9 @@ namespace DistSSE{
 
 					if(is_search) {
 						for(int r = 0; r < 3; r++) {
+								mtx.lock()
 								client->search( trace_keyword );
+								mtx.unlock()
 								search_log(trace_keyword, counter_t_2);
 						}
 					}
@@ -599,14 +607,14 @@ namespace DistSSE{
 
 		        // unsigned int n_threads = std::thread::hardware_concurrency();
 		        std::vector<std::thread> threads;
-		        // std::mutex rpc_mutex;
+		        std::mutex rpc_mutex;
 		        
 				struct timeval t1, t2;	
 
 				gettimeofday(&t1, NULL);
 				
 		        for (unsigned int i = 0; i < n_threads; i++) {
-		            threads.push_back(std::thread(gen_with_trace_job, &client, i, N_entries, n_threads, &entries_counter));
+		            threads.push_back(std::thread(gen_with_trace_job, &client, i, N_entries, n_threads, &rpc_mutex, &entries_counter));
 		        }
 
 		        for (unsigned int i = 0; i < n_threads; i++) {
