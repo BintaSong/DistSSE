@@ -531,7 +531,7 @@ namespace DistSSE{
 					assert(s.ok());
 					
 					double r = rand_0_to_1();
-					bool is_search = sample(r, search_rate[0]); 
+					bool is_search = sample(r, search_rate[0]);
 
 					if(is_search) {
 						for(int r = 0; r < 3; r++) {
