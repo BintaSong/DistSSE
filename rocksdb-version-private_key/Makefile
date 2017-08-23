@@ -43,7 +43,10 @@ PROTOS_PATH = .
 
 vpath %.proto $(PROTOS_PATH)
 
-all: system-check rpc_client rpc_server benchmark
+all: system-check rpc_client rpc_server benchmark trace
+
+trace : trace.o DistSSE.pb.o DistSSE.grpc.pb.o DistSSE.Util.o logger.o
+	$(CXX) $^ $(LDFLAGS) -o $@
 
 benchmark : benchmark.o DistSSE.pb.o DistSSE.grpc.pb.o DistSSE.Util.o logger.o
 	$(CXX) $^ $(LDFLAGS) -o $@
@@ -66,7 +69,7 @@ clean:
 	rm -f *.o *.pb.cc *.pb.h #DistSSE_client DistSSE_server 
 
 exe:
-	rm rpc_client rpc_server benchmark #DistSSE_client DistSSE_server 
+	rm rpc_client rpc_server benchmark trace #DistSSE_client DistSSE_server 
 
 # The following is to test your system and ensure a smoother experience.
 # They are by no means necessary to actually compile a grpc-enabled software.

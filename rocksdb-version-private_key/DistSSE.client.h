@@ -48,6 +48,7 @@ class Client {
 private:
  	std::unique_ptr<RPC::Stub> stub_;
 	rocksdb::DB* cs_db;
+	rocksdb::DB* trace_db;
 	
 	std::mutex st_mtx;
 	std::mutex uc_mtx;
@@ -61,6 +62,7 @@ public:
 		rocksdb::Options options;
     	options.create_if_missing = true;
     	rocksdb::Status status = rocksdb::DB::Open(options, db_path , &cs_db);
+		status = rocksdb::DB::Open(options, "trace.csdb" , &trace_db);
 
 		// load all sc, uc to memory
 		rocksdb::Iterator* it = cs_db->NewIterator(rocksdb::ReadOptions());
@@ -121,7 +123,32 @@ public:
 		else return "";
 	}
 
-	std::string get_st(std::string w){
+	 int trace_store(const std::string l, const std::string e){
+		rocksdb::Status s; 		
+		rocksdb::WriteOptions write_option = rocksdb::WriteOptions();
+		//write_option.sync = true;
+		//write_option.disableWAL = false;
+		{
+			// std::lock_guard<std::mutex> lock(ssdb_write_mtx);		
+			s = trace_db->Put(write_option, l, e);
+			// db->SyncWAL();
+		}
+		if (s.ok())	return 0;
+		else return -1;
+	}
+
+	std::string trace_get(const std::string l){
+		std::string tmp;
+		rocksdb::Status s;
+		{
+			// std::lock_guard<std::mutex> lock(ssdb_write_mtx);
+			s = trace_db->Get(rocksdb::ReadOptions(), l, &tmp);
+		}
+		if (s.ok())	return tmp;
+		else return "";
+	}
+
+	std::string get_st(std::string w) {
 
 		std::string st;
 		
@@ -342,6 +369,43 @@ public:
 		}
 	}
 
+	UpdateRequestMessage gen_update_request(std::string op, std::string w, std::string ind, int counter, std::string& new_st){
+		try{
+			std::string enc_token, rand_key;
+			UpdateRequestMessage msg;
+	
+			std::string tw, old_st, l, e;
+			// get update time of `w` for `node`
+
+			tw = gen_enc_token(w);
+
+			old_st = get_st(w);
+
+			gen_new_st(old_st, rand_key, new_st); // TODO
+			
+			// logger::log(logger::INFO) << kw <<std::endl;
+
+			l = Util::H1( tw + new_st);
+			// e = Util::Xor(op + ind + rand_key, Util::H2(tw + new_st));
+			e = Util::Xor( op + ind + old_st, Util::H2(tw + new_st) );
+			// logger::log(logger::INFO) <<"In gen_update_request==>  " << "st:" << new_st << ", tw: " << tw << std::endl;
+			assert((op + ind + rand_key).length() == 25);			
+
+			msg.set_l(l);
+			msg.set_e(e);
+			msg.set_counter(counter);
+
+			set_st(w, new_st); // TODO
+			increase_update_time(w);
+
+			return msg;
+		}
+		catch(const CryptoPP::Exception& e){
+			std::cerr << "in gen_update_request() " << e.what() << std::endl;
+			exit(1);
+		}
+	}
+
 
 	void gen_search_token(std::string w, std::string& tw, std::string& st, size_t& uc) {
 		try{
@@ -373,6 +437,8 @@ public:
 
 		return "OK";
 	}
+	
+
 
 
 	std::string search(const std::string tw, const std::string st, const size_t uc) {

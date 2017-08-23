@@ -625,18 +625,23 @@ namespace DistSSE{
 		    std::string kw_10_1, kw_10_2, kw_10_3, kw_10_4, kw_10_5, kw_20, kw_30, kw_60;
 		    
 			AutoSeededRandomPool prng;
-			int ind_len = AES::BLOCKSIZE / 2; // AES::BLOCKSIZE = 16
+			int ind_len = AES::BLOCKSIZE / 2;  // AES::BLOCKSIZE = 16
 			byte tmp[ind_len];
 
 
+			
+
 			// some data for trace
-			int trace_step = N_entries / 10e5;
 			double search_rate[3] = {0.0001, 0.001, 0.01};
-			const std::string TraceKeywordGroupBase = "Trace-";
-			uint32_t counter_t_0 = 0, counter_t_1 = 1, counter_t_2 = 0;
-			srand(123);
+			const std::string TraceKeywordGroupBase = "Trace";
+			uint32_t counter_t = 1;
+			srand(N_entries);
+			std::string trace_2 = TraceKeywordGroupBase + "_" + id_string + "_2_5";
+			std::string trace_1 = TraceKeywordGroupBase + "_" + id_string + "_1_5";
+			std::string trace_0 = TraceKeywordGroupBase + "_" + id_string + "_0_5";
+
+			std::string trace_2_st, trace_1_st, trace_0_st;
 		
-		//std::string l, e;
 
 			// for gRPC
 			UpdateRequestMessage request;
@@ -780,99 +785,58 @@ namespace DistSSE{
 				    writer->Write( client->gen_update_request("1", kw_10_3, ind, 0));
 				    writer->Write( client->gen_update_request("1", kw_10_4, ind, 0));
 				    writer->Write( client->gen_update_request("1", kw_10_5, ind, 0));
-				    writer->Write( client->gen_update_request("1", kw_20, ind, 0));
-				    writer->Write( client->gen_update_request("1", kw_30, ind, 0));
-				    writer->Write( client->gen_update_request("1", kw_60, ind, 0));
+				    // writer->Write( client->gen_update_request("1", kw_20, ind, 0));
+				    // writer->Write( client->gen_update_request("1", kw_30, ind, 0));
+				    // writer->Write( client->gen_update_request("1", kw_60, ind, 0));
 				//mtx->unlock();
 
-			(*entries_counter)++;
-			if (((*entries_counter) % 10000) == 0) {
-                    logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
-                	}
-
-				if (((*entries_counter) % trace_step) == 0) { // ok, now let's do one trace update
-                	
-					std::string trace_keyword = TraceKeywordGroupBase + "_0_5";
-
-					counter_t_0++;
-					mtx->lock();
-					Status s = client->update( client->gen_update_request("1", trace_keyword, ind, counter_t_0) ); 
-					mtx->unlock();
-	
-	//				logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;
-					assert(s.ok());
-					
-					double r = rand_0_to_1();
-					bool is_search = sample(r, search_rate[0]);
-
-					if(is_search) {
-						for(int r = 0; r < 3; r++) {
-								logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;
-								mtx->lock();
-								client->search( trace_keyword );
-								mtx->unlock();
-								search_log(trace_keyword, counter_t_0);
-						}
-					}
-                		}
+				(*entries_counter)++;
+				if (((*entries_counter) % 10000) == 0) {
+                   		logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
+                }
 				
-				if (((*entries_counter) % trace_step) == (trace_step/2) ) { // ok, now let's do onerace update
-                	
-					std::string trace_keyword = TraceKeywordGroupBase + "_1_5";
-					
-					counter_t_1++;
-					mtx->lock();
-					Status s = client->update( client->gen_update_request("1", trace_keyword, ind, counter_t_1) ); 
-					mtx->unlock();
-				//	logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;	
-					assert(s.ok());
+				// perpare for trace simulation later
+				if (counter_t <= 10e5) {
+									
+					std::string st;
 
-					
-					double r = rand_0_to_1();
-					bool is_search = sample(r, search_rate[1]);
-
-					if(is_search) {
-						for(int r = 0; r < 3; r++) {
-								logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;
-								mtx->lock();
-								client->search( trace_keyword );
-								mtx->unlock();
-								search_log(trace_keyword, counter_t_1);
-						}
-					}
-                		}
-
-				if (((*entries_counter) % trace_step) == (trace_step - 1) ) { // ok, now let's do one trace update
-                	
-					std::string trace_keyword = TraceKeywordGroupBase + "_2_5";
-					
-					counter_t_2++;
-					mtx->lock();
-					Status s = client->update( client->gen_update_request("1", trace_keyword, ind, counter_t_2) ); 
-					mtx->unlock();	
-				//	logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;
-					assert(s.ok());
-
-					
+					writer->Write( client->gen_update_request("1", trace_2, ind, 0, st) );
 					double r = rand_0_to_1();
 					bool is_search = sample(r, search_rate[2]);
-
 					if(is_search) {
-						for(int r = 0; r < 3; r++) {
-								mtx->lock();
-								logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;
-								client->search( trace_keyword );
-								mtx->unlock();
-								search_log(trace_keyword, counter_t_2);
-						}
+						// do something to store `st` and `counter`
+						trace_2_st += Util::str2hex(st) + "|" + std::to_string(counter_t) + "+";
 					}
-                		}
+
+					writer->Write( client->gen_update_request("1", trace_1, ind, 0, st) );
+					is_search = sample(r, search_rate[1]);
+					if(is_search) {
+						// do something to store `st` and `counter`
+						trace_1_st += Util::str2hex(st) + "|" + std::to_string(counter_t) + "+";
+					}
+
+
+					writer->Write( client->gen_update_request("1", trace_0, ind, 0) );
+					is_search = sample(r, search_rate[0]);
+					if(is_search) {
+						// do something to store `st` and `counter`
+						trace_0_st += Util::str2hex(st) + "|" + std::to_string(counter_t) + "+";
+					}
+
+					counter_t++;
+				}
 		    }
 		    
 			// now tell server we have finished
-			// writer->WritesDone();
-	    	// Status status = writer->Finish();
-			// assert(status.ok());
+			writer->WritesDone();
+	    	Status status = writer->Finish();
+			if(!status.ok()) logger::log(logger::ERROR) << "update unsuccessful" << std::endl;
+
+			// store the st information for trace ! TODO
+			assert(client->trace_store(trace_2, trace_2_st) == 0) ;
+			assert(client->trace_store(trace_1, trace_1_st) == 0) ;
+			assert(client->trace_store(trace_0, trace_0_st) == 0) ;
+logger::log(logger::INFO) << trace_0_st << std::endl;
 
 		    std::string log = "Random DB generation: thread " + std::to_string(thread_id) + " completed: (" + std::to_string(counter_10_1) + ", "
 		                    + std::to_string(counter_10_2) + ", "+ std::to_string(counter_10_3) + ", "+ std::to_string(counter_10_4) + ", "
@@ -908,7 +872,7 @@ namespace DistSSE{
 
 			
 				// perform benchmark
-				std::string w;
+				/*std::string w;
 
 				std::cout << "benchmark begin!" << std::endl;
 				for(int j = 0; j < 4; j++)
@@ -917,7 +881,7 @@ namespace DistSSE{
 							w = "Group-10^" + std::to_string(i) + "_" + std::to_string(j) + "_" + std::to_string(k);
 							client.search(w);
 						}
-
+				*/
 		    } //gen_db_with_trace
 
 }//namespace DistSSE
