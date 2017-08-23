@@ -836,7 +836,7 @@ namespace DistSSE{
 			assert(client->trace_store(trace_2, trace_2_st) == 0) ;
 			assert(client->trace_store(trace_1, trace_1_st) == 0) ;
 			assert(client->trace_store(trace_0, trace_0_st) == 0) ;
-logger::log(logger::INFO) << trace_0_st << std::endl;
+			// logger::log(logger::INFO) << trace_0_st << std::endl;
 
 		    std::string log = "Random DB generation: thread " + std::to_string(thread_id) + " completed: (" + std::to_string(counter_10_1) + ", "
 		                    + std::to_string(counter_10_2) + ", "+ std::to_string(counter_10_3) + ", "+ std::to_string(counter_10_4) + ", "
