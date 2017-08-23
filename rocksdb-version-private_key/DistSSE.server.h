@@ -93,7 +93,7 @@ public:
 		{
 			// std::lock_guard<std::mutex> lock(ssdb_write_mtx);		
 			s = db->Put(write_option, l, e);
-			db->SyncWAL();
+			//db->SyncWAL();
 		}
 		if (s.ok())	return 0;
 		else return -1;
