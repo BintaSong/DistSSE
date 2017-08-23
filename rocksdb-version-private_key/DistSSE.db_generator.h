@@ -179,7 +179,7 @@ namespace DistSSE{
 
 		                
 		        (*entries_counter)++;
-		  		if (((*entries_counter) % 1000) == 0) {
+		  		if (((*entries_counter) % 10) == 0) {
                     logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
                 }
 
@@ -527,7 +527,7 @@ namespace DistSSE{
 					Status s = client->update( client->gen_update_request("1", trace_keyword, ind, counter_t_0) ); 
 					//mtx->unlock();
 	
-					logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;
+	//				logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;
 					assert(s.ok());
 					
 					double r = rand_0_to_1();
@@ -535,6 +535,7 @@ namespace DistSSE{
 
 					if(is_search) {
 						for(int r = 0; r < 3; r++) {
+								logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;
 								//mtx->lock();
 								client->search( trace_keyword );
 								//mtx->unlock();
@@ -551,7 +552,7 @@ namespace DistSSE{
 					//mtx->lock();
 					Status s = client->update( client->gen_update_request("1", trace_keyword, ind, counter_t_1) ); 
 					//mtx->unlock();
-					logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;	
+				//	logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;	
 					assert(s.ok());
 
 					
@@ -560,6 +561,7 @@ namespace DistSSE{
 
 					if(is_search) {
 						for(int r = 0; r < 3; r++) {
+								logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;
 								//mtx->lock();
 								client->search( trace_keyword );
 								//mtx->unlock();
@@ -576,7 +578,7 @@ namespace DistSSE{
 					//mtx->lock();
 					Status s = client->update( client->gen_update_request("1", trace_keyword, ind, counter_t_2) ); 
 					//mtx->unlock();	
-					logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;
+				//	logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;
 					assert(s.ok());
 
 					
@@ -586,6 +588,7 @@ namespace DistSSE{
 					if(is_search) {
 						for(int r = 0; r < 3; r++) {
 								//mtx->lock();
+								logger::log(logger::INFO) << "trace "<< (*entries_counter) << std::endl;
 								client->search( trace_keyword );
 								//mtx->unlock();
 								search_log(trace_keyword, counter_t_2);
