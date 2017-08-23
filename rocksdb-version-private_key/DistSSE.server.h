@@ -88,7 +88,7 @@ public:
 	static int store(rocksdb::DB* &db, const std::string l, const std::string e){
 		rocksdb::Status s; 		
 		rocksdb::WriteOptions write_option = rocksdb::WriteOptions();
-		write_option.sync = true;
+		//write_option.sync = true;
 		//write_option.disableWAL = false;
 		{
 			// std::lock_guard<std::mutex> lock(ssdb_write_mtx);		
