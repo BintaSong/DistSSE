@@ -634,7 +634,7 @@ namespace DistSSE{
 			// some data for trace
 			double search_rate[3] = {0.0001, 0.001, 0.01};
 			const std::string TraceKeywordGroupBase = "Trace";
-			uint32_t counter_t = 1;
+			int counter_t = 1;
 			srand(N_entries);
 			std::string trace_2 = TraceKeywordGroupBase + "_" + id_string + "_2_5";
 			std::string trace_1 = TraceKeywordGroupBase + "_" + id_string + "_1_5";
