@@ -9,7 +9,8 @@ namespace DistSSE{
 			return (value - rate) < 0.000000001 ? true : false;
 		}
 		
-		static double rand_0_to_1(){ 
+		static double rand_0_to_1(unsigned int seed){ 
+			srand(seed);
 			return ((double) rand() / (RAND_MAX));		
 		}
 
@@ -234,7 +235,7 @@ namespace DistSSE{
 		    }
 
 
-		static void generate_trace(Client* client, size_t N_entries) {
+		/*static void generate_trace(Client* client, size_t N_entries) {
 			// randomly generate a large db
 			gen_db(*client, N_entries, 4);
 			logger::log(logger::DBG) << "DB generation finished."<< std::endl;
@@ -272,7 +273,7 @@ namespace DistSSE{
 					for(int k = 0; k < pow(10, j); k++) {
 						
 						prng.GenerateBlock(tmp, sizeof(tmp));
-						std::string ind = /*Util.str2hex*/(std::string((const char*)tmp, ind_len));
+						std::string ind = (std::string((const char*)tmp, ind_len));
 
 		 				entries_counter++;
 
@@ -288,12 +289,6 @@ namespace DistSSE{
 						bool is_search = sample(r, search_rate[i]);
 
 						if(is_search) {
-
-							/*for(int i = 3; i < 6; i++) {
-								for(int j = 0; j < 3; j++) {
-									client->search("Group-10^" + std::to_string(i) + "_0_" + std::to_string(j) );
-								}					
-							}*/
 
 							//client->search("Group-10^"+ std::to_string(j) +"_0_0");
 						//	std::this_thread::sleep_for(std::chrono::milliseconds(dely_time[i]));
@@ -318,7 +313,7 @@ namespace DistSSE{
 	    	//s = writer->Finish();
 			assert(s.ok());
 		} // generate_trace
-
+		*/
 
 
 
@@ -632,7 +627,7 @@ namespace DistSSE{
 			// some data for trace
 			double search_rate[3] = {0.0001, 0.001, 0.01};
 			const std::string TraceKeywordGroupBase = "Trace";
-			int counter_t = 1;
+			size_t counter_t = 1;
 			std::string trace_2 = TraceKeywordGroupBase + "_" + id_string + "_2_5";
 			std::string trace_1 = TraceKeywordGroupBase + "_" + id_string + "_1_5";
 			std::string trace_0 = TraceKeywordGroupBase + "_" + id_string + "_0_5";
@@ -794,12 +789,12 @@ namespace DistSSE{
 				
 				// perpare for trace simulation later
 				if (counter_t <= 10e5) {
-					srand(N_entries + counter_t);
+					// srand(N_entries + counter_t);
 
 					std::string st;
 
 					writer->Write( client->gen_update_request("1", trace_2, ind, 0, st) );
-					double r = rand_0_to_1();
+					double r = rand_0_to_1(N_entries + counter_t);
 					bool is_search = sample(r, search_rate[2]);
 					if(is_search) {
 						// do something to store `st` and `counter`
