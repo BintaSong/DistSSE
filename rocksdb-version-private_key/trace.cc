@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
 				DistSSE::logger::log(DistSSE::logger::INFO) << w <<"<===>"<< t << std::endl;
 				DistSSE::Util::split(t, '|', st_c);
 				std::string tw = client.gen_enc_token(w);	
-				client.search(tw, DistSSE::Util::hex2str(st_c[0]), std::stoi(st_c[1]) );
+				//client.search(tw, DistSSE::Util::hex2str(st_c[0]), std::stoi(st_c[1]) );
 			}
 		}
 	std::cout << "trace done."<< std::endl;
