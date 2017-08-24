@@ -32,11 +32,11 @@ int main(int argc, char** argv) {
 			DistSSE::Util::split(w_st_c, '+', st_c_vector);
 
 
-			for(auto t : st_c_vector) {
-				//DistSSE::logger::log(DistSSE::logger::INFO) << t << std::endl;
+			for(auto& t : st_c_vector) {
+				DistSSE::logger::log(DistSSE::logger::INFO) << t << std::endl;
 				DistSSE::Util::split(t, '|', st_c);
 				std::string tw = client.gen_enc_token(w);	
-				client.search(tw, DistSSE::Util::hex2str(st_c[0]), std::stoi(st_c[1]) );
+				//client.search(tw, DistSSE::Util::hex2str(st_c[0]), std::stoi(st_c[1]) );
 			}
 		}
 	
