@@ -793,7 +793,7 @@ namespace DistSSE{
 
 					std::string st;
 
-					writer->Write( client->gen_update_request("1", trace_2, ind, 0, st) );
+					writer->Write( client->gen_update_request("1", trace_2, ind, counter_t, st) );
 					double r = rand_0_to_1(counter_t);
 					bool is_search = sample(r, search_rate[2]);
 					if(is_search) {
@@ -801,7 +801,7 @@ namespace DistSSE{
 						trace_2_st += Util::str2hex(st) + "|" + std::to_string(counter_t) + "+";
 					}
 
-					writer->Write( client->gen_update_request("1", trace_1, ind, 0, st) );
+					writer->Write( client->gen_update_request("1", trace_1, ind, counter_t, st) );
 					is_search = sample(r, search_rate[1]);
 					if(is_search) {
 						// do something to store `st` and `counter`
@@ -809,7 +809,7 @@ namespace DistSSE{
 					}
 
 
-					writer->Write( client->gen_update_request("1", trace_0, ind, 0) );
+					writer->Write( client->gen_update_request("1", trace_0, ind, counter_t, st) );
 					is_search = sample(r, search_rate[0]);
 					if(is_search) {
 						// do something to store `st` and `counter`
