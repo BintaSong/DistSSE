@@ -794,7 +794,7 @@ namespace DistSSE{
 					std::string st;
 
 					writer->Write( client->gen_update_request("1", trace_2, ind, 0, st) );
-					double r = rand_0_to_1(N_entries + counter_t);
+					double r = rand_0_to_1(counter_t);
 					bool is_search = sample(r, search_rate[2]);
 					if(is_search) {
 						// do something to store `st` and `counter`
