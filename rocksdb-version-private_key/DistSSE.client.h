@@ -529,7 +529,6 @@ public:
 				if ( (i * dsize + j) % 1000 == 0) logger::log(logger::INFO) << " updating :  "<< i * dsize + j << "\r" << std::flush;
 			}
 	}
-
 };
 
 } // namespace DistSSE

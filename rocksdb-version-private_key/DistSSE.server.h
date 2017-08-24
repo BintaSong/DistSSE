@@ -303,7 +303,7 @@ get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /10
 			return Status::CANCELLED;
 		}
 		
-		random_put(100);		
+		// random_put(100);	
 
 		response->set_status(true);
 
