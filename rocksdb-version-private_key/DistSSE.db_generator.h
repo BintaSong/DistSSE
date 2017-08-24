@@ -6,9 +6,7 @@
 namespace DistSSE{
 
 		static bool sample(double value, double rate) {
-			double _value = value;			
-			_value -= rate;
-			return _value < 0.000000001 ? true : false;
+			return (value - rate) < 0.000000001 ? true : false;
 		}
 		
 		static double rand_0_to_1(){ 
@@ -635,7 +633,6 @@ namespace DistSSE{
 			double search_rate[3] = {0.0001, 0.001, 0.01};
 			const std::string TraceKeywordGroupBase = "Trace";
 			int counter_t = 1;
-			srand(N_entries);
 			std::string trace_2 = TraceKeywordGroupBase + "_" + id_string + "_2_5";
 			std::string trace_1 = TraceKeywordGroupBase + "_" + id_string + "_1_5";
 			std::string trace_0 = TraceKeywordGroupBase + "_" + id_string + "_0_5";
@@ -797,7 +794,8 @@ namespace DistSSE{
 				
 				// perpare for trace simulation later
 				if (counter_t <= 10e5) {
-									
+					srand(N_entries + counter_t);
+
 					std::string st;
 
 					writer->Write( client->gen_update_request("1", trace_2, ind, 0, st) );
