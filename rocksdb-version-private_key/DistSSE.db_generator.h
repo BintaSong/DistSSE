@@ -6,7 +6,7 @@
 namespace DistSSE{
 
 		static bool sample(double value, double rate) {
-			return (value - rate) < 0.000000001 ? true : false;
+			return (value - rate) < 0.0000000000000001 ? true : false;
 		}
 		
 		static double rand_0_to_1(unsigned int seed){ 
