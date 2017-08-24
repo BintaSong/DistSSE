@@ -861,19 +861,7 @@ namespace DistSSE{
 				gettimeofday(&t2, NULL);
 
 				logger::log(logger::INFO) <<"total update time: "<<((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec -t1.tv_usec) /1000.0<<" ms" <<std::endl;
-
-			
-				// perform benchmark
-				/*std::string w;
-
-				std::cout << "benchmark begin!" << std::endl;
-				for(int j = 0; j < 4; j++)
-					for(int i =1; i < 6; i++) 
-						for(int k = 0; k < 100; k++) {
-							w = "Group-10^" + std::to_string(i) + "_" + std::to_string(j) + "_" + std::to_string(k);
-							client.search(w);
-						}
-				*/
+				
 		    } //gen_db_with_trace
 
 }//namespace DistSSE
