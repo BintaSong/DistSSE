@@ -808,7 +808,6 @@ namespace DistSSE{
 						trace_1_st += Util::str2hex(st) + "|" + std::to_string(counter_t) + "+";
 					}
 
-
 					writer->Write( client->gen_update_request("1", trace_0, ind, counter_t, st) );
 					is_search = sample(r, search_rate[0]);
 					if(is_search) {
