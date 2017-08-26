@@ -188,7 +188,10 @@ public:
 			gettimeofday(&t4, NULL);
 
 get_time +=  ((t4.tv_sec - t3.tv_sec) * 1000000.0 + t4.tv_usec - t3.tv_usec) /1000.0;
-			//if(e == "") break;
+			if(e == "") {
+				logger::log(logger::ERROR)<< "FUCKING ERROR!"  <<std::endl;
+				break;
+			}
 			assert(e != "");
 
 			value = Util::Xor( e, Util::H2(tw + _st) );

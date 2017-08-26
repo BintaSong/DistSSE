@@ -620,8 +620,6 @@ namespace DistSSE{
 			AutoSeededRandomPool prng;
 			int ind_len = AES::BLOCKSIZE / 2;  // AES::BLOCKSIZE = 16
 			byte tmp[ind_len];
-
-
 			
 
 			// some data for trace
@@ -784,11 +782,11 @@ namespace DistSSE{
 
 				(*entries_counter)++;
 				if (((*entries_counter) % 10000) == 0) {
-                   		logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
-                }
+                   			logger::log(logger::INFO) << "Random DB generation: " << (*entries_counter) << " entries generated\r" << std::flush;
+                		}
 				
 				// perpare for trace simulation later
-				if (counter_t <= 10e5) {
+				if (counter_t <= 1e5) {
 					// srand(N_entries + counter_t);
 
 					std::string st;
@@ -814,26 +812,26 @@ namespace DistSSE{
 						// do something to store `st` and `counter`
 						trace_0_st += Util::str2hex(st) + "|" + std::to_string(counter_t) + "+";
 					}
-
+				
 					counter_t++;
 				}
 		    }
 		    
 			// now tell server we have finished
 			writer->WritesDone();
-	    	Status status = writer->Finish();
+	    		Status status = writer->Finish();
 			if(!status.ok()) logger::log(logger::ERROR) << "update unsuccessful" << std::endl;
 
 			// store the st information for trace ! TODO
 			assert(client->trace_store(trace_2, trace_2_st) == 0) ;
 			assert(client->trace_store(trace_1, trace_1_st) == 0) ;
 			assert(client->trace_store(trace_0, trace_0_st) == 0) ;
-		    logger::log(logger::INFO) << trace_0_st << std::endl;
+			logger::log(logger::INFO) << trace_0_st << std::endl;
 
-		    std::string log = "Random DB generation: thread " + std::to_string(thread_id) + " completed: (" + std::to_string(counter_10_1) + ", "
+		    	std::string log = "Random DB generation: thread " + std::to_string(thread_id) + " completed: (" + std::to_string(counter_10_1) + ", "
 		                    + std::to_string(counter_10_2) + ", "+ std::to_string(counter_10_3) + ", "+ std::to_string(counter_10_4) + ", "
 		                    + std::to_string(counter_10_5)  + ")";
-		    logger::log(logger::INFO) << log << std::endl;
+		    	logger::log(logger::INFO) << log << std::endl;
 		}
 
 		void gen_db_with_trace ( Client& client, size_t N_entries, unsigned int n_threads )
