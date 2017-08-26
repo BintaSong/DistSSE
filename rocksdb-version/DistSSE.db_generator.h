@@ -335,15 +335,15 @@ namespace DistSSE{
 			int c = 0;
 
 			AutoSeededRandomPool prng;
-			int ind_len = 2 * AES::BLOCKSIZE; // AES::BLOCKSIZE = 16
+			int ind_len = AES::BLOCKSIZE; // AES::BLOCKSIZE = 16
 			byte tmp[ind_len];
 
 
-         	for(int i = 0; i < 14 * N_entries; i++) {
+         	for(int i = 0; i < N_entries; i++) {
 				prng.GenerateBlock(tmp, sizeof(tmp));
 				std::string key = (std::string((const char*)tmp, ind_len));
 				prng.GenerateBlock(tmp, sizeof(tmp));
-				std::string value = (std::string((const char*)tmp, ind_len/4));
+				std::string value = (std::string((const char*)tmp, ind_len/2));
 				s = ss_db->Put(rocksdb::WriteOptions(), key, value);
 				c++;
 				if ( c % 100000 == 0 ) logger::log(logger::INFO) << "RDB generation: " << ": " << c << " entries generated\r" << std::flush;
