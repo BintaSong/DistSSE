@@ -181,6 +181,34 @@ namespace sse {
             return req;
         }
         
+        SearchRequest   MediumStorageSophosClient::search_request(const std::string &keyword, const uint32_t kw_counter) const
+        {
+            //uint32_t kw_counter;
+            bool found;
+            SearchRequest req;
+            req.add_count = 0;
+            
+            keyword_index_type kw_index = get_keyword_index(keyword);
+            std::string seed(kw_index.begin(),kw_index.end());
+           
+            uint32_t kw_counter_no_use;
+            found = counter_map_.get(kw_index, kw_counter_no_use);// we dont use the current kw_counter in trace simulation
+            
+            if(!found)
+            {
+                logger::log(logger::INFO) << "No matching counter found for keyword " << keyword << " (index " << hex_string(seed) << ")" << std::endl;
+            }else{
+                // Now derive the original search token from the kw_index (as seed)
+                req.token = inverse_tdp().generate_array(rsa_prg_, seed);
+                req.token = inverse_tdp().invert_mult(req.token, kw_counter);
+                
+                
+                req.derivation_key = derivation_prf().prf_string(seed);
+                req.add_count = kw_counter+1;
+            }
+            
+            return req;
+        }
         
         SearchRequest   MediumStorageSophosClient::random_search_request() const
         {
@@ -275,6 +303,80 @@ namespace sse {
             
             return req;
         }
+
+        UpdateRequest   MediumStorageSophosClient::update_request(const std::string &keyword, const index_type index, uint32_t &kw_counter_)
+        {
+            bool found = false;
+            
+            UpdateRequest req;
+            search_token_type st;
+            
+            // get (and possibly construct) the keyword index
+            keyword_index_type kw_index = get_keyword_index(keyword);
+            std::string seed(kw_index.begin(),kw_index.end());
+
+            
+            
+            // retrieve the counter
+            uint32_t kw_counter;
+            {
+                std::lock_guard<std::mutex> lock(token_map_mtx_);
+                found = counter_map_.get(kw_index, kw_counter);
+            }
+            
+            if (!found) {
+                // derive the original token from the prg and kw_index
+                st = inverse_tdp().generate_array(rsa_prg_, seed);
+                
+                {
+                    std::lock_guard<std::mutex> lock(token_map_mtx_);
+                    counter_map_.add(kw_index, 0);
+                }
+                keyword_counter_++;
+                logger::log(logger::DBG) << "ST0 " << hex_string(st) << std::endl;
+
+                kw_counter_ = 0; // added by xiangfu
+
+            }else{
+                // derive the original token from the prg and kw_index
+                st = inverse_tdp().generate_array(rsa_prg_, seed);
+
+                // RSA_SK^{-kw_counter-1}(st) to get the kw_counter+1 search token
+                st = inverse_tdp().invert_mult(st, kw_counter+1);
+                
+                if (logger::severity() <= logger::DBG) {
+                    logger::log(logger::DBG) << "New ST " << hex_string(st) << std::endl;
+                }
+                
+                {
+                    std::lock_guard<std::mutex> lock(token_map_mtx_);
+                    counter_map_.at(kw_index) = kw_counter+1;
+                }
+
+                kw_counter_ = kw_counter + 1;// added by xiangfu
+                
+            }
+            
+            std::string deriv_key = derivation_prf().prf_string(seed);
+
+            if (logger::severity() <= logger::DBG) {
+                logger::log(logger::DBG) << "Derivation key: " << hex_string(deriv_key) << std::endl;
+            }
+            
+            auto derivation_prf = crypto::Prf<kUpdateTokenSize>(deriv_key);
+            
+            std::string st_string(reinterpret_cast<char*>(st.data()), st.size());
+            
+            req.token = derivation_prf.prf(st_string + '0');
+            req.index = xor_mask(index, derivation_prf.prf(st_string + '1'));
+            
+            if (logger::severity() <= logger::DBG) {
+                logger::log(logger::DBG) << "Update token: (" << hex_string(req.token) << ", " << std::hex << req.index << ")" << std::endl;
+            }
+            
+            return req;
+        }
+
         
         std::string MediumStorageSophosClient::rsa_prg_key() const
         {

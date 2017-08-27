@@ -150,6 +150,40 @@ const SophosClient& SophosClientRunner::client() const
     }
     return *client_;
 }
+
+std::list<uint64_t> SophosClientRunner::search(const std::string& keyword, uint32_t kw_counter, std::function<void(uint64_t)> receive_callback) const
+{ // search and get kw_counter
+    logger::log(logger::TRACE) << "Search " << keyword << std::endl;
+    
+    grpc::ClientContext context;
+    sophos::SearchRequestMessage message;
+    sophos::SearchReply reply;
+    
+    message = request_to_message(client_->search_request(keyword, kw_counter));
+
+    std::unique_ptr<grpc::ClientReader<sophos::SearchReply> > reader( stub_->search(&context, message) );
+    std::list<uint64_t> results;
+    
+    
+    while (reader->Read(&reply)) {
+//        logger::log(logger::TRACE) << "New result received: "
+//        << std::dec << reply.result() << std::endl;
+        results.push_back(reply.result());
+        
+        if (receive_callback != NULL) {
+            receive_callback(reply.result());
+        }
+    }
+    grpc::Status status = reader->Finish();
+    if (status.ok()) {
+        logger::log(logger::TRACE) << "Search succeeded." << std::endl;
+    } else {
+        logger::log(logger::ERROR) << "Search failed:" << std::endl;
+        logger::log(logger::ERROR) << status.error_message() << std::endl;
+    }
+    
+    return results;
+}
     
 std::list<uint64_t> SophosClientRunner::search(const std::string& keyword, std::function<void(uint64_t)> receive_callback) const
 {
@@ -192,10 +226,33 @@ void SophosClientRunner::update(const std::string& keyword, uint64_t index)
     google::protobuf::Empty e;
     
 
+    if (bulk_update_state_.writer) { // an update session is running, use it
+        update_in_session(keyword, index);
+    }else{
+        message = request_to_message(client_->update_request(keyword, index));
+
+        grpc::Status status = stub_->update(&context, message, &e);
+        
+        /*if (status.ok()) {
+            logger::log(logger::TRACE) << "Update succeeded." << std::endl;
+        } else {
+            logger::log(logger::ERROR) << "Update failed:" << std::endl;
+            logger::log(logger::ERROR) << status.error_message() << std::endl;
+        }*/
+    }
+}
+
+void SophosClientRunner::update(const std::string& keyword, uint64_t index, uint32_t &counter )
+{
+    grpc::ClientContext context;
+    sophos::UpdateRequestMessage message;
+    google::protobuf::Empty e;
+    
+
    /* if (bulk_update_state_.writer) { // an update session is running, use it
         update_in_session(keyword, index);
     }else*/{
-        message = request_to_message(client_->update_request(keyword, index));
+        message = request_to_message(client_->update_request(keyword, index, counter));
 
         grpc::Status status = stub_->update(&context, message, &e);
         
