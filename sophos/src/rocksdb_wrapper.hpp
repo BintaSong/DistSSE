@@ -128,7 +128,7 @@ namespace sse {
 
         bool RockDBWrapper::put(const std::string key, std::string data) const
         {
-            rocksdb::Status s = db_->Get(rocksdb::WriteOptions(), key, data);
+            rocksdb::Status s = db_->Put(rocksdb::WriteOptions(), key, data);
             
             return s.ok();
         }
