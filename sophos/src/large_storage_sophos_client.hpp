@@ -45,7 +45,9 @@ public:
     size_t keyword_count() const;
     
     SearchRequest   search_request(const std::string &keyword) const;
+    SearchRequest   search_request_with_counter(const std::string &keyword, const uint32_t kw_counter) const;            
     UpdateRequest   update_request(const std::string &keyword, const index_type index);
+    UpdateRequest   update_request_with_counter(const std::string &keyword, const index_type index, uint32_t &kw_counter_); // added by xiangfu
     
     
     std::ostream& db_to_json(std::ostream& out) const;
