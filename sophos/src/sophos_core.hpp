@@ -81,7 +81,9 @@ public:
     virtual void write_keys(const std::string& dir_path) const;
     
     virtual SearchRequest   search_request(const std::string &keyword) const = 0;
+    virtual SearchRequest   search_request(const std::string &keyword, const uint32_t kw_counter) const = 0;
     virtual UpdateRequest   update_request(const std::string &keyword, const index_type index) = 0;
+    virtual UpdateRequest   update_request(const std::string &keyword, const index_type index, uint32_t &kw_counter) = 0;
     
     virtual std::ostream& db_to_json(std::ostream& out) const = 0;
     virtual std::ostream& print_stats(std::ostream& out) const = 0;
