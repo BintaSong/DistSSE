@@ -124,8 +124,8 @@ int main(int argc, char** argv) {
     
     if (rnd_entries_count > 0) {
         sse::logger::log(sse::logger::INFO) << "Randomly generating database with " << rnd_entries_count << " docs" << std::endl;
-    	gen_db(*client_runner, rnd_entries_count);
-	    // generate_trace(*client_runner, rnd_entries_count);
+    	//gen_db(*client_runner, rnd_entries_count);
+	    gen_db_with_trace(*client_runner, rnd_entries_count);
     }
     
     for (std::string &kw : keywords) {
@@ -174,7 +174,7 @@ int main(int argc, char** argv) {
         client_runner->trace_evaluation(thread_num);
     }
 
-    client_runner.reset();
+    client_runner.reset(); 
     
     sse::crypto::cleanup_crypto_lib();
 
