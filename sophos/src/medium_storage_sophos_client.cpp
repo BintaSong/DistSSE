@@ -181,7 +181,7 @@ namespace sse {
             return req;
         }
         
-        SearchRequest   MediumStorageSophosClient::search_request(const std::string &keyword, const uint32_t kw_counter) const
+        SearchRequest   MediumStorageSophosClient::update_request_with_counter(const std::string &keyword, const uint32_t kw_counter) const
         {
             //uint32_t kw_counter;
             bool found;
@@ -304,7 +304,7 @@ namespace sse {
             return req;
         }
 
-        UpdateRequest   MediumStorageSophosClient::update_request(const std::string &keyword, const index_type index, uint32_t &kw_counter_)
+        UpdateRequest   MediumStorageSophosClient::update_request_with_counter(const std::string &keyword, const index_type index, uint32_t &kw_counter_)
         {
             bool found = false;
             

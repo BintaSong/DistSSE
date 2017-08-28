@@ -151,7 +151,7 @@ const SophosClient& SophosClientRunner::client() const
     return *client_;
 }
 
-std::list<uint64_t> SophosClientRunner::search(const std::string& keyword, uint32_t kw_counter, std::function<void(uint64_t)> receive_callback) const
+std::list<uint64_t> SophosClientRunner::search_with_counter(const std::string& keyword, uint32_t kw_counter, std::function<void(uint64_t)> receive_callback) const
 { // search and get kw_counter
     logger::log(logger::TRACE) << "Search " << keyword << std::endl;
     
@@ -242,7 +242,7 @@ void SophosClientRunner::update(const std::string& keyword, uint64_t index)
     }
 }
 
-void SophosClientRunner::update(const std::string& keyword, uint64_t index, uint32_t &counter )
+void SophosClientRunner::update_with_counter(const std::string& keyword, uint64_t index, uint32_t &counter )
 {
     grpc::ClientContext context;
     sophos::UpdateRequestMessage message;
