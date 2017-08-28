@@ -241,12 +241,12 @@ namespace sse {
 
             client.end_update_session();
 	
-	    gettimeofday(&t2, NULL);
+	        gettimeofday(&t2, NULL);
             logger::log(logger::INFO) <<"update time: "<<((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec -t1.tv_usec) /1000.0<<" ms" <<std::endl;        
 
 	}
 
-    static void generation_with_trace_job(SophosClientRunner* client, unsigned int thread_id, size_t N_entries, size_t step, crypto::Fpe *rnd_perm, std::atomic_size_t *entries_counter)
+    static void generation_with_trace_job(SophosClientRunner* client, unsigned int thread_id, size_t N_entries, size_t step, std::mutex* db_mutex, crypto::Fpe *rnd_perm, std::atomic_size_t *entries_counter)
     {
         size_t counter = thread_id;
         std::string id_string = std::to_string(thread_id);
@@ -444,10 +444,12 @@ namespace sse {
         logger::log(logger::INFO) << log << std::endl;
 
         // TODO store counter info locally
+        db_mutex->lock();
         RockDBWrapper tdb("trace.csdb");
         assert( tdb.put(trace_2, trace_2_st) == 1 );
-        assert( tdb.put(trace_1, trace_1_st) );
-        assert( tdb.put(trace_0, trace_0_st) );
+        assert( tdb.put(trace_1, trace_1_st) == 1);
+        assert( tdb.put(trace_0, trace_0_st) == 1);
+        db_mutex->unlock();
     }
 
 
@@ -460,12 +462,12 @@ namespace sse {
 
             unsigned int n_threads = std::thread::hardware_concurrency();
             std::vector<std::thread> threads;
-            std::mutex rpc_mutex;
+            std::mutex db_mutex;
 
             struct timeval t1, t2;		
             gettimeofday(&t1, NULL);           
             for (unsigned int i = 0; i < n_threads; i++) {
-                threads.push_back(std::thread(generation_with_trace_job, &client, i, N_entries, n_threads, &rnd_perm, &entries_counter));
+                threads.push_back(std::thread(generation_with_trace_job, &client, i, N_entries, n_threads, &db_mutex, &rnd_perm, &entries_counter));
             }
 
             for (unsigned int i = 0; i < n_threads; i++) {
