@@ -516,7 +516,7 @@ UpdateRequestMessage request_to_message(const UpdateRequest& req)
     return mes;
 }
 
-void trace_evaluation(int threads_num)
+void SophosClientRunner::trace_evaluation(int threads_num)
 {
     RockDBWrapper tdb("trace.csdb");
     std::string w;
@@ -550,7 +550,7 @@ void trace_evaluation(int threads_num)
 
 			for(auto c : c_vector) {
 			//	DistSSE::logger::log(DistSSE::logger::INFO) << w <<"<===>"<< t << std::endl;
-                search_with_counter( w, std::stoi(c) );
+                client_->search_with_counter( w, std::stoi(c) );
 			}
         }
         

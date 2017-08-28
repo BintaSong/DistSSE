@@ -65,7 +65,7 @@ public:
     void random_search() const;
     void search_benchmark(size_t n_bench) const;
 
-    void trace_evaluation();
+    void trace_evaluation(uint32_t thread_num);
 
 private:
     void update_completion_loop();
