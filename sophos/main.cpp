@@ -11,7 +11,6 @@
 #include <memory>
 
 #include "sophos_core.hpp"
-#include "large_storage_sophos_client.hpp"
 #include "utils.hpp"
 
 using namespace sse::sophos;
