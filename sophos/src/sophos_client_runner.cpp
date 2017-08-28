@@ -520,22 +520,33 @@ void trace_evaluation(int threads_num)
 {
     RockDBWrapper tdb("trace.csdb");
     std::string w;
-	std::string prefix = "Trace";
+    std::string prefix = "Trace";
+    
+    auto split = [] (const std::string &s, char delim, std::vector<std::string> &elems) 
+    {
+        std::stringstream ss;
+		ss.str(s);
+		std::string item;
+		while (std::getline(ss, item, delim)) {
+		    elems.push_back(item);
+		}
+    };
 
 	std::cout << "trace begin!" << std::endl;
 	for(int i = 0; i < threads_num; i++)
 		for(int j = 0; j < 3; j++) {
 
 			w = prefix + "_" + std::to_string(i) + "_" + std::to_string(j) + "_5";
-			std::string w_c = tdb.get(w);
+            std::string w_c;
+            tdb.get(w, w_c);
 
-            if(w_c == "") { 
+            if( w_c == "" ) { 
 				// DistSSE::logger::log(DistSSE::logger::ERROR) << "no trace information!" << std::endl;		
 				continue;			
 			}
-			std::vector<std::string> c_vector;
-			DistSSE::Util::split(w_c, '+', c_vector);
-
+            std::vector<std::string> c_vector;
+            
+			split( w_c, '|', c_vector );
 
 			for(auto c : c_vector) {
 			//	DistSSE::logger::log(DistSSE::logger::INFO) << w <<"<===>"<< t << std::endl;
