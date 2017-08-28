@@ -550,7 +550,7 @@ void SophosClientRunner::trace_evaluation(uint32_t threads_num)
 
 			for(auto c : c_vector) {
 			//	DistSSE::logger::log(DistSSE::logger::INFO) << w <<"<===>"<< t << std::endl;
-                client_->search_with_counter( w, std::stoi(c) );
+                search_with_counter( w, std::stoi(c) );
 			}
         }
         
