@@ -533,8 +533,8 @@ void SophosClientRunner::trace_evaluation(uint32_t threads_num)
     };
 
 	std::cout << "trace begin!" << std::endl;
-	for(int i = 0; i < threads_num; i++)
-		for(int j = 0; j < 3; j++) {
+	for(size_t i = 0; i < threads_num; i++)
+		for(size_t j = 0; j < 3; j++) {
 
 			w = prefix + "_" + std::to_string(i) + "_" + std::to_string(j) + "_5";
             std::string w_c;

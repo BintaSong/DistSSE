@@ -446,8 +446,8 @@ namespace sse {
         // TODO store counter info locally
         RockDBWrapper tdb("trace.csdb");
         assert( tdb.put(trace_2, trace_2_st) == 1 );
-        ssert( tdb.put(trace_1, trace_1_st) );
-        ssert( tdb.put(trace_0, trace_0_st) );
+        assert( tdb.put(trace_1, trace_1_st) );
+        assert( tdb.put(trace_0, trace_0_st) );
     }
 
 
