@@ -23,7 +23,7 @@
 #include "sophos_client_runner.hpp"
 
 #include "sophos_net_types.hpp"
-#include "large_storage_sophos_client.hpp"
+//#include "large_storage_sophos_client.hpp"
 #include "medium_storage_sophos_client.hpp"
 
 #include "thread_pool.hpp"
