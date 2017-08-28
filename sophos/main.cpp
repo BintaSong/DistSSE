@@ -15,7 +15,7 @@
 
 using namespace sse::sophos;
 using namespace std;
-
+/*
 void test_client_server()
 {
     string client_sk_path = "tdp_sk.key";
@@ -174,3 +174,4 @@ int main(int argc, const char * argv[]) {
     
     return 0;
 }
+*/
