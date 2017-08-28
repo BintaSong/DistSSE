@@ -516,7 +516,7 @@ UpdateRequestMessage request_to_message(const UpdateRequest& req)
     return mes;
 }
 
-void SophosClientRunner::trace_evaluation(int threads_num)
+void SophosClientRunner::trace_evaluation(uint32_t threads_num)
 {
     RockDBWrapper tdb("trace.csdb");
     std::string w;
