@@ -181,7 +181,7 @@ namespace sse {
             return req;
         }
         
-        SearchRequest   MediumStorageSophosClient::search_request_with_counter(const std::string &keyword, uint32_t &kw_counter) const
+        SearchRequest   MediumStorageSophosClient::search_request_with_counter(const std::string &keyword, const uint32_t kw_counter) const
         {
             //uint32_t kw_counter;
             bool found;
