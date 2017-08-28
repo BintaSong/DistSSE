@@ -47,7 +47,7 @@ public:
     std::list<uint64_t> search(const std::string& keyword, std::function<void(uint64_t)> receive_callback = NULL) const;
     std::list<uint64_t> search(const std::string& keyword, uint32_t kw_counter, std::function<void(uint64_t)> receive_callback = NULL) const;    
     void update(const std::string& keyword, uint64_t index);
-    void update(const std::string& keyword, uint64_t index, uint32_t& counter); //added by xiangfu
+    void update(const std::string& keyword, uint64_t index, uint32_t &counter); //added by xiangfu
     
     void async_update(const std::string& keyword, uint64_t index);
 

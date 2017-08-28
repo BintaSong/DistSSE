@@ -52,7 +52,7 @@ namespace sse {
             SearchRequest   search_request(const std::string &keyword) const;
             SearchRequest   search_request(const std::string &keyword, const uint32_t kw_counter) const;            
             UpdateRequest   update_request(const std::string &keyword, const index_type index);
-            UpdateRequest   update_request(const std::string &keyword, const index_type index, uint32_t &kw_counter);// added by xiangfu
+            UpdateRequest   update_request(const std::string &keyword, const index_type index, uint32_t &kw_counter_);// added by xiangfu
 
             SearchRequest   random_search_request() const;
 
