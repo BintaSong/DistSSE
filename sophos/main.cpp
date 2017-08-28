@@ -15,9 +15,9 @@
 
 using namespace sse::sophos;
 using namespace std;
-/*
+
 void test_client_server()
-{
+{   /*
     string client_sk_path = "tdp_sk.key";
     string client_master_key_path = "derivation_master.key";
     string server_pk_path = "tdp_pk.key";
@@ -133,7 +133,7 @@ void test_client_server()
     client_sk_in.close();
     client_master_key_in.close();
     server_pk_in.close();
-
+    */
 }
 
 void test_kw_indexer()
@@ -174,4 +174,3 @@ int main(int argc, const char * argv[]) {
     
     return 0;
 }
-*/
