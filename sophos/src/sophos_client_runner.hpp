@@ -64,6 +64,9 @@ public:
 
     void random_search() const;
     void search_benchmark(size_t n_bench) const;
+
+    void trace_evaluation();
+
 private:
     void update_completion_loop();
     

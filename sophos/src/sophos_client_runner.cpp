@@ -516,6 +516,35 @@ UpdateRequestMessage request_to_message(const UpdateRequest& req)
     return mes;
 }
 
+void trace_evaluation(int threads_num)
+{
+    RockDBWrapper tdb("trace.csdb");
+    std::string w;
+	std::string prefix = "Trace";
+
+	std::cout << "trace begin!" << std::endl;
+	for(int i = 0; i < threads_num; i++)
+		for(int j = 0; j < 3; j++) {
+
+			w = prefix + "_" + std::to_string(i) + "_" + std::to_string(j) + "_5";
+			std::string w_c = tdb.get(w);
+
+            if(w_c == "") { 
+				// DistSSE::logger::log(DistSSE::logger::ERROR) << "no trace information!" << std::endl;		
+				continue;			
+			}
+			std::vector<std::string> c_vector;
+			DistSSE::Util::split(w_c, '+', c_vector);
+
+
+			for(auto c : c_vector) {
+			//	DistSSE::logger::log(DistSSE::logger::INFO) << w <<"<===>"<< t << std::endl;
+                search_with_counter( w, std::stoi(c) );
+			}
+        }
+        
+	std::cout << "trace done."<< std::endl;
+}
 
 } // namespace sophos
 } // namespace sse

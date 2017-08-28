@@ -32,10 +32,13 @@ int main(int argc, char** argv) {
     std::string client_db;
     std::string output_path;
     bool print_stats = false;
+    bool trace_evl = false;
+    uint32_t thread_num = 0;
+
     uint32_t bench_count = 0;
     uint32_t rnd_entries_count = 0;
     
-    while ((c = getopt (argc, argv, "l:b:o:i:t:dpr:")) != -1)
+    while ((c = getopt (argc, argv, "l:b:o:i:t:dpr:f:")) != -1)
         switch (c)
     {
         case 'l':
@@ -63,6 +66,10 @@ int main(int argc, char** argv) {
         case 'r':
             rnd_entries_count = (uint32_t)std::stod(std::string(optarg),nullptr);
             //atol(optarg);
+            break;
+        case 'f':
+            trace_evl = true;
+            thread_num = atoi(optarg);
             break;
         case '?':
             if (optopt == 'l' || optopt == 'b' || optopt == 'o' || optopt == 'i' || optopt == 't' || optopt == 'r')
@@ -117,8 +124,8 @@ int main(int argc, char** argv) {
     
     if (rnd_entries_count > 0) {
         sse::logger::log(sse::logger::INFO) << "Randomly generating database with " << rnd_entries_count << " docs" << std::endl;
-    	//gen_db(*client_runner, rnd_entries_count);
-	generate_trace(*client_runner, rnd_entries_count);
+    	gen_db(*client_runner, rnd_entries_count);
+	    // generate_trace(*client_runner, rnd_entries_count);
     }
     
     for (std::string &kw : keywords) {
@@ -162,6 +169,11 @@ int main(int argc, char** argv) {
         client_runner->print_stats(sse::logger::log(sse::logger::INFO));
     }
     
+    if (trace_evl) 
+    {
+        client_runner->trace_evaluation(thread_num);
+    }
+
     client_runner.reset();
     
     sse::crypto::cleanup_crypto_lib();

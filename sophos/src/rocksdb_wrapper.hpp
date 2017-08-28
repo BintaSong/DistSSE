@@ -40,6 +40,8 @@ namespace sse {
             inline ~RockDBWrapper();
             
             inline bool get(const std::string &key, std::string &data) const;
+            inline bool put(const std::string &key, std::string &data) const;
+
             template <size_t N, typename V>
             inline bool get(const std::array<uint8_t, N> &key, V &data) const;
             
@@ -120,6 +122,13 @@ namespace sse {
         bool RockDBWrapper::get(const std::string &key, std::string &data) const
         {
             rocksdb::Status s = db_->Get(rocksdb::ReadOptions(), key, &data);
+            
+            return s.ok();
+        }
+
+        bool RockDBWrapper::put(const std::string key, std::string data) const
+        {
+            rocksdb::Status s = db_->Get(rocksdb::WriteOptions(), key, data);
             
             return s.ok();
         }
