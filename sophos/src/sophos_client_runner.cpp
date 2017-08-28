@@ -159,7 +159,7 @@ std::list<uint64_t> SophosClientRunner::search_with_counter(const std::string& k
     sophos::SearchRequestMessage message;
     sophos::SearchReply reply;
     
-    message = request_to_message(client_->search_request(keyword, kw_counter));
+    message = request_to_message(client_->search_request_with_counter(keyword, kw_counter));
 
     std::unique_ptr<grpc::ClientReader<sophos::SearchReply> > reader( stub_->search(&context, message) );
     std::list<uint64_t> results;
@@ -252,7 +252,7 @@ void SophosClientRunner::update_with_counter(const std::string& keyword, uint64_
    /* if (bulk_update_state_.writer) { // an update session is running, use it
         update_in_session(keyword, index);
     }else*/{
-        message = request_to_message(client_->update_request(keyword, index, counter));
+        message = request_to_message(client_->update_request_with_counter(keyword, index, counter));
 
         grpc::Status status = stub_->update(&context, message, &e);
         
