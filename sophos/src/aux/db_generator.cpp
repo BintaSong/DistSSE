@@ -502,5 +502,7 @@ namespace sse {
                         if(is_search) client.search_with_counter( w, std::stoi(c) );
                     }
                 }
+        }
+        
     }//namespace sophos
 }
