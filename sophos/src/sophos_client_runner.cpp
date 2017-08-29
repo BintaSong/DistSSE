@@ -539,7 +539,7 @@ void SophosClientRunner::trace_evaluation(uint32_t threads_num)
 			w = prefix + "_" + std::to_string(i) + "_" + std::to_string(j) + "_5";
             std::string w_c;
             tdb.get(w, w_c);
-            logger::log(logger::ERROR) << w_c << std::endl;
+            logger::log(logger::INFO) << w << std::endl;
             if( w_c == "" ) { 
 				logger::log(logger::ERROR) << "no trace information!" << std::endl;		
 				continue;			
