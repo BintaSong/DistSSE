@@ -499,7 +499,10 @@ namespace sse {
                     {
                         double r = rand_0_to_1(c);
                         bool is_search = sample(r, search_rate[j]);
-                        if(is_search) client.search_with_counter( w, c );
+                        if(is_search) {
+                            client.search_with_counter( w, c );
+                            std::cout<< w << "\t\t" << c <<std::endl;
+                        }
                     }
                 }
         }
