@@ -162,7 +162,7 @@ std::to_string((c)) + " \t " + w + "\t" + std::to_string((t)) +"\t" + (((c) != 0
 "Nil" )
         
 #define PRINT_BENCH_SEARCH_PAR_NORPC(w,t,c) \
- w + "\t\t" + std::to_string((c)) + "\t" + std::to_string((t)) +"\t" + (((c) != 0) ?  std::to_string((t)/(c)) : \
+std::to_string((c)) + "\t" + std::to_string((t)) +"\t" + (((c) != 0) ?  std::to_string((t)/(c)) : \
 "Nil" )
 
 
