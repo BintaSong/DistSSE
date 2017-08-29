@@ -533,24 +533,24 @@ void SophosClientRunner::trace_evaluation(uint32_t threads_num)
     };
 
 	std::cout << "trace begin!" << std::endl;
-	for(size_t i = 0; i < threads_num; i++)
-		for(size_t j = 0; j < 3; j++) {
+	for(int i = 0; i < threads_num; i++)
+		for(int j = 0; j < 3; j++) {
 
 			w = prefix + "_" + std::to_string(i) + "_" + std::to_string(j) + "_5";
             std::string w_c;
             tdb.get(w, w_c);
-
+            logger::log(logger::ERROR) << w_c << std::endl;
             if( w_c == "" ) { 
 				logger::log(logger::ERROR) << "no trace information!" << std::endl;		
 				continue;			
 			}
-            std::vector<std::string> c_vector;
             
+            std::vector<std::string> c_vector;
 			split( w_c, '|', c_vector );
 
 			for(auto c : c_vector) {
-			//	DistSSE::logger::log(DistSSE::logger::INFO) << w <<"<===>"<< t << std::endl;
                 search_with_counter( w, std::stoi(c) );
+                logger::log(logger::INFO) << w <<"\t"<< c << std::endl;
 			}
         }
         
