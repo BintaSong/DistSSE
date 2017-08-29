@@ -541,7 +541,7 @@ void SophosClientRunner::trace_evaluation(uint32_t threads_num)
             tdb.get(w, w_c);
 
             if( w_c == "" ) { 
-				// DistSSE::logger::log(DistSSE::logger::ERROR) << "no trace information!" << std::endl;		
+				logger::log(logger::ERROR) << "no trace information!" << std::endl;		
 				continue;			
 			}
             std::vector<std::string> c_vector;
