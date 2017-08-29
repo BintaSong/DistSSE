@@ -495,7 +495,7 @@ namespace sse {
                 for(size_t j = 0; j < 3; j++)
                 {
                     std::string w = TraceKeywordGroupBase + "_" + std::to_string(i) + "_" + std::to_string(j) + "_5";
-                    for(size_t c = 1; c <= 1e5; c++) 
+                    for(int c = 1; c <= 1e5; c++) 
                     {
                         double r = rand_0_to_1(c);
                         bool is_search = sample(r, search_rate[j]);
@@ -503,6 +503,6 @@ namespace sse {
                     }
                 }
         }
-        
+
     }//namespace sophos
 }
