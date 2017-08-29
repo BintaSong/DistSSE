@@ -28,5 +28,6 @@ namespace sse {
         void gen_db(SophosClientRunner& client, size_t N_entries);
         void generate_trace(SophosClientRunner& client, size_t N_entries); 
         void gen_db_with_trace(SophosClientRunner& client, size_t N_entries);
+        void eval_trace(SophosClientRunner& client, size_t thread_num);
    }
 }
