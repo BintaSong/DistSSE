@@ -1,0 +1,3 @@
+I0829 18:41:34.849997576   25749 server_builder.cc:262]      Synchronous server. Num CQs: 4, Min pollers: 1, Max Pollers: 2, CQ timeout (msec): 10000
+[INFO] - Server listening on 0.0.0.0:50051
+null|cache	0	0.514000	0.514000
