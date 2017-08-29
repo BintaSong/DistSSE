@@ -341,6 +341,23 @@ public:
 		return "OK";
 	}
 
+	std::string search_for_trace(const std::string w, int uc) { // only used for trace simulation
+		std::string kw, tw;
+
+		int sc = get_search_time(w);
+
+		tw = gen_enc_token( w + "|" + std::to_string(-1) );
+		if(uc != 0)	kw = gen_enc_token( w + "|" + std::to_string(sc) );
+		else kw = gen_enc_token( w + "|" + "cache" );
+		
+		search(kw, tw, uc);
+
+		// don't need to update sc and uc for trace simulation
+		// increase_search_time(w);
+		// set_update_time(w, 0);
+		return "OK";
+	}
+
 	std::string search(const std::string kw, const std::string tw, int uc) {
 		// request包含 enc_token 和 st
 		SearchRequestMessage request;

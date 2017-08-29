@@ -465,7 +465,7 @@ public:
 			gettimeofday(&t1, NULL);
 
 			std::string merge_string = get(cache_db, tw);
-			//Util::split(merge_string, '|', ID); // get all cached inds					
+			// Util::split(merge_string, '|', ID); // get all cached inds					
 			gettimeofday(&t2, NULL);
 
 			//std::string merge_string = cache_ind;

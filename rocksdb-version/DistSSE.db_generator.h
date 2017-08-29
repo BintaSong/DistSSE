@@ -8,14 +8,18 @@ namespace DistSSE{
 		static std::mutex print_mtx;
 
 		static bool sample(double value, double rate) {
-			double _value = value;			
-			_value -= rate;
-			return _value < 0.000000001 ? true : false;
+			return (value - rate) < 0.0000000000000001 ? true : false;
 		}
 		
 		static double rand_0_to_1(){ //
 			return ((double) rand() / (RAND_MAX));		
 		}
+
+		static double rand_0_to_1(unsigned int seed){ 
+			srand(seed);
+			return ((double) rand() / (RAND_MAX));		
+		}
+
 
 		static void search_log(std::string word, int counter) {
 		
@@ -42,6 +46,18 @@ namespace DistSSE{
 			AutoSeededRandomPool prng;
 			int ind_len = AES::BLOCKSIZE / 2; // AES::BLOCKSIZE = 16
 			byte tmp[ind_len];
+
+
+			// some data for trace
+			double search_rate[3] = {0.0001, 0.001, 0.01};
+			const std::string TraceKeywordGroupBase = "Trace";
+			size_t counter_t = 1;
+			std::string trace_2 = TraceKeywordGroupBase + "_" + id_string + "_2_5";
+			std::string trace_1 = TraceKeywordGroupBase + "_" + id_string + "_1_5";
+			std::string trace_0 = TraceKeywordGroupBase + "_" + id_string + "_0_5";
+
+			std::string trace_2_st, trace_1_st, trace_0_st;
+
 
 		//std::string l, e;
 
@@ -194,9 +210,20 @@ namespace DistSSE{
 		        writer->Write( client->gen_update_request("1", kw_10_3, ind, 0));
 		        writer->Write( client->gen_update_request("1", kw_10_4, ind, 0));
 		        writer->Write( client->gen_update_request("1", kw_10_5, ind, 0));
-		        writer->Write( client->gen_update_request("1", kw_20, ind, 0));
-		        writer->Write( client->gen_update_request("1", kw_30, ind, 0));
-		        writer->Write( client->gen_update_request("1", kw_60, ind, 0));
+		        //writer->Write( client->gen_update_request("1", kw_20, ind, 0));
+		        //writer->Write( client->gen_update_request("1", kw_30, ind, 0));
+				//writer->Write( client->gen_update_request("1", kw_60, ind, 0));
+				
+				// perpare for trace simulation later
+				if (counter_t <= 1e5) {
+					// srand(N_entries + counter_t);
+
+					writer->Write( client->gen_update_request("1", trace_2, ind, counter_t) );
+					writer->Write( client->gen_update_request("1", trace_1, ind, counter_t) );
+					writer->Write( client->gen_update_request("1", trace_0, ind, counter_t) );
+						
+					counter_t++;
+				}
 
 		    }
 		    
@@ -349,6 +376,31 @@ namespace DistSSE{
 				if ( c % 100000 == 0 ) logger::log(logger::INFO) << "RDB generation: " << ": " << c << " entries generated\r" << std::flush;
 			}
 
-         }// gen_rdb
+		 }// gen_rdb
+		 
+		 void eval_trace(Client &client, int thread_num){ 
+			// for trace
+		   double search_rate[3] = {0.0001, 0.001, 0.01};
+		   const std::string TraceKeywordGroupBase = "Trace";
+		   int last_uc; 
+
+		   for(int i = 0; i < thread_num; i++) 
+			   for(int j = 0; j < 3; j++)
+			   {
+				   std::string w = TraceKeywordGroupBase + "_" + std::to_string(i) + "_" + std::to_string(j) + "_5";
+				   last_uc = 0;
+				   for(int c = 1; c <= 1e5; c++) 
+				   {
+					   double r = rand_0_to_1(c);
+					   bool is_search = sample(r, search_rate[j]);
+					   if(is_search) {
+						   // last_uc = c;
+						   client.search_for_trace( w, c -last_uc );
+						   last_uc = c;
+						   search_log(w, c);
+					   }
+				   }
+			   }
+	   }
 
 }//namespace DistSSE
