@@ -171,7 +171,8 @@ int main(int argc, char** argv) {
     
     if (trace_evl) 
     {
-        client_runner->trace_evaluation(thread_num);
+        // client_runner->trace_evaluation(thread_num);
+        eval_trace(*client_runner, thread_num);
     }
 
     client_runner.reset(); 

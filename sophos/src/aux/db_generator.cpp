@@ -444,12 +444,16 @@ namespace sse {
         logger::log(logger::INFO) << log << std::endl;
 
         // TODO store counter info locally
-        db_mutex->lock();
+        /*db_mutex->lock();
         RockDBWrapper tdb("trace.csdb");
-        assert( tdb.put(trace_2, trace_2_st) == 1 );
-        assert( tdb.put(trace_1, trace_1_st) == 1);
-        assert( tdb.put(trace_0, trace_0_st) == 1);
+        assert( tdb.put(trace_2, trace_2_st) );
+        assert( tdb.put(trace_1, trace_1_st) );
+        assert( tdb.put(trace_0, trace_0_st) );
         db_mutex->unlock();
+        logger::log(logger::INFO) << trace_2 << " : " << trace_2_st << std::endl;
+        logger::log(logger::INFO) << trace_1 << " : " << trace_1_st << std::endl;
+        logger::log(logger::INFO) << trace_0 << " : " << trace_0_st << std::endl;
+        */
     }
 
 
@@ -480,5 +484,23 @@ namespace sse {
             logger::log(logger::INFO) <<"update time: "<<((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec -t1.tv_usec) /1000.0<<" ms" <<std::endl; 
         }
 
+
+       void eval_trace(SophosClientRunner& client, size_t thread_num){ 
+             // for trace
+            double search_rate[3] = {0.0001, 0.001, 0.01};
+            const std::string TraceKeywordGroupBase = "Trace";
+            //size_t counter_t = 1;
+            
+            for(size_t i = 0; i < thread_num; i++) 
+                for(size_t j = 0; j < 3; j++)
+                {
+                    std::string w = TraceKeywordGroupBase + "_" + std::to_string(i) + "_" + std::to_string(j) + "_5";
+                    for(size_t c = 1; c <= 1e5; c++) 
+                    {
+                        double r = rand_0_to_1(c);
+                        bool is_search = sample(r, search_rate[j]);
+                        if(is_search) client.search_with_counter( w, std::stoi(c) );
+                    }
+                }
     }//namespace sophos
 }
