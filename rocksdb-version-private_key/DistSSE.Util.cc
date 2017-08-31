@@ -194,7 +194,7 @@ void Util::set_db_common_options(rocksdb::Options& options) {
 
 		options.create_if_missing = true;
 //       options.statistics = rocksdb::CreateDBStatistics();
-/*
+
 			rocksdb::CuckooTableOptions cuckoo_options;
             cuckoo_options.identity_as_first_hash = false;
             cuckoo_options.hash_table_ratio = 0.9;
@@ -235,7 +235,7 @@ void Util::set_db_common_options(rocksdb::Options& options) {
             options.write_buffer_size=1073741824;
             
             options.optimize_filters_for_hits = true;
-*/
+
 		/*
 			std::shared_ptr<rocksdb::Cache> cache = rocksdb::NewLRUCache(0LL);
 			rocksdb::BlockBasedTableOptions table_options;
