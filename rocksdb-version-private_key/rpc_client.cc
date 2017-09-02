@@ -24,7 +24,5 @@ int main(int argc, char** argv) {
 	
 	std::cout <<"gen_db_with_trace done." <<std::endl;
 	
-	
-	
 	return 0;
 }

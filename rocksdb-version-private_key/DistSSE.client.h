@@ -14,11 +14,12 @@
 
 #include "logger.h"
 
+#include <ssdmap/bucket_map.hpp>
+
 using grpc::Channel;
 using grpc::ClientContext;
 using grpc::ClientReaderInterface;
 using grpc::ClientWriterInterface;
-using grpc::ClientAsyncResponseReaderInterface;
 
 using grpc::Status;
 
@@ -44,33 +45,40 @@ extern int max_nodes_number;
 namespace DistSSE{
 
 class Client {
-
 private:
  	std::unique_ptr<RPC::Stub> stub_;
 	rocksdb::DB* cs_db;
 	rocksdb::DB* trace_db;
 	
-	std::mutex st_mtx;
-	std::mutex uc_mtx;
+	// std::mutex st_mtx;
+	// std::mutex uc_mtx;
 
-	std::map<std::string, std::string> st_mapper;	
-	std::map<std::string, size_t> uc_mapper;
+	// std::map<std::string, std::string> st_mapper;	
+	// std::map<std::string, size_t> uc_mapper;
+
+	SHA256 hasher;
+
+	ssdmap::bucket_map< std::string, uint32_t> client_map;
+
+	std::mutex client_map_mtx;
+	std::mutex trace_map_mtx;
 
 public:
 
-  	Client(std::shared_ptr<Channel> channel, std::string db_path) : stub_(RPC::NewStub(channel)){
+  	Client(std::shared_ptr<Channel> channel, std::string st_path) : stub_(RPC::NewStub(channel)) : client_map(st_path){
+		
 		rocksdb::Options options;
     	options.create_if_missing = true;
-    	rocksdb::Status status = rocksdb::DB::Open(options, db_path , &cs_db);
-		status = rocksdb::DB::Open(options, "trace.csdb" , &trace_db);
+    	// rocksdb::Status status = rocksdb::DB::Open(options, st_path , &cs_db);
+		status = rocksdb::DB::Open(options, st_path + ".trace" , &trace_db);
 
 		// load all sc, uc to memory
-		rocksdb::Iterator* it = cs_db->NewIterator(rocksdb::ReadOptions());
+		/*rocksdb::Iterator* it = cs_db->NewIterator(rocksdb::ReadOptions());
 		std::string key;
 		size_t counter = 0;
 	  	for (it->SeekToFirst(); it->Valid(); it->Next()) {
 			key = it->key().ToString(); 
-			if (key[0] == 's') { 
+			if (key[0] == 's') {
 				st_mapper[key.substr(1, key.length() - 1)] = it->value().ToString();
 			}
 			else{
@@ -78,19 +86,18 @@ public:
 			}
 			counter++;
 	  	}
-	
 		
 	  	assert( it->status().ok() ); // Check for any errors found during the scan
 	  	delete it;
+		*/
 
-		std::cout << "Just remind, previous keywords: "<< counter/2 <<std::endl;
+		std::cout << "Just remind, previous keywords: "<< client_map.size() <<std::endl;
 	}
 
     ~Client() {
 
-		// must store 'sc' and 'uc' to disk 
-
-		size_t keyword_counter = 0;
+		// must store 'sc' and 'uc' to disk
+		/*size_t keyword_counter = 0;
 		std::map<std::string, std::string>::iterator it;
 		for ( it = st_mapper.begin(); it != st_mapper.end(); ++it) {
 			store("s" + it->first, it->second);
@@ -103,73 +110,71 @@ public:
 		}
 		
 		std::cout<< "Total keyword: " << keyword_counter <<std::endl;
-
-		std::cout<< "Bye~ " <<std::endl;
+		*/
+		std::cout<< "Bye ~" <<std::endl;
 	}
 	
 
-	int store(const std::string k, const std::string v){
+	/*bool store(const std::string k, const std::string v){
+		
 		rocksdb::Status s = cs_db->Delete(rocksdb::WriteOptions(), k);
 		s = cs_db->Put(rocksdb::WriteOptions(), k, v);
-		if (s.ok())	return 0;
-		else return -1;
-		assert(s.ok());
+		return s.ok();
 	}
 
-	std::string get(const std::string k) {
-		std::string tmp;
-		rocksdb::Status s = cs_db->Get(rocksdb::ReadOptions(), k, &tmp);
-		if (s.ok())	return tmp;
-		else return "";
-	}
+	bool get(const std::string k, std::string &r) {
+		rocksdb::Status s = cs_db->Get(rocksdb::ReadOptions(), k, &r);
+		return s.ok();
+	}*/
 
-	 int trace_store(const std::string l, const std::string e){
+	bool trace_store(const std::string l, const std::string e){
 		rocksdb::Status s; 		
 		rocksdb::WriteOptions write_option = rocksdb::WriteOptions();
-		//write_option.sync = true;
-		//write_option.disableWAL = false;
 		{
-			// std::lock_guard<std::mutex> lock(ssdb_write_mtx);		
+			std::lock_guard<std::mutex> lock(trace_map_mtx);		
 			s = trace_db->Put(write_option, l, e);
-			// db->SyncWAL();
 		}
-		if (s.ok())	return 0;
-		else return -1;
+		return s.ok();
 	}
 
-	std::string trace_get(const std::string l){
-		std::string tmp;
+	bool trace_get(const std::string l, std::string &r){
 		rocksdb::Status s;
 		{
-			// std::lock_guard<std::mutex> lock(ssdb_write_mtx);
-			s = trace_db->Get(rocksdb::ReadOptions(), l, &tmp);
+			std::lock_guard<std::mutex> lock(trace_map_mtx);
+			s = trace_db->Get(rocksdb::ReadOptions(), l, &r);
 		}
-		if (s.ok())	return tmp;
-		else return "";
+		return s.ok();
 	}
 
 	std::string get_st(std::string w) {
+		bool found;
+		uint32_t value; 
 
-		std::string st;
+		found = client_map.get(w, value);
+		if(!found) {
+			logger::log(logger::ERROR) << "No `st` information in client map." <<std::endl;
+		}
+		else {
+			uint32_t st = value >> (8*16);
+			uint32_t uc = ;
+		}
+
+		/* std::string st;
 		
 		std::map<std::string, std::string>::iterator it;		
-		
 		it = st_mapper.find(w);
 		
 		if (it != st_mapper.end()) {
 			st = it->second;
 		}
 		else {
-			// std::string value = get("s" + w );
-
-			// search_time = value == "" ? 0 : std::stoi(value);
 			byte _st[AES128_KEY_LEN];
 			AutoSeededRandomPool rnd;
 			rnd.GenerateBlock(_st, AES128_KEY_LEN);
 			st = std::string((const char*)_st, AES128_KEY_LEN);
 			set_st(w, st); // cache search_time into sc_mapper 
 		}
-		return st;
+		return st; */
 	}
 
 	int set_st(std::string w, std::string new_st) {
@@ -181,6 +186,13 @@ public:
 		// no need to store, because ti will be done in ~Client()
 		// store(w + "_search", std::to_string(search_time)); 
 		return 0;
+	}
+
+	std::string hash( const std::string in ) {
+		hasher.Restart();
+		byte buf[SHA256::DIGESTSIZE];
+		hasher.CalculateDigest(buf, (byte*) (in.c_str()), in.length() );
+		return std::string((const char*)buf, (size_t)SHA256::DIGESTSIZE);
 	}
 
 	int get_update_time(std::string w) {
@@ -195,9 +207,6 @@ public:
 			update_time = it->second;
 		}
 		else{
-			// std::string value = get("u" + w );
-
-			// update_time = value == "" ? 0 : std::stoi(value);
 			update_time = 0;
 			set_update_time(w, 0);
 		}
@@ -306,23 +315,27 @@ public:
 		// logger::log(logger::INFO) << old_st << std::endl;
 	}
 
+	void test_hash(){
+		std::string s1 = hash("fuck");
+		std::string s2 = hash("fuck");
+		std::cout<< Util::str2hex(s1) + ", " + Util::str2hex(s2)  <<std::endl;
+		assert(s1.compare(s2) == 0);
+	}
+
 	void gen_update_token(std::string op, std::string w, std::string ind, std::string& l, std::string& e) {
 		try{
 			std::string enc_token, rand_key;
 	
 			std::string tw, old_st, new_st;
-			// get update time of `w` for `node`
-			// std::string st;
-			old_st = get_st(w);
+
 
 			tw = gen_enc_token(w);
-			
+
+			old_st = get_st(w);			
 			gen_new_st(old_st, rand_key, new_st); // TODO
 
-			// generating update pair, which is (l, e) 
-			l = Util::H1( tw + new_st);
-			// e = Util::Xor( op + ind + rand_key, Util::H2(tw + new_st) );
-			e = Util::Xor( op + ind + new_st, Util::H2(tw + new_st) );
+			l = hash( tw + new_st + "1");
+			e = Util::Xor( op + ind + new_st, hash(tw + new_st + "2") );
 			// increase_update_time(w);
 			
 		}
@@ -339,20 +352,14 @@ public:
 	
 			std::string tw, old_st, new_st, l, e;
 			// get update time of `w` for `node`
-
 			tw = gen_enc_token(w);
 
 			old_st = get_st(w);
-
 			gen_new_st(old_st, rand_key, new_st); // TODO
 			
-			// logger::log(logger::INFO) << kw <<std::endl;
-
-			l = Util::H1( tw + new_st);
-			// e = Util::Xor(op + ind + rand_key, Util::H2(tw + new_st));
-			e = Util::Xor( op + ind + old_st, Util::H2(tw + new_st) );
-			// logger::log(logger::INFO) <<"In gen_update_request==>  " << "st:" << new_st << ", tw: " << tw << std::endl;
-			assert((op + ind + rand_key).length() == 25);			
+			l = hash( tw + new_st + "1");
+			e = Util::Xor( op + ind + new_st, hash(tw + new_st + "2") );
+			assert((op + ind + rand_key).length() == 25);	
 
 			msg.set_l(l);
 			msg.set_e(e);
@@ -385,10 +392,8 @@ public:
 			
 			// logger::log(logger::INFO) << kw <<std::endl;
 
-			l = Util::H1( tw + new_st);
-			// e = Util::Xor(op + ind + rand_key, Util::H2(tw + new_st));
-			e = Util::Xor( op + ind + old_st, Util::H2(tw + new_st) );
-			// logger::log(logger::INFO) <<"In gen_update_request==>  " << "st:" << new_st << ", tw: " << tw << std::endl;
+			l = hash( tw + new_st + "1");
+			e = Util::Xor( op + ind + new_st, hash(tw + new_st + "2") );
 			assert((op + ind + rand_key).length() == 25);			
 
 			msg.set_l(l);
@@ -412,9 +417,7 @@ public:
 			// get update time of
 
 			tw = gen_enc_token(w);
-			
 			st = get_st(w);
-
 			uc = get_update_time(w);
 
 			// logger::log(logger::INFO) <<"In gen_search_token==>  " << "st:" << st << ", tw: " << tw <<", uc:"<< uc <<std::endl;
@@ -431,38 +434,34 @@ public:
 	std::string search(const std::string w) {
 		std::string tw, st;
 		size_t uc;
+
 		gen_search_token(w, tw, st, uc);
 		
 		search(tw, st, uc);
 
 		return "OK";
-	}
-	
-
-
+	}	
 
 	std::string search(const std::string tw, const std::string st, const size_t uc) {
 		// request包含 enc_token 和 st
 		SearchRequestMessage request;
-		if( uc == 0 ) request.set_kw(""); // TODO attentaion here !!!
+		if( uc == 0 ) request.set_kw(""); // TODO attentaion !
 		else request.set_kw(st);
 		request.set_tw(tw);
 		request.set_uc(uc);
 
-		// Context for the client. It could be used to convey extra information to the server and/or tweak certain RPC behaviors.
 		ClientContext context;
 
 		// 执行RPC操作，返回类型为 std::unique_ptr<ClientReaderInterface<SearchReply>>
 		std::unique_ptr<ClientReaderInterface<SearchReply>> reader = stub_->search(&context, request);
 		
-		// 读取返回列表
-		int counter = 0;
+		size_t counter = 0;
 		SearchReply reply;
-		while (reader->Read(&reply)){
+		while (reader->Read(&reply)) {
 			// logger::log(logger::INFO) << reply.ind()<<std::endl;
 			counter++;
 		}
-		// logger::log(logger::INFO) << " search result: "<< counter << std::endl;
+
 		return "OK";
 	  }
 

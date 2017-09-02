@@ -30,11 +30,11 @@
 #
 
 CXX = g++
-CPPFLAGS += -I/usr/local/include -I/usr/local/include/cryptopp -I. -pthread
+CPPFLAGS += -I/usr/local/include -I./third_party/crypto/library/include -I./third_party/ssdmp/library/include -I. -pthread
 CXXFLAGS += -std=c++11 -O3
-LDFLAGS += -L/usr/local/lib `pkg-config --libs grpc++ grpc`       \
+LDFLAGS += -L/usr/local/lib -L./third_party/ssdmap/library/lib -L./third_party/crypto/library/lib  `pkg-config --libs grpc++ grpc`       \
            -Wl,--no-as-needed -lgrpc++_reflection -Wl,--as-needed \
-           -lprotobuf -lrocksdb -lz -lcryptopp -lpthread -O3
+           -lprotobuf -lrocksdb -lz -lcryptopp -lssdmap -lsse_crypto  -lpthread -O3
 PROTOC = protoc
 GRPC_CPP_PLUGIN = grpc_cpp_plugin
 GRPC_CPP_PLUGIN_PATH ?= `which $(GRPC_CPP_PLUGIN)`
@@ -66,10 +66,10 @@ rpc_server: DistSSE.pb.o DistSSE.grpc.pb.o rpc_server.o DistSSE.Util.o logger.o
 	$(PROTOC) -I $(PROTOS_PATH) --cpp_out=. $<
 
 clean:
-	rm -f *.o *.pb.cc *.pb.h #DistSSE_client DistSSE_server 
+	rm -f *.o *.pb.cc *.pb.h 
 
 exe:
-	rm rpc_client rpc_server benchmark trace #DistSSE_client DistSSE_server 
+	rm rpc_client rpc_server benchmark trace random_db #DistSSE_client DistSSE_server 
 
 # The following is to test your system and ensure a smoother experience.
 # They are by no means necessary to actually compile a grpc-enabled software.

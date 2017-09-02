@@ -22,12 +22,10 @@ int main(int argc, char** argv) {
 		for(int j = 0; j < 3; j++) {
 
 			w = prefix + "_" + std::to_string(i) + "_" + std::to_string(j) + "_5";
-			std::string w_st_c = client.trace_get(w);
+			std::string w_st_c;
+			bool s = client.trace_get(w, w_st_c);
 			// DistSSE::logger::log(DistSSE::logger::INFO) << w_st_c << std::endl;
-			if(w_st_c == "") { 
-				// DistSSE::logger::log(DistSSE::logger::ERROR) << "no trace information!" << std::endl;		
-				continue;			
-			}
+			if(!s) 	continue;
 			std::vector<std::string> st_c_vector;
 			DistSSE::Util::split(w_st_c, '+', st_c_vector);
 
