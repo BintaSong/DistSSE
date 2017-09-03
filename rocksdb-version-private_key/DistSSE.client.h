@@ -58,10 +58,11 @@ private:
 
 	SHA256 hasher;
 
-	ssdmap::bucket_map< std::string, uint32_t> client_map;
+	ssdmap::bucket_map< std::string, std::string> client_map;
 
 	std::mutex client_map_mtx;
 	std::mutex trace_map_mtx;
+	std::mutex client_hash_mtx;
 
 public:
 
@@ -146,86 +147,59 @@ public:
 		return s.ok();
 	}
 
-	std::string get_st(std::string w) {
+	void get_status(const std::string w, std::string& st, uint32_t& uc) {
 		bool found;
-		uint32_t value; 
-
-		found = client_map.get(w, value);
+		std::string value;
+		{
+			std::lock_guard<std::mutex> lock(client_map_mtx);	
+			found = client_map.get(w, value); // value = st||uc
+		}
 		if(!found) {
-			logger::log(logger::ERROR) << "No `st` information in client map." <<std::endl;
+			{
+				std::lock_guard<std::mutex> lock(client_map_mtx);
+				client_map.add(w, w + "0");
+			}
 		}
 		else {
-			uint32_t st = value >> (8*16);
-			uint32_t uc = ;
+			st = value.substr(0, 16);
+			uc = std::stoi( value.substr(16, value.length()-16) );
 		}
-
-		/* std::string st;
-		
-		std::map<std::string, std::string>::iterator it;		
-		it = st_mapper.find(w);
-		
-		if (it != st_mapper.end()) {
-			st = it->second;
-		}
-		else {
-			byte _st[AES128_KEY_LEN];
-			AutoSeededRandomPool rnd;
-			rnd.GenerateBlock(_st, AES128_KEY_LEN);
-			st = std::string((const char*)_st, AES128_KEY_LEN);
-			set_st(w, st); // cache search_time into sc_mapper 
-		}
-		return st; */
 	}
 
-	int set_st(std::string w, std::string new_st) {
+	int set_status(const std::string w, const std::string new_st, const uint32_t uc) {
 		//set `w`'s new state
+		bool found;
+		std::string value ;
         {
-		    std::lock_guard<std::mutex> lock(st_mtx);		
-			st_mapper[w] = new_st;
+		    std::lock_guard<std::mutex> lock(client_map_mtx);		
+			found = client_map.get(w, value);
 		}
-		// no need to store, because ti will be done in ~Client()
-		// store(w + "_search", std::to_string(search_time)); 
+		if(!found) {
+			{
+				std::lock_guard<std::mutex> lock(client_map_mtx);		
+				client_map.add(w, new_st + std::to_string(uc));
+			}
+		}
+		else{
+			{
+				std::lock_guard<std::mutex> lock(client_map_mtx);		
+				client_map.at(w, new_st + std::to_string(uc));
+			}
+		}
 		return 0;
 	}
 
 	std::string hash( const std::string in ) {
-		hasher.Restart();
 		byte buf[SHA256::DIGESTSIZE];
-		hasher.CalculateDigest(buf, (byte*) (in.c_str()), in.length() );
+		{	
+			std::lock_guard<std::mutex> lock(trace_map_mtx);
+			hasher.Restart();
+			hasher.CalculateDigest(buf, (byte*) (in.c_str()), in.length() );
+		}
 		return std::string((const char*)buf, (size_t)SHA256::DIGESTSIZE);
 	}
 
-	int get_update_time(std::string w) {
-
-		int update_time;
-
-		std::map<std::string, size_t>::iterator it;
-
-		it = uc_mapper.find(w);
-		
-		if (it != uc_mapper.end()){
-			update_time = it->second;
-		}
-		else{
-			update_time = 0;
-			set_update_time(w, 0);
-		}
-		return update_time;
-	}
-
-	int set_update_time(std::string w, size_t update_time){
-		{
-			std::lock_guard<std::mutex> lock(uc_mtx);
-			uc_mapper[w] = update_time;
-		}		
-		return 0;
-	}
 	
-	void increase_update_time(std::string w) {
-		set_update_time(w, get_update_time(w) + 1);
-	}
-
-
 	std::string gen_enc_token(const std::string token){
 		// 使用padding方式将所有字符串补齐到16的整数倍长度
 		std::string token_padding;
@@ -276,9 +250,6 @@ public:
 			e.ProcessData(tmp_new_st, (byte*) old_st.c_str(), old_st.length());
 			
 			new_st = std::string((const char*)tmp_new_st, old_st.length());
-
-			// logger::log(logger::INFO) <<"In gen_new_st: " << new_st << std::endl; // TODO
-
 		} catch(const CryptoPP::Exception& e) {
 			std::cerr << "in gen_new_st() " << e.what()<< std::endl;
 			exit(1);
@@ -325,19 +296,16 @@ public:
 	void gen_update_token(std::string op, std::string w, std::string ind, std::string& l, std::string& e) {
 		try{
 			std::string enc_token, rand_key;
-	
-			std::string tw, old_st, new_st;
+			std::string old_st, new_st;
+			uint32_t uc;
 
+			std::string tw = gen_enc_token(w);
 
-			tw = gen_enc_token(w);
-
-			old_st = get_st(w);			
+			get_st(w, old_st, uc);			
 			gen_new_st(old_st, rand_key, new_st); // TODO
 
 			l = hash( tw + new_st + "1");
-			e = Util::Xor( op + ind + new_st, hash(tw + new_st + "2") );
-			// increase_update_time(w);
-			
+			e = Util::Xor( op + ind + new_st, hash(tw + new_st + "2") );			
 		}
 		catch(const CryptoPP::Exception& e){
 			std::cerr << "in gen_update_token() " << e.what() << std::endl;
@@ -347,14 +315,16 @@ public:
 
 	UpdateRequestMessage gen_update_request(std::string op, std::string w, std::string ind, int counter){
 		try{
-			std::string enc_token, rand_key;
+
 			UpdateRequestMessage msg;
 	
-			std::string tw, old_st, new_st, l, e;
-			// get update time of `w` for `node`
-			tw = gen_enc_token(w);
+			std::string old_st, rand_key, new_st, l, e;
+			uint32_t uc;
 
-			old_st = get_st(w);
+			// get update time of `w` for `node`
+			std::string tw = gen_enc_token(w);
+
+			old_st = get_st(w, old_st, uc);
 			gen_new_st(old_st, rand_key, new_st); // TODO
 			
 			l = hash( tw + new_st + "1");
@@ -365,8 +335,7 @@ public:
 			msg.set_e(e);
 			msg.set_counter(counter);
 
-			set_st(w, new_st); // TODO
-			increase_update_time(w);
+			set_status(w, new_st, uc + 1); 
 
 			return msg;
 		}
@@ -378,50 +347,42 @@ public:
 
 	UpdateRequestMessage gen_update_request(std::string op, std::string w, std::string ind, int counter, std::string& new_st){
 		try{
-			std::string enc_token, rand_key;
-			UpdateRequestMessage msg;
-	
-			std::string tw, old_st, l, e;
-			// get update time of `w` for `node`
-
-			tw = gen_enc_token(w);
-
-			old_st = get_st(w);
-
-			gen_new_st(old_st, rand_key, new_st); // TODO
 			
-			// logger::log(logger::INFO) << kw <<std::endl;
-
-			l = hash( tw + new_st + "1");
-			e = Util::Xor( op + ind + new_st, hash(tw + new_st + "2") );
-			assert((op + ind + rand_key).length() == 25);			
-
-			msg.set_l(l);
-			msg.set_e(e);
-			msg.set_counter(counter);
-
-			set_st(w, new_st); // TODO
-			increase_update_time(w);
-
-			return msg;
-		}
-		catch(const CryptoPP::Exception& e){
-			std::cerr << "in gen_update_request() " << e.what() << std::endl;
-			exit(1);
-		}
+				UpdateRequestMessage msg;
+				
+				std::string old_st, rand_key, l, e;
+				uint32_t uc;
+			
+				// get update time of `w` for `node`
+				std::string tw = gen_enc_token(w);
+			
+				old_st = get_st(w, old_st, uc);
+				gen_new_st(old_st, rand_key, new_st); // TODO
+						
+				l = hash( tw + new_st + "1");
+				e = Util::Xor( op + ind + new_st, hash(tw + new_st + "2") );
+				assert((op + ind + rand_key).length() == 25);	
+			
+				msg.set_l(l);
+				msg.set_e(e);
+				msg.set_counter(counter);
+			
+				set_status(w, new_st, uc + 1); 
+			
+				return msg;
+			}
+			catch(const CryptoPP::Exception& e){
+				std::cerr << "in gen_update_request() " << e.what() << std::endl;
+				exit(1);
+			}
 	}
 
 
 	void gen_search_token(std::string w, std::string& tw, std::string& st, size_t& uc) {
 		try{
 			// get update time of
-
 			tw = gen_enc_token(w);
-			st = get_st(w);
-			uc = get_update_time(w);
-
-			// logger::log(logger::INFO) <<"In gen_search_token==>  " << "st:" << st << ", tw: " << tw <<", uc:"<< uc <<std::endl;
-			
+			get_status(w, st, uc);			
 		}
 		catch(const CryptoPP::Exception& e){
 			std::cerr << "in gen_search_token() " <<e.what() << std::endl;
@@ -436,7 +397,6 @@ public:
 		size_t uc;
 
 		gen_search_token(w, tw, st, uc);
-		
 		search(tw, st, uc);
 
 		return "OK";
