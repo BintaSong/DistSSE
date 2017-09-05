@@ -3,7 +3,7 @@
 db_file="14e6.csdb"
 
 kw_list=""
-kKeywordGroupBase="Group-"
+kKeywordGroupBase="fuck-"
 kKeyword10GroupBase=$kKeywordGroupBase"10^"
 
 

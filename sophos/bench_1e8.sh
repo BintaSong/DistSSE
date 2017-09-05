@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-db_file="./14e8.csdb"
+db_file="14e8.csdb"
 
 kw_list=""
 kKeywordGroupBase="fuck-"
