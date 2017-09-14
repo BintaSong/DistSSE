@@ -484,6 +484,11 @@ namespace sse {
             logger::log(logger::INFO) <<"update time: "<<((t2.tv_sec - t1.tv_sec) * 1000000.0 + t2.tv_usec -t1.tv_usec) /1000.0<<" ms" <<std::endl; 
         }
 
+      void flush_cache() {
+		sync();	
+		std::ofstream ofs("/proc/sys/vm/drop_caches");
+		ofs << "3" << std::endl;
+      }
 
        void eval_trace(SophosClientRunner& client, size_t thread_num){ 
              // for trace
@@ -500,6 +505,7 @@ namespace sse {
                         double r = rand_0_to_1(c);
                         bool is_search = sample(r, search_rate[j]);
                         if(is_search) {
+			    flush_cache();
                             client.search_with_counter( w, c );
                             std::cout<< w << "\t\t" << c <<std::endl;
                         }
