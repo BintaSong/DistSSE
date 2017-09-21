@@ -147,7 +147,7 @@ public:
 
 			set_search_time(w, search_time); // cache search_time into sc_mapper 
 		}
-		return search_time;
+		return 0;//search_time;
 	}
 
 	int set_search_time(std::string w, int search_time) {

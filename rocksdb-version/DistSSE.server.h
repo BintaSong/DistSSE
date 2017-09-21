@@ -390,7 +390,7 @@ public:
 			cache_string = get(cache_db, tw);
 
 			//res_mutex.lock();		
-			Util::split(cache_string, '|', cache_ID); //TODO
+			//Util::split(cache_string, '|', cache_ID); //TODO
 			//res_mutex.unlock();		
 		};
 
@@ -534,8 +534,8 @@ public:
 		gettimeofday(&t1, NULL);
 
 		//if (uc <= 100) search_single(tw, kw, uc, cache_ID, update_ID, cache_string, update_string);
-		//else search_parallel(kw, tw, uc, 2, cache_ID, update_ID, cache_string, update_string);
-		search_parallel_simple(kw, tw, uc, 4, cache_ID, update_ID, cache_string, update_string);
+		search_parallel(kw, tw, uc, 1, cache_ID, update_ID, cache_string, update_string);
+		//search_parallel_simple(kw, tw, uc, 4, cache_ID, update_ID, cache_string, update_string);
 
 		gettimeofday(&t2, NULL);
 		
@@ -622,7 +622,7 @@ std::mutex DistSSE::DistSSEServiceImpl::result_mtx;
 void RunServer(std::string db_path, std::string cache_path, int concurrent) {
 
 
-  std::string server_address("0.0.0.0:50051");
+  std::string server_address("47.88.62.170:50051");
   DistSSE::DistSSEServiceImpl service(db_path, cache_path, concurrent);
   
   ServerBuilder builder;

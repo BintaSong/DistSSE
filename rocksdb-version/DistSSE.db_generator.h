@@ -68,7 +68,7 @@ namespace DistSSE{
 
 			ExecuteStatus exec_status;
 	
-			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("0.0.0.0:50051", grpc::InsecureChannelCredentials()) ) );
+			std::unique_ptr<RPC::Stub> stub_(RPC::NewStub( grpc::CreateChannel("47.88.62.170:50051", grpc::InsecureChannelCredentials()) ) );
 
 			std::unique_ptr<ClientWriterInterface<UpdateRequestMessage>> writer(stub_->batch_update(&context, &exec_status));
 		
