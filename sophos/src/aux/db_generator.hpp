@@ -22,6 +22,7 @@
 #pragma once
 
 #include "sophos_client_runner.hpp"
+#include <unistd.h>
 
 namespace sse {
     namespace sophos {

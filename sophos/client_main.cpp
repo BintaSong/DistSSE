@@ -113,7 +113,7 @@ int main(int argc, char** argv) {
             n_keywords = 1.4*rnd_entries_count/(10*std::thread::hardware_concurrency());
         }
         
-        client_runner.reset( new sse::sophos::SophosClientRunner("0.0.0.0:4242", client_db, setup_size, n_keywords) );
+        client_runner.reset( new sse::sophos::SophosClientRunner("47.88.62.170:50051", client_db, setup_size, n_keywords) );
     }
 
     for (std::string &path : input_files) {

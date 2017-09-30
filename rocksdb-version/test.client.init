@@ -1,12 +1,0 @@
-client db status: OK
-Just remind, previous keyword counter: 0
-update begin...
-[INFO] - Random DB generation: thread 3 completed: (250, 25, 2, 0, 0)
-[INFO] - Random DB generation: thread 2 completed: (250, 25, 2, 0, 0)
-[INFO] - Random DB generation: thread 1 completed: (250, 25, 2, 0, 0)
-[INFO] - Random DB generation: 10000 entries generated[INFO] - Random DB generation: thread 0 completed: (250, 25, 2, 0, 0)
-[INFO] - total update time: 1304.44 ms
-update done.
-search done: 
-Total keyword: 21638
-Bye~ 

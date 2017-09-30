@@ -40,8 +40,8 @@ config['db-parser_lib'] = config['db-parser_lib_dir']  + "/lib"
 # if FindFile('config.scons', '.'):
 #     SConscript('config.scons', exports=['env','config'])
 
-env.Append(CCFLAGS = ['-fPIC','-Wall', '-march=native'])
-env.Append(CXXFLAGS = ['-std=c++11'])
+env.Append(CCFLAGS = ['-fPIC','-Wall', '-pthread', '-march=native'])
+env.Append(CXXFLAGS = ['-std=c++11', '-pthread'])
 env.Append(CPPPATH = [config['cryto_include'], config['ssdmap_include'], config['db-parser_include']])
 env.Append(LIBPATH = [config['cryto_lib'], config['ssdmap_lib'], config['db-parser_lib']])
 env.Append(RPATH = [config['cryto_lib'], config['ssdmap_lib'], config['db-parser_lib']])

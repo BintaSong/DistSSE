@@ -295,6 +295,8 @@ void SophosClientRunner::async_update(const std::string& keyword, uint64_t index
     void SophosClientRunner::update_in_session(const std::string& keyword, uint64_t index)
     {
         sophos::UpdateRequestMessage message = request_to_message(client_->update_request(keyword, index));
+	
+	logger::log(logger::INFO) << sizeof(message) << std::endl;
 
         if(! bulk_update_state_.is_up)
         {

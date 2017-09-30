@@ -1,3 +1,0 @@
-I0826 14:55:47.604526952    2882 server_builder.cc:262]      Synchronous server. Num CQs: 4, Min pollers: 1, Max Pollers: 2, CQ timeout (msec): 10000
-[INFO] - Server listening on 127.0.0.1:50051
-rpc_server: DistSSE.server.h:192: void DistSSE::DistSSEServiceImpl::search(std::__cxx11::string, std::__cxx11::string, size_t, std::unordered_set<std::__cxx11::basic_string<char> >&): Assertion `e != ""' failed.

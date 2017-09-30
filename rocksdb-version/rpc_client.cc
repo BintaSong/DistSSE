@@ -25,8 +25,8 @@ int main(int argc, char** argv) {
 
 std::cout << "update begin..." << std::endl;
 
-	//if (flag == 1) DistSSE::generate_trace(&client, N_entry);
-	if (flag == 1) DistSSE::gen_db(client, N_entry, threads_num);
+	if (flag == 1) DistSSE::generate_trace(&client, N_entry);
+	//if (flag == 1) DistSSE::gen_db(client, N_entry, threads_num);
 	//else DistSSE::gen_rdb("../../back/rdb-"+std::to_string(N_entry), N_entry);
 	else eval_trace(client, threads_num);
 
